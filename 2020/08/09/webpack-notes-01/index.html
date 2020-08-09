@@ -1,0 +1,451 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+    
+	<title>webpack_notes_01 - Amorki&#39;s</title>
+    <meta name="author" content="">
+    
+	<meta name="description" content="&lt;p&gt;常用功能：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;压缩&lt;/li&gt;
+&lt;li&gt;打包&lt;/li&gt;
+&lt;li&gt;多种文件编译&lt;/li&gt;
+&lt;li&gt;脚手架&lt;/li&gt;
+&lt;li&gt;生成&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;安装：npm i webpack-cli -g&lt;/p&gt;
+&lt;h3 id=&#34;webpack-config-js&#34;&gt;&lt;a href=&#34;#webpack-config-js&#34; class=&#34;headerlink&#34; title=&#34;webpack.config.js&#34;&gt;&lt;/a&gt;webpack.config.js&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;mode: &lt;/p&gt;
+&lt;p&gt;none：不优化&lt;/p&gt;
+&lt;p&gt;development：输出调试信息，设置process.evn.MODE.ENV&lt;/p&gt;
+&lt;p&gt;production： 最高优化，启用压缩，忽略错误&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;&lt;p&gt;entry 入口&lt;/p&gt;
+&lt;p&gt;单入口–SPA&lt;/p&gt;
+&lt;p&gt;多入口–MPA&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;&lt;p&gt;output 出口&lt;/p&gt;
+&lt;figure class=&#34;highlight plain&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;&amp;#123; path：输出路径（使用绝对路径--path.resolve）&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;     filename：&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+
+
+
+
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;loader翻译&lt;/p&gt;
+&lt;p&gt;plugin插件&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;常见工程文件的结构：&#34;&gt;&lt;a href=&#34;#常见工程文件的结构：&#34; class=&#34;headerlink&#34; title=&#34;常见工程文件的结构：&#34;&gt;&lt;/a&gt;常见工程文件的结构：&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;search.js：封装搜索框&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;toast.js：挑出toast提示&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;http：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;xhr.js  低版本网络请求，用原生Ajax&lt;/li&gt;
+&lt;li&gt;fetch.js 高版本网络请求&lt;/li&gt;
+&lt;li&gt;other.js 其他请求&lt;/li&gt;
+&lt;li&gt;index.js 多个文件中的模块功能 （作导出用）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;作用域-：&#34;&gt;&lt;a href=&#34;#作用域-：&#34; class=&#34;headerlink&#34; title=&#34;作用域 ：&#34;&gt;&lt;/a&gt;作用域 ：&lt;/h3&gt;&lt;p&gt;决定了代码中变量和其他资源的**&lt;u&gt;可见性&lt;/u&gt;**   （全局；局部）&lt;/p&gt;
+&lt;p&gt;↓&lt;/p&gt;
+&lt;p&gt;命名空间：&lt;/p&gt;
+&lt;p&gt;解决全局作用域中，不同模块引用相同名字的问题&lt;/p&gt;
+&lt;figure class=&#34;highlight js&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;23&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;Var SusanModule = (&lt;span class=&#34;function&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;params&#34;&gt;&lt;/span&gt;)&lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    &lt;span class=&#34;keyword&#34;&gt;var&lt;/span&gt; name = &lt;span class=&#34;string&#34;&gt;&amp;#x27;Susan&amp;#x27;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    &lt;span class=&#34;keyword&#34;&gt;var&lt;/span&gt; sex = &lt;span class=&#34;string&#34;&gt;&amp;#x27;female&amp;#x27;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    &lt;span class=&#34;keyword&#34;&gt;return&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    tell: &lt;span class=&#34;function&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;params&#34;&gt;&lt;/span&gt;)&lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;      &lt;span class=&#34;built_in&#34;&gt;console&lt;/span&gt;.log(&lt;span class=&#34;string&#34;&gt;&amp;#x27;my name is&amp;#x27;&lt;/span&gt; + &lt;span class=&#34;built_in&#34;&gt;this&lt;/span&gt;.name)&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;      &lt;span class=&#34;built_in&#34;&gt;console&lt;/span&gt;.log(&lt;span class=&#34;string&#34;&gt;&amp;#x27;my sex is&amp;#x27;&lt;/span&gt; + &lt;span class=&#34;built_in&#34;&gt;this&lt;/span&gt;.sex)&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&amp;#125;)();&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;comment&#34;&gt;//早期标准模块的写法：↓&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;(&lt;span class=&#34;function&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;params&#34;&gt;window&lt;/span&gt;)&lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &lt;span class=&#34;keyword&#34;&gt;var&lt;/span&gt; name = &lt;span class=&#34;string&#34;&gt;&amp;#x27;Susan&amp;#x27;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    &lt;span class=&#34;keyword&#34;&gt;var&lt;/span&gt; sex = &lt;span class=&#34;string&#34;&gt;&amp;#x27;female&amp;#x27;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &lt;span class=&#34;function&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;title&#34;&gt;tell&lt;/span&gt;(&lt;span class=&#34;params&#34;&gt;&lt;/span&gt;)&lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    &lt;span class=&#34;built_in&#34;&gt;console&lt;/span&gt;.log(&lt;span class=&#34;string&#34;&gt;&amp;#x27;my name is&amp;#x27;&lt;/span&gt; + &lt;span class=&#34;built_in&#34;&gt;this&lt;/span&gt;.name)&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    &lt;span class=&#34;built_in&#34;&gt;console&lt;/span&gt;.log(&lt;span class=&#34;string&#34;&gt;&amp;#x27;my sex is&amp;#x27;&lt;/span&gt; + &lt;span class=&#34;built_in&#34;&gt;this&lt;/span&gt;.sex)&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &lt;span class=&#34;built_in&#34;&gt;window&lt;/span&gt;.SusanModule=&amp;#123;tell&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&amp;#125;)(&lt;span class=&#34;built_in&#34;&gt;window&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;上述代码中，我们只能拿到return里的返回值–tell方法，而无法访问其他数据，如name和sex，→ 这样能隐藏数据，只暴露出该有的部分。&lt;/p&gt;
+&lt;p&gt;↓&lt;/p&gt;
+&lt;p&gt;函数作用域会帮助我们保护在函数里（模块里）被定义的变量，这样的小范围作用域，可看成是模块作用域~&lt;/p&gt;
+&lt;p&gt;↓&lt;/p&gt;
+&lt;p&gt;这样一来，里面的变量就是安全的，且这个功能是可重用的&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;模块化的优点：&#34;&gt;&lt;a href=&#34;#模块化的优点：&#34; class=&#34;headerlink&#34; title=&#34;模块化的优点：&#34;&gt;&lt;/a&gt;模块化的优点：&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;作用域封装&lt;/li&gt;
+&lt;li&gt;重用性&lt;/li&gt;
+&lt;li&gt;接触耦合&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;模块化进化史：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;AMP  （异步模块定义）&lt;/p&gt;
+&lt;p&gt;↓&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;COMMON JS&lt;/p&gt;
+&lt;p&gt;↓&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;ES6 MODULE&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;AMD定义模块：&lt;/p&gt;
+&lt;figure class=&#34;highlight js&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;      id         依赖        函数/对象&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;define(&lt;span class=&#34;string&#34;&gt;&amp;#x27;getSum&amp;#x27;&lt;/span&gt;, [&lt;span class=&#34;string&#34;&gt;&amp;#x27;math&amp;#x27;&lt;/span&gt;], &lt;span class=&#34;function&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;params&#34;&gt;math&lt;/span&gt;)&lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;function&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;params&#34;&gt;a,b&lt;/span&gt;) &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt; &lt;span class=&#34;built_in&#34;&gt;console&lt;/span&gt;.log(&lt;span class=&#34;string&#34;&gt;&amp;#x27;sum&amp;#x27;&lt;/span&gt;+math.sum(a,b))&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&amp;#125;)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;显式地表达出模块的依赖&lt;/p&gt;
+&lt;p&gt;COMMON JS定义模块：&lt;/p&gt;
+&lt;figure class=&#34;highlight js&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;const&lt;/span&gt; math = &lt;span class=&#34;built_in&#34;&gt;require&lt;/span&gt;(&lt;span class=&#34;string&#34;&gt;&amp;#x27;./math&amp;#x27;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;built_in&#34;&gt;exports&lt;/span&gt;.getSum = &lt;span class=&#34;function&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;params&#34;&gt;a,b&lt;/span&gt;) &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;return&lt;/span&gt; a+b&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;每个文件就是一个模块，有自己的作用域和context&lt;/p&gt;
+&lt;p&gt;模块依赖通过require函数引入&lt;/p&gt;
+&lt;p&gt;限时引入，强调依赖，不用担心引入顺序问题&lt;/p&gt;
+&lt;p&gt;ES6 MODULE定义模块：&lt;/p&gt;
+&lt;figure class=&#34;highlight js&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;import&lt;/span&gt; math &lt;span class=&#34;keyword&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;string&#34;&gt;&amp;#x27;./math&amp;#x27;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;function&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;title&#34;&gt;sum&lt;/span&gt;(&lt;span class=&#34;params&#34;&gt;a,b&lt;/span&gt;)&lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;return&lt;/span&gt; a+b;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+
+
+
+
+&lt;hr&gt;
+&lt;h3 id=&#34;webpack打包机制&#34;&gt;&lt;a href=&#34;#webpack打包机制&#34; class=&#34;headerlink&#34; title=&#34;webpack打包机制&#34;&gt;&lt;/a&gt;webpack打包机制&lt;/h3&gt;&lt;p&gt;立即执行函数：&lt;/p&gt;
+&lt;p&gt;大体结构：&lt;/p&gt;
+&lt;img src=&#34;https://tva1.sinaimg.cn/large/007S8ZIlly1ghjgbqr3cvj30kg05a0t6.jpg&#34; style=&#34;zoom:150%;&#34; /&gt;
+
+&lt;img src=&#34;https://tva1.sinaimg.cn/large/007S8ZIlly1ghjg83n2rrj30lb023dfx.jpg&#34; style=&#34;zoom:150%;&#34; /&gt;
+
+
+
+
+
+&lt;p&gt;核心方法：&lt;/p&gt;
+&lt;img src=&#34;https://tva1.sinaimg.cn/large/007S8ZIlly1ghjgi2w54vj30me0eztas.jpg&#34; style=&#34;zoom:150%;&#34; /&gt;
+
+
+
+&lt;hr&gt;
+&lt;h3 id=&#34;打包过程&#34;&gt;&lt;a href=&#34;#打包过程&#34; class=&#34;headerlink&#34; title=&#34;打包过程&#34;&gt;&lt;/a&gt;打包过程&lt;/h3&gt;&lt;p&gt;从入口文件开始，分析整个应用的依赖树🌲&lt;/p&gt;
+&lt;p&gt;​                                ↓&lt;/p&gt;
+&lt;p&gt;将每个依赖模块包装，放到数组中等待调用&lt;/p&gt;
+&lt;p&gt;​                                ↓&lt;/p&gt;
+&lt;p&gt;实现模块加载方法，并把它放到模块执行函数中&lt;/p&gt;
+&lt;p&gt;确保模块之间可以相互调用&lt;/p&gt;
+&lt;p&gt;​                                ↓&lt;/p&gt;
+&lt;p&gt;把执行入口文件的逻辑放在一个函数表达式中，立即执行&lt;/p&gt;
+&lt;p&gt;​                                &lt;/p&gt;
+&lt;hr&gt;
+&lt;h4 id=&#34;script脚本命令&#34;&gt;&lt;a href=&#34;#script脚本命令&#34; class=&#34;headerlink&#34; title=&#34;script脚本命令&#34;&gt;&lt;/a&gt;script脚本命令&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;npm自己的生命周期命令：可发着写的钩子（如preinstall, postinstall, prepublish, postpublish等……）&lt;/li&gt;
+&lt;li&gt;自定义的命令：&lt;ul&gt;
+&lt;li&gt;“dev”: “webpack-dev-server”   在npm run dev时原地启动， 这是个开发服务器&lt;/li&gt;
+&lt;li&gt;“build”: “eslint ./src &amp;amp;&amp;amp; webpack”   在npm run build是，对代码格式化校验，且执行webpack&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h4 id=&#34;node-modules先删除再重建的隐患&#34;&gt;&lt;a href=&#34;#node-modules先删除再重建的隐患&#34; class=&#34;headerlink&#34; title=&#34;node_modules先删除再重建的隐患&#34;&gt;&lt;/a&gt;node_modules先删除再重建的隐患&lt;/h4&gt;&lt;p&gt;执行  rm -rf node_modules &amp;amp;&amp;amp; npm install  &lt;/p&gt;
+&lt;p&gt;↓隐患&lt;/p&gt;
+&lt;p&gt;npm install の过程：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;寻找包版本信息文件（package.json）,依赖它进行安装&lt;/li&gt;
+&lt;li&gt;查package中的依赖，并检查项目中其他版本文件&lt;/li&gt;
+&lt;li&gt;如果发现新的包，更新版本信息文件&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+"> <!-- TODO: truncate -->
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="atom.xml" rel="alternate" title="Amorki&#39;s" type="application/atom+xml">
+	<link href="/favicon.ico" rel="shortcut icon">
+    <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+    <link href="/stylesheets/custom.css" media="screen, projection" rel="stylesheet" type="text/css">
+    <link href="/stylesheets/hljs.css" media="screen, projection" rel="stylesheet" type="text/css">
+
+    <link href='//fonts.googleapis.com/css?family=Slackey' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Amethysta' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![}]-->
+
+    <script type="text/javascript" src="/javascripts/jquery-tapir.js"></script>
+
+    <!-- remove or comment it to disable ajaxification -->   
+    <!-- <script src="/javascripts/ajaxify.js"></script> -->
+
+    
+
+    
+
+<meta name="generator" content="Hexo 5.0.0"></head>
+
+
+<body>
+    <div id="wrapper">
+    <header id="header" class="inner"><!-- for more effects see _animate.scss -->
+<h1 class="animated bounceInDown">
+    <div id="headerbg">
+        Amorki&#39;s
+    </div>
+</h1>
+<span class="subtitle"></span>
+<br>
+
+<ul id="social-links" style="text-align:center; clear:both;">
+    
+        <!-- GitHub -->
+        <li>
+            <a target="_blank" rel="noopener" href="https://github.com/amorkiki" class="github" title="Github"></a>
+        </li>
+        
+            
+                    
+                        <!-- Facebook -->
+                        <li>
+                            <a target="_blank" rel="noopener" href="http://www.facebook.com/kiki.wu.92167789" class="facebook" title="Facebook"></a>
+                        </li>
+                        
+                            
+                                <!-- Twitter -->
+                                <li>
+                                    <a target="_blank" rel="noopener" href="http://www.twitter.com/BENICEXKiki" class="twitter" title="Twitter"></a>
+                                </li>
+                                
+                                    
+                                            
+                                                    
+                                                            
+                                                                <!-- Instagram -->
+                                                                <li>
+                                                                    <a target="_blank" rel="noopener" href="http://www.instagram.com/wuuuuuujt" class="instagram" title="Instagram"></a>
+                                                                </li>
+
+                                                                
+</ul>
+
+<!-- use full url including 'index.html' for navigation bar if you are using ajax -->
+<ul id="nav">
+	<li id="ajax"><a href="/index.html">Home</a></li>
+	<li id="ajax"><a href="/archives/index.html">Archives</a></li>
+	<li id="ajax"><a href="/tags/index.html">Tags</a></li>
+    <li><a href="/atom.xml">RSS</a></li>
+    
+    <li>
+    <div id="dark">
+        <form action="//www.google.com.hk/search" method="get" accept-charset="UTF-8" id="search">
+            <input type="hidden" name="sitesearch" value="http://yoursite.com" />
+            <input type="text" name="q" results="0" placeholder="Search..." x-webkit-speech />
+        </form>
+    </div>
+    </li>
+        
+</ul>
+
+
+
+
+</header>
+
+<div id="toload">
+<!-- begin toload -->
+    <div id="content" class="inner">
+        <article class="post">
+	<h2 class="title">webpack_notes_01</h2>
+    <div class="meta">
+        <div class="date">Published on: <time datetime="2020-08-09T06:57:35.000Z" itemprop="datePublished">Aug 9, 2020</time>
+</div>
+        <div class="tags">Tags: 
+
+<a href="/tags/webpack/">webpack</a>
+</div>
+    </div>
+	<div class="entry-content"><p>常用功能：</p>
+<ul>
+<li>压缩</li>
+<li>打包</li>
+<li>多种文件编译</li>
+<li>脚手架</li>
+<li>生成</li>
+</ul>
+<p>安装：npm i webpack-cli -g</p>
+<h3 id="webpack-config-js"><a href="#webpack-config-js" class="headerlink" title="webpack.config.js"></a>webpack.config.js</h3><ol>
+<li><p>mode: </p>
+<p>none：不优化</p>
+<p>development：输出调试信息，设置process.evn.MODE.ENV</p>
+<p>production： 最高优化，启用压缩，忽略错误</p>
+</li>
+</ol>
+<ol start="2">
+<li><p>entry 入口</p>
+<p>单入口–SPA</p>
+<p>多入口–MPA</p>
+</li>
+</ol>
+<ol start="3">
+<li><p>output 出口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123; path：输出路径（使用绝对路径--path.resolve）</span><br><span class="line">     filename：</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+</li>
+</ol>
+<p>loader翻译</p>
+<p>plugin插件</p>
+<hr>
+<h3 id="常见工程文件的结构："><a href="#常见工程文件的结构：" class="headerlink" title="常见工程文件的结构："></a>常见工程文件的结构：</h3><ul>
+<li><p>search.js：封装搜索框</p>
+</li>
+<li><p>toast.js：挑出toast提示</p>
+</li>
+<li><p>http：</p>
+<ul>
+<li>xhr.js  低版本网络请求，用原生Ajax</li>
+<li>fetch.js 高版本网络请求</li>
+<li>other.js 其他请求</li>
+<li>index.js 多个文件中的模块功能 （作导出用）</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="作用域-："><a href="#作用域-：" class="headerlink" title="作用域 ："></a>作用域 ：</h3><p>决定了代码中变量和其他资源的**<u>可见性</u>**   （全局；局部）</p>
+<p>↓</p>
+<p>命名空间：</p>
+<p>解决全局作用域中，不同模块引用相同名字的问题</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">Var SusanModule = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> name = <span class="string">&#x27;Susan&#x27;</span>;</span><br><span class="line">    <span class="keyword">var</span> sex = <span class="string">&#x27;female&#x27;</span>;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">    tell: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">&#x27;my name is&#x27;</span> + <span class="built_in">this</span>.name)</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">&#x27;my sex is&#x27;</span> + <span class="built_in">this</span>.sex)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//早期标准模块的写法：↓</span></span><br><span class="line"></span><br><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">window</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> name = <span class="string">&#x27;Susan&#x27;</span>;</span><br><span class="line">    <span class="keyword">var</span> sex = <span class="string">&#x27;female&#x27;</span>;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">tell</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;my name is&#x27;</span> + <span class="built_in">this</span>.name)</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;my sex is&#x27;</span> + <span class="built_in">this</span>.sex)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">window</span>.SusanModule=&#123;tell&#125;</span><br><span class="line">&#125;)(<span class="built_in">window</span>);</span><br></pre></td></tr></table></figure>
+
+<p>上述代码中，我们只能拿到return里的返回值–tell方法，而无法访问其他数据，如name和sex，→ 这样能隐藏数据，只暴露出该有的部分。</p>
+<p>↓</p>
+<p>函数作用域会帮助我们保护在函数里（模块里）被定义的变量，这样的小范围作用域，可看成是模块作用域~</p>
+<p>↓</p>
+<p>这样一来，里面的变量就是安全的，且这个功能是可重用的</p>
+<hr>
+<h3 id="模块化的优点："><a href="#模块化的优点：" class="headerlink" title="模块化的优点："></a>模块化的优点：</h3><ul>
+<li>作用域封装</li>
+<li>重用性</li>
+<li>接触耦合</li>
+</ul>
+<p>模块化进化史：</p>
+<ul>
+<li><p>AMP  （异步模块定义）</p>
+<p>↓</p>
+</li>
+<li><p>COMMON JS</p>
+<p>↓</p>
+</li>
+<li><p>ES6 MODULE</p>
+</li>
+</ul>
+<p>AMD定义模块：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">      id         依赖        函数/对象</span><br><span class="line">define(<span class="string">&#x27;getSum&#x27;</span>, [<span class="string">&#x27;math&#x27;</span>], <span class="function"><span class="keyword">function</span>(<span class="params">math</span>)</span>&#123;</span><br><span class="line"><span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>) </span>&#123;</span><br><span class="line"> <span class="built_in">console</span>.log(<span class="string">&#x27;sum&#x27;</span>+math.sum(a,b))</span><br><span class="line">&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>显式地表达出模块的依赖</p>
+<p>COMMON JS定义模块：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> math = <span class="built_in">require</span>(<span class="string">&#x27;./math&#x27;</span>);</span><br><span class="line"><span class="built_in">exports</span>.getSum = <span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>) </span>&#123;</span><br><span class="line"><span class="keyword">return</span> a+b</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>每个文件就是一个模块，有自己的作用域和context</p>
+<p>模块依赖通过require函数引入</p>
+<p>限时引入，强调依赖，不用担心引入顺序问题</p>
+<p>ES6 MODULE定义模块：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> math <span class="keyword">from</span> <span class="string">&#x27;./math&#x27;</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">sum</span>(<span class="params">a,b</span>)</span>&#123;</span><br><span class="line"><span class="keyword">return</span> a+b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<hr>
+<h3 id="webpack打包机制"><a href="#webpack打包机制" class="headerlink" title="webpack打包机制"></a>webpack打包机制</h3><p>立即执行函数：</p>
+<p>大体结构：</p>
+<img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghjgbqr3cvj30kg05a0t6.jpg" style="zoom:150%;" />
+
+<img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghjg83n2rrj30lb023dfx.jpg" style="zoom:150%;" />
+
+
+
+
+
+<p>核心方法：</p>
+<img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghjgi2w54vj30me0eztas.jpg" style="zoom:150%;" />
+
+
+
+<hr>
+<h3 id="打包过程"><a href="#打包过程" class="headerlink" title="打包过程"></a>打包过程</h3><p>从入口文件开始，分析整个应用的依赖树🌲</p>
+<p>​                                ↓</p>
+<p>将每个依赖模块包装，放到数组中等待调用</p>
+<p>​                                ↓</p>
+<p>实现模块加载方法，并把它放到模块执行函数中</p>
+<p>确保模块之间可以相互调用</p>
+<p>​                                ↓</p>
+<p>把执行入口文件的逻辑放在一个函数表达式中，立即执行</p>
+<p>​                                </p>
+<hr>
+<h4 id="script脚本命令"><a href="#script脚本命令" class="headerlink" title="script脚本命令"></a>script脚本命令</h4><ul>
+<li>npm自己的生命周期命令：可发着写的钩子（如preinstall, postinstall, prepublish, postpublish等……）</li>
+<li>自定义的命令：<ul>
+<li>“dev”: “webpack-dev-server”   在npm run dev时原地启动， 这是个开发服务器</li>
+<li>“build”: “eslint ./src &amp;&amp; webpack”   在npm run build是，对代码格式化校验，且执行webpack</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h4 id="node-modules先删除再重建的隐患"><a href="#node-modules先删除再重建的隐患" class="headerlink" title="node_modules先删除再重建的隐患"></a>node_modules先删除再重建的隐患</h4><p>执行  rm -rf node_modules &amp;&amp; npm install  </p>
+<p>↓隐患</p>
+<p>npm install の过程：</p>
+<ol>
+<li>寻找包版本信息文件（package.json）,依赖它进行安装</li>
+<li>查package中的依赖，并检查项目中其他版本文件</li>
+<li>如果发现新的包，更新版本信息文件</li>
+</ol>
+<hr>
+</div>
+
+<div class="meta">
+	
+</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	<a class="addthis_button_tweet"></a>
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+
+    </div>
+    <footer id="footer">
+    <div style="display:inline">
+    Copyright &copy; 2020
+
+    JTW
+. Powered by <a href="http://zespia.tw/hexo/" target="_blank">Hexo</a> |
+    Theme is <a target="_blank" rel="noopener" href="https://github.com/wd/hexo-fabric">hexo-fabric</a>, fork from <a target="_blank" rel="noopener" href="http://github.com/panks/fabric">fabric</a> by <a target="_blank" rel="noopener" href="http://panks.me">Pankaj Kumar</a>
+</div>
+
+
+    </footer>
+    <script src="/javascripts/fabric.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script>
+ <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+<!-- end toload --> 
+</div>
+</div>
+<script src="/javascripts/jquery.ui.totop.js" type="text/javascript"></script>
+<script type="text/javascript">
+/*<![CDATA[*/
+;(function($){$().UItoTop({easingType:'easeOutCirc'});})(jQuery); 
+/*]]>*/
+</script><!-- remove it to remove the scroll to top button -->
+</body>
+</html>
