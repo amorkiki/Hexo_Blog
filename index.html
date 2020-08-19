@@ -109,6 +109,294 @@
 
   <article class="post">
 	<h2 class="title">
+		<a href="2020/08/20/后台接口构建-01/">后台接口构建-01</a>
+	</h2>
+    <div class="entry-content">
+    <div class="meta">
+      <div class="date">Published on: <time datetime="2020-08-19T16:24:37.000Z" itemprop="datePublished">Aug 20, 2020</time>
+</div>
+      <div class="tags">Tags: 
+
+<a href="/tags/nodejs/">nodejs</a> <a href="/tags/myProject/">myProject</a>
+</div>
+    </div>
+      
+        <p>写在前面的话<del>~</del></p>
+<p>每年的读书计划都不了了之….买了新书忘了旧书说的就是我🤦‍♀️🤦‍♀️<br>so…想建一个私人图书馆小平台，记录购买的书和每本书的阅读进度</p>
+<p>今天先写点学习の后台接口搭建步骤和bug解决（bug一卡卡三年我是什么样的心情…)<br>👨‍💻‍</p>
+<p>构建接口文档：Node+express+jwt(实现token)</p>
+<blockquote>
+<p>接口文档内容：Nodejs</p>
+<ul>
+<li>准备工作： <ul>
+<li>搭建服务器</li>
+<li>链接MongoDB</li>
+<li>搭建路由和数据模型</li>
+</ul>
+</li>
+<li>注册登录接口<ul>
+<li>注册接口数据存储</li>
+<li>全球公认头像</li>
+<li>登录接口数据存储</li>
+<li>JWT实现token</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<hr>
+<p>Node-app文件夹下：npm init  初始化项目</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghwfpf0kcfj30ea05uaa8.jpg"></p>
+<p>↓</p>
+<p>在VScode里打开项目，快捷键ctr+`在vscode里打开终端，在当前node-app文件夹创建入口文件touch server.js</p>
+<p>↓</p>
+<p>安装express包  npm install express</p>
+<p>↓</p>
+<p>在入口文件开始搭建服务器:  </p>
+<ul>
+<li><p>引入express框架   const express = <strong>require</strong>(‘express’);</p>
+</li>
+<li><p>实例化一个app,    const app = <strong>express</strong>();</p>
+</li>
+<li><p>给予一个端口号  const port = process.env.PORT <strong>||</strong> 5000;   (本地端口号是5000)</p>
+</li>
+<li><p>监听一下app, 并打印处相应端口号</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">app.listen(port, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">`Server is running on port <span class="subst">$&#123;port&#125;</span>`</span>);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>↓</p>
+<p>在终端 node server.js 就可以运行该项目了，但此时还没有设置任何路由，暂时还无法访问哦~~</p>
+<p>↓</p>
+<p>在实例化的app下设置个路由：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">app.get(<span class="string">&quot;/&quot;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">  res.send(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>↓</p>
+<p>用nodemon server.js 启动服务器~~</p>
+<p>↓</p>
+<p>在package.json里的scripts里更改自定义命令</p>
+<ul>
+<li>npm run start  : 项目最后上线时</li>
+<li>npm run server：项目还在开发时，实时监测改变</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&quot;scripts&quot;: &#123;</span><br><span class="line">  &quot;start&quot;: &quot;node server.js&quot;,</span><br><span class="line">  &quot;server&quot;: &quot;nodemon server.js&quot;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<p>↓</p>
+<p>链接MongoDB数据库:</p>
+<ul>
+<li>登录mongodb线上数据库，新建数据库</li>
+<li>用mongoDB Compass 方式链接 mongodb+srv://amork:<a href="mailto:&#x6a;&#105;&#110;&#103;&#x39;&#56;&#x35;&#52;&#x36;&#x34;&#64;&#99;&#x6c;&#x75;&#x73;&#x74;&#101;&#x72;&#48;&#46;&#x6a;&#105;&#x6f;&#x67;&#x79;&#46;&#x6d;&#111;&#110;&#103;&#x6f;&#x64;&#98;&#46;&#110;&#101;&#x74;">&#x6a;&#105;&#110;&#103;&#x39;&#56;&#x35;&#52;&#x36;&#x34;&#64;&#99;&#x6c;&#x75;&#x73;&#x74;&#101;&#x72;&#48;&#46;&#x6a;&#105;&#x6f;&#x67;&#x79;&#46;&#x6d;&#111;&#110;&#103;&#x6f;&#x64;&#98;&#46;&#110;&#101;&#x74;</a>/test</li>
+</ul>
+<p>↓</p>
+<p>在项目中安装mongoose包  npm install mongoose</p>
+<p>在server.js入口文件中引入const mongoose = <strong>require</strong>(“mongoose”);</p>
+<p>这样我们就可以直接使用mongoose对象连接数据库</p>
+<p>↓</p>
+<p>我们新建一个专用文件夹config，新建文件keys.js,</p>
+<p>在该文件夹下，exports模块，写入mongoURI：拷贝的地址</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  mongoURI: <span class="string">&quot;mongodb+srv://amork:jing985464@cluster0.jiogy.mongodb.net/test&quot;</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>在入口文件引入模块：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> db = <span class="built_in">require</span>(<span class="string">&quot;./config/keys&quot;</span>).mongoURI;</span><br></pre></td></tr></table></figure>
+
+<p>这样做的好处： 可以手动更改数据库连接的地址mongoURI，如果想用本地数据库</p>
+<p>连接数据库—mongoose.connect</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//connect to mongodb</span></span><br><span class="line">mongoose</span><br><span class="line">  .connect(db)</span><br><span class="line">  .then(<span class="function">() =&gt;</span> <span class="built_in">console</span>.log(<span class="string">&quot;mongoDB connected&quot;</span>))</span><br><span class="line">  .catch(<span class="function">(<span class="params">error</span>) =&gt;</span> <span class="built_in">console</span>.log(error));</span><br></pre></td></tr></table></figure>
+
+<p>此时terminal中若返回mongoDB connected，则表示连接成功</p>
+<p>↓</p>
+<p>小问题：终端中还会出现如下警告：<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghwfpgf84zj30q404tt9i.jpg"></p>
+<p>解决： 拷贝{ useNewUrlParser: <strong>true</strong>, useUnifiedTopology: <strong>true</strong> } 粘贴到 connect(db, 这里)</p>
+<p>此时发现没有报错啦~~</p>
+<p>↓</p>
+<p>下面就开始搭建自己的接口啦~</p>
+<p>创建文件夹routers –&gt;APIs –&gt; 新建文件users.js 用来用户登录和注册</p>
+<ul>
+<li><p>同理引入express，再实例化一个router，并创建路由链接，最后别忘了暴露出去哦~</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">router.get(<span class="string">&quot;/test&quot;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">  res.json(&#123;<span class="attr">msg</span>:<span class="string">&quot;login works&quot;</span>&#125;)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">//这里response一个json对象，包含msg,表示当访问localhost:5000/test时，会返回msg里的话</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = router;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在入口文件引入user路由，并使用它</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//引入user.js</span></span><br><span class="line"><span class="keyword">const</span> users = <span class="built_in">require</span>(<span class="string">&quot;./routers/api/users&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用routers</span></span><br><span class="line">app.use(<span class="string">&quot;/api/users&quot;</span>, users);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在浏览器中输入localhost：5000/api/users/test 检查路由是否设置成功</p>
+<p>当然也可用第三方工具postman测试接口<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghwfpfhodmj30ca02sjr9.jpg"></p>
+</li>
+</ul>
+<p>↓</p>
+<p>创建模型存储对应的数据：</p>
+<ul>
+<li><p>创建文件夹models –&gt; 创建User.js文件，引入mongoose（要将数据存储在其中），再实例化一个Schema，创建集合，向集合中插入数据</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> mongoose = <span class="built_in">require</span>(<span class="string">&quot;mongoose&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> Schema = mongoose.Schema;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Create Schema</span></span><br><span class="line"><span class="keyword">const</span> UserSchema = <span class="keyword">new</span> Schema(&#123;&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建集合规则：登录和注册时，需要什么，就在Schema对象中写什么(暂时先马马虎虎写一下，最后再修改)</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Create Schema</span></span><br><span class="line"><span class="keyword">const</span> UserSchema = <span class="keyword">new</span> Schema(&#123;</span><br><span class="line">  name: &#123;</span><br><span class="line">    type: <span class="built_in">String</span>,</span><br><span class="line">    required: <span class="literal">true</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  email: &#123;</span><br><span class="line">    type: <span class="built_in">String</span>,</span><br><span class="line">    required: <span class="literal">true</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  password: &#123;</span><br><span class="line">    type: <span class="built_in">String</span>,</span><br><span class="line">    required: <span class="literal">true</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  avatar: &#123;</span><br><span class="line">    type: <span class="built_in">String</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  date: &#123;</span><br><span class="line">    type: <span class="built_in">Date</span>,</span><br><span class="line">    <span class="keyword">default</span>: <span class="built_in">Date</span>.now</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>最后使用使用规则创建集合，并暴露出去</p>
+<p>model里的参数：（集合名称，集合规则）</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = User = mongoose.model(<span class="string">&quot;users&quot;</span>, UserSchema);</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>↓</p>
+<p>搭建用户登录页面的register接口：</p>
+<ul>
+<li><p>因为注册的时候一定会传递一些对应信息，所以要改用post请求</p>
+</li>
+<li><p>安装第三方模块 bodyParser – npm install body-parser</p>
+</li>
+<li><p>在入口文件中引入body-parser：const bodyParser = <strong>require</strong>(“body-parser”);</p>
+</li>
+<li><p>// <em>使用body-parser中间件</em></p>
+<p>app.<strong>use</strong>(bodyParser.<strong>urlencoded</strong>({ extended: <strong>false</strong> }));</p>
+<p>app.<strong>use</strong>(bodyParser.<strong>json</strong>());</p>
+</li>
+<li><p>在路由user.js中引入User模块，添加post请求</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// $route GET api/users/register</span></span><br><span class="line"><span class="comment">// @desc  返回请求的json数据</span></span><br><span class="line"><span class="comment">// @access public</span></span><br><span class="line">router.post(<span class="string">&quot;/register&quot;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// console.log(req.body);</span></span><br><span class="line">  <span class="comment">//查询数据库中是否拥有邮箱</span></span><br><span class="line">  User.findOne(&#123; <span class="attr">email</span>: req.body.email &#125;).then(<span class="function">(<span class="params">user</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (user) &#123;</span><br><span class="line">      <span class="keyword">return</span> res.status(<span class="number">400</span>).json(&#123; <span class="attr">email</span>: <span class="string">&quot;邮箱已被注册&quot;</span> &#125;);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> newUser = <span class="keyword">new</span> User(&#123;</span><br><span class="line">        name: req.body.name,</span><br><span class="line">        email: req.body.email,</span><br><span class="line">        avatar: avatar,</span><br><span class="line">        password: req.body.password,</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果要给密码，需要安装bcrypt—-npm install bcrypt，并在当前文件引入</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghwfpdbj59j30v90acdhk.jpg"></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 给密码加密</span></span><br><span class="line">bcrypt.genSalt(<span class="number">10</span>, <span class="function"><span class="keyword">function</span> (<span class="params">err, salt</span>) </span>&#123;</span><br><span class="line">  bcrypt.hash(newUser.password, salt, <span class="function">(<span class="params">err, hash</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (err) <span class="keyword">throw</span> err; <span class="comment">// 如果出错了 直接抛出错误</span></span><br><span class="line">    newUser.password = hash;  <span class="comment">// 密码变成hash值</span></span><br><span class="line">    newUser</span><br><span class="line">      .save()   <span class="comment">//调用save存储数据</span></span><br><span class="line">      .then(<span class="function"><span class="params">user</span> =&gt;</span> res.json(user))       <span class="comment">//并且但会json对象</span></span><br><span class="line">      .catch(<span class="function">(<span class="params">err</span>) =&gt;</span> <span class="built_in">console</span>.log(err));   <span class="comment">//如果错误则打印错误</span></span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>测试下是否能讲当前数据存到数据库中<br>出现报错 ：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghwfpem9jwj30no03smxs.jpg"></p>
+<p>解决：可能是无法识别ES6语法，把箭头函数改为普通函数, thow err 改为 return err</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">bcrypt.hash(newUser.password, <span class="number">10</span>, <span class="function"><span class="keyword">function</span> (<span class="params">err, hash</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (err) &#123;</span><br><span class="line">    <span class="keyword">return</span> err;</span><br><span class="line">  &#125;</span><br><span class="line">  newUser.password = hash;</span><br><span class="line">  newUser</span><br><span class="line">    .save()</span><br><span class="line">    .then(<span class="function">(<span class="params">user</span>) =&gt;</span> res.json(user))</span><br><span class="line">    .catch(<span class="function">(<span class="params">err</span>) =&gt;</span> <span class="built_in">console</span>.log(err));</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>运行后可在postman中拿到加密过后的数据<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghwfpe2o0wj30iy04n0t4.jpg"></p>
+<p>完整的请求👇</p>
+<img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghwf820ayxj30ds069wex.jpg" style="zoom:150%;" />
+
+<img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghwf8e38r3j30bi065jrq.jpg" style="zoom:150%;" />
+
+<img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghwf920x46j30vy02dq32.jpg" style="zoom:200%;" />
+</li>
+<li><p>来到MongoDB Compass的控制面板里，查看数据库中新增了test目录，里面保存了users，数据已经传上来啦~</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghwfpfyvznj30rk0dmabj.jpg"></p>
+</li>
+</ul>
+<p>↓</p>
+<p>关于头像的问题avartar—使用第三方gravatar</p>
+<ul>
+<li><p>npm install gravatar</p>
+</li>
+<li><p>在需要使用的地方（users.js)中引入，const gravatar = <strong>require</strong>(“gravatar”);</p>
+</li>
+<li><p>在newUser之前，定义avatar先<br>(官网copy)：</p>
+<ul>
+<li>url代表gravatar下的一个方法，接受2个参数，第一个是用户邮箱，第二个是一些options，<ul>
+<li>s: size</li>
+<li>r:rating   （可能是一种图片的参数）</li>
+<li>d:default</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> url = gravatar.url(<span class="string">&#x27;emerleite@gmail.com&#x27;</span>, &#123;<span class="attr">s</span>: <span class="string">&#x27;200&#x27;</span>, <span class="attr">r</span>: <span class="string">&#x27;pg&#x27;</span>, <span class="attr">d</span>: <span class="string">&#x27;404&#x27;</span>&#125;);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>对代码稍作改动</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> avatar = gravatar.url(<span class="string">&quot;req.body.email&quot;</span>, &#123;</span><br><span class="line">        s: <span class="string">&quot;200&quot;</span>,</span><br><span class="line">        r: <span class="string">&quot;pg&quot;</span>,</span><br><span class="line">        d: <span class="string">&quot;mm&quot;</span>,</span><br><span class="line">      &#125;);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>在postman中用一个新邮箱测试一下，此时已经拿到了avatar的地址<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghwfzpzvmkj30jj050dgg.jpg"></p>
+<p>这个地址显示的图像是介个样子👉<img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghwg23njtcj305p05smwy.jpg" style="zoom:80%;" /></p>
+<p>如果用真实的，设置过avatar头像的邮箱来做avatar请求，则会拿到你真实的头像哦~</p>
+</li>
+</ul>
+<p>↓</p>
+<p>搭建登录接口：</p>
+<ul>
+<li><p>继续在users.js里添加登录接口，此时要求返回token， jwt passport</p>
+</li>
+<li><p>拿到email和password之后与数据库进行匹配， 密码匹配这里用到了bcrypt里面的compare<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghwgktc25vj30o203n74q.jpg"></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">bcrypt.compare(password, user.password).then(<span class="function">(<span class="params">isMatch</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (isMatch) &#123;</span><br><span class="line">    res.json(&#123; <span class="attr">msg</span>: <span class="string">&quot;success&quot;</span> &#125;);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> res.status(<span class="number">400</span>).json(&#123; <span class="attr">password</span>: <span class="string">&quot;密码错误&quot;</span> &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>先不做token，在res.json里直接返回msg, 看下能否在邮箱正确，错误，密码正确，错误的情况下能否正确返回：</p>
+<p>正确情况下👇：<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghwgqxb9xzj30fu0b4dg9.jpg"><br>邮箱错误👇：<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghwgsmr166j30e509wt91.jpg"></p>
+<p>密码错误👇：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghwgt8vdvsj30du0a6glx.jpg"></p>
+</li>
+<li><p>返回token：</p>
+<ul>
+<li><p>npm install jsonwebtoken</p>
+</li>
+<li><p>引入jsonwebtoken，起名jwt</p>
+</li>
+<li><p>调用jwt.sign方法，传递相应规则：        jwt.<strong>sign</strong>(“规则”, “加密名字”, “过期时间”, “箭头函数”);<br>加密名字secret可以在keys里面提前定义好:  secretOrKey: “secret”,<br>↓</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">bcrypt.compare(password, user.password).then(<span class="function">(<span class="params">isMatch</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (isMatch) &#123;</span><br><span class="line">    <span class="keyword">const</span> rule = &#123; <span class="attr">id</span>: user.id, <span class="attr">name</span>: user.name &#125;;</span><br><span class="line">    jwt.sign(rule, keys.secretOrKey, &#123; <span class="attr">expiresIn</span>: <span class="number">3600</span> &#125;, <span class="function">(<span class="params">err, token</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (err) <span class="keyword">throw</span> err;</span><br><span class="line">      res.json(&#123;</span><br><span class="line">        success: <span class="literal">true</span>,</span><br><span class="line">        token: <span class="string">&quot;Bearer &quot;</span> + token,   <span class="comment">//Bearer后有一个空格</span></span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> res.status(<span class="number">400</span>).json(&#123; <span class="attr">password</span>: <span class="string">&quot;密码错误&quot;</span> &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>调试下~ ok~拿到token</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghwi4bgprmj30ok0c3dh4.jpg"></p>
+</li>
+</ul>
+</li>
+</ul>
+<p>↓</p>
+<p>验证token：</p>
+<ul>
+<li><pre><code class="js">// $route GET api/users/current
+// @desc  return current user
+// @access private
+router.get(&quot;/current&quot;, &quot;验证token&quot;, (req, res) =&gt; &#123;
+  res.json(&#123; msg: &quot;success&quot; &#125;);
+&#125;);
+&lt;!--hexoPostRenderEscape:&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;- 用到passport来验证token&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  - npm install passport  passport-jwt&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  - 在入口文件中先引入passport， 并初始化passport：app.use(passport.initialize())&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#96;&amp;#96;&amp;#96;js&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#x2F;&amp;#x2F; passport 初始化&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    app.use(passport.initialize());&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#x2F;&amp;#x2F; 引入passport.js代码，同时把上面const的passport传递，这样直接把代码写在passport.js里&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    require(&amp;quot;.&amp;#x2F;config&amp;#x2F;passport&amp;quot;)(passport);&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;:hexoPostRenderEscape--&gt;
+
+- 在另外单独文件夹中配置passport
+
+  - config--&gt;新建passport.js , 在passport-jwt官网下引入相关配置
+
+&lt;!--hexoPostRenderEscape:&lt;figure class=&quot;highlight js&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;const&lt;/span&gt; JwtStrategy = &lt;span class=&quot;built_in&quot;&gt;require&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;&amp;quot;passport-jwt&amp;quot;&lt;/span&gt;).Strategy,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  ExtractJwt = &lt;span class=&quot;built_in&quot;&gt;require&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;&amp;quot;passport-jwt&amp;quot;&lt;/span&gt;).ExtractJwt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;const&lt;/span&gt; mongoose = &lt;span class=&quot;built_in&quot;&gt;require&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;&amp;quot;mongoose&amp;quot;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;const&lt;/span&gt; User = mongoose.model(&lt;span class=&quot;string&quot;&gt;&amp;quot;users&amp;quot;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;const&lt;/span&gt; keys = &lt;span class=&quot;built_in&quot;&gt;require&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;&amp;quot;../config/keys&amp;quot;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;const&lt;/span&gt; opts = &amp;#123;&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;opts.secretOrKey = keys.secretOrKey;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;module&lt;/span&gt;.exports = &lt;span class=&quot;function&quot;&gt;(&lt;span class=&quot;params&quot;&gt;passport&lt;/span&gt;) =&amp;gt;&lt;/span&gt; &amp;#123;&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;:hexoPostRenderEscape--&gt;
+
+↓
+
+&lt;!--hexoPostRenderEscape:&lt;figure class=&quot;highlight js&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;module&lt;/span&gt;.exports = &lt;span class=&quot;function&quot;&gt;(&lt;span class=&quot;params&quot;&gt;passport&lt;/span&gt;) =&amp;gt;&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  passport.use(&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; JwtStrategy(opts, &lt;span class=&quot;function&quot;&gt;(&lt;span class=&quot;params&quot;&gt;jwt_payload, done&lt;/span&gt;) =&amp;gt;&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      &lt;span class=&quot;built_in&quot;&gt;console&lt;/span&gt;.log(jwt_payload);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  );&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;:hexoPostRenderEscape--&gt;
+
+↓
+
+配置完成，来到users.js 引入passport后，添加接口
+
+&lt;!--hexoPostRenderEscape:&lt;figure class=&quot;highlight js&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;// $route GET api/users/current&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;// @desc  return current user&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;// @access private&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;router.get(&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;string&quot;&gt;&amp;quot;/current&amp;quot;&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  passport.authenticate(&lt;span class=&quot;string&quot;&gt;&amp;quot;jwt&amp;quot;&lt;/span&gt;, &amp;#123; &lt;span class=&quot;attr&quot;&gt;session&lt;/span&gt;: &lt;span class=&quot;literal&quot;&gt;false&lt;/span&gt; &amp;#125;),&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  (req, res) =&amp;gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    res.json(&amp;#123; &lt;span class=&quot;attr&quot;&gt;msg&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&amp;quot;success&amp;quot;&lt;/span&gt; &amp;#125;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;);&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;:hexoPostRenderEscape--&gt;
+
+将刚拿到的token，放到current接口的header中，测试一下，终端会返回，因为在passport.use里我们写了console.log~  👆
+👇
+![](https://tva1.sinaimg.cn/large/007S8ZIlly1ghwi70e0u2j30ae03k749.jpg)
+
+</code></pre>
+</li>
+</ul>
+<p>  ↓</p>
+<p>  既然拿到了数据，就可以通过查询后返回用户信息</p>
+  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="function">(<span class="params">passport</span>) =&gt;</span> &#123;</span><br><span class="line">  passport.use(</span><br><span class="line">    <span class="keyword">new</span> JwtStrategy(opts, <span class="function">(<span class="params">jwt_payload, done</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(jwt_payload);</span><br><span class="line">      User.findById(jwt_payload.id)</span><br><span class="line">        .then(<span class="function">(<span class="params">user</span>) =&gt;</span> &#123;</span><br><span class="line">          <span class="keyword">if</span> (user) &#123;</span><br><span class="line">            <span class="keyword">return</span> DOMError(<span class="literal">null</span>, user);</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="keyword">return</span> done(<span class="literal">null</span>, <span class="literal">false</span>);</span><br><span class="line">        &#125;)</span><br><span class="line">        .catch(<span class="function">(<span class="params">err</span>) =&gt;</span> <span class="built_in">console</span>.log(err));</span><br><span class="line">    &#125;)</span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>  ↓</p>
+<p>  调整下返回的代码，只返回user对象中的id,name, email </p>
+  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// $route GET api/users/current</span></span><br><span class="line"><span class="comment">// @desc  return current user</span></span><br><span class="line"><span class="comment">// @access private</span></span><br><span class="line">router.get(</span><br><span class="line">  <span class="string">&quot;/current&quot;</span>,</span><br><span class="line">  passport.authenticate(<span class="string">&quot;jwt&quot;</span>, &#123; <span class="attr">session</span>: <span class="literal">false</span> &#125;),</span><br><span class="line">  (req, res) =&gt; &#123;</span><br><span class="line">    res.json(&#123;</span><br><span class="line">      id: req.user.id,</span><br><span class="line">      name: req.user.name,</span><br><span class="line">      email: req.user.email,</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+
+
+<p>↓</p>
+<p>增加身份字段，添加权限（项目中用不到权限管理的可以忽略这一步）</p>
+<ul>
+<li>在User.js里添加identity字段</li>
+<li>在users.js 接口文件中的newUser中补上identity</li>
+<li>在登录接口位置，在isMath规则处和res.json处添加identity</li>
+</ul>
+<p>↓</p>
+<p>login、register、current 三个接口测试通过<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghwjusnjrvj30l00f9q4l.jpg"></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghwjv4a1roj30na0eegnj.jpg"></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghwjwn1ssbj30kg04amxd.jpg"></p>
+<p>↓<br>明天继续~ 晚安🐶</p>
+
+      
+	</div>
+
+<div class="meta">
+	
+</div>
+</article>
+
+  <article class="post">
+	<h2 class="title">
 		<a href="2020/08/17/Formatting-problem-VUE-after-VScode-updating/">Formatting problem(VUE) after VScode updating</a>
 	</h2>
     <div class="entry-content">
