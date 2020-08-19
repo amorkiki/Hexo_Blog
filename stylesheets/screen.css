@@ -356,26 +356,32 @@ article .entry-content video.right {
 
 a.facebook {
     background: url("/images/social/Facebook.png") center no-repeat;
+    background-size: 80%;
 }
 
 a.facebook:hover {
     background: url("/images/social/FacebookH.png") center no-repeat;
+    background-size: 80%;
 }
 
 a.github {
     background: url("/images/social/Github.png") center no-repeat;
+    background-size: 80%;
 }
 
 a.github:hover {
     background: url("/images/social/GithubH.png") center no-repeat;
+    background-size: 80%;
 }
 
 a.twitter {
     background: url("/images/social/Twitter.png") center no-repeat;
+    background-size: 80%;
 }
 
 a.twitter:hover {
     background: url("/images/social/TwitterH.png") center no-repeat;
+    background-size: 80%;
 }
 
 a.google {
