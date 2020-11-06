@@ -1,0 +1,889 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+    
+	<title>JS高级_ReadNotes-chap5 - Amorki&#39;s</title>
+    <meta name="author" content="">
+    
+	<meta name="description" content="&lt;blockquote&gt;
+&lt;p&gt;ECMAScript中，&lt;code&gt;引用类型&lt;/code&gt;是一种数据结构，用于将数据和功能组织在一起。–（&lt;code&gt;类&lt;/code&gt;）&lt;/p&gt;
+&lt;p&gt;引用类型有时也被称为&lt;code&gt;对象定义&lt;/code&gt;，—描述的是&lt;u&gt;一类对象所具有的属性和方法&lt;/u&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;对象&lt;/code&gt;是某个特定引用类型的&lt;code&gt;实例&lt;/code&gt;。new一下~~&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&#34;I-Object类型&#34;&gt;&lt;a href=&#34;#I-Object类型&#34; class=&#34;headerlink&#34; title=&#34;I Object类型&#34;&gt;&lt;/a&gt;I Object类型&lt;/h1&gt;&lt;p&gt;在应用程序中，储存和传递数据。&lt;/p&gt;
+&lt;h4 id=&#34;创建Object实例：&#34;&gt;&lt;a href=&#34;#创建Object实例：&#34; class=&#34;headerlink&#34; title=&#34;创建Object实例：&#34;&gt;&lt;/a&gt;创建Object实例：&lt;/h4&gt;&lt;ol&gt;
+&lt;li&gt;使用Object构造函数 ：var person = new Object();   = = var person = { }&lt;/li&gt;
+&lt;li&gt;使用对象字面量： var person = { name : “Nicholas” , age : “21” }&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;code&gt;表达式上下文 expression context&lt;/code&gt;  该上下文期待一个值（表达式）&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;语句上下文 statement context&lt;/code&gt;  if条件语句等&lt;/p&gt;
+&lt;p&gt;※ ==在通过对象字面量定义对象时，不会调用Object构造函数==。&lt;/p&gt;
+&lt;p&gt;※ 对象字面量是向函数传递大量参数的首选： 函数传参时，对必须值使用命名参数，用对象字面量封装多个参数。&lt;/p&gt;
+&lt;h4 id=&#34;访问对象属性：&#34;&gt;&lt;a href=&#34;#访问对象属性：&#34; class=&#34;headerlink&#34; title=&#34;访问对象属性：&#34;&gt;&lt;/a&gt;访问对象属性：&lt;/h4&gt;&lt;p&gt;点表示法：  alert(person.name);&lt;/p&gt;
+&lt;p&gt;方括号表示法： alert(person[‘name’]);&lt;/p&gt;
+&lt;p&gt;※ 方括号优势：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;通过变量访问属性 ———&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;​                var prototypeName = “name”;&lt;/p&gt;
+&lt;p&gt;​                alert(person[prototypeName]);&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;引用容易引起语法错误的字符、关键字或保留字&lt;/p&gt;
+&lt;p&gt;​     person[“first name”] = “Nicholas”&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;II-Array-类型&#34;&gt;&lt;a href=&#34;#II-Array-类型&#34; class=&#34;headerlink&#34; title=&#34;II  Array 类型&#34;&gt;&lt;/a&gt;II  Array 类型&lt;/h1&gt;&lt;p&gt;ECMAScript 数组的每一项都可以保存任何类型的数据。&lt;/p&gt;
+&lt;p&gt;ECMAScript 数组的大小是可以动态调整的。&lt;/p&gt;
+&lt;h4 id=&#34;创建数组：&#34;&gt;&lt;a href=&#34;#创建数组：&#34; class=&#34;headerlink&#34; title=&#34;创建数组：&#34;&gt;&lt;/a&gt;创建数组：&lt;/h4&gt;&lt;ol&gt;
+&lt;li&gt;使用Array构造函数：  –new可以省略&lt;br&gt;var colors = new Array(20);    20是length&lt;br&gt;var colors = new Array(“red”, “blue”, “green”);  直接向构造函数传递参数&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;使用数组字面量：&lt;br&gt;var colors = [“red”, “blue”, “green”]&lt;br&gt;var colors = [ ]; &lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&#34;读取和设置数组的值：&#34;&gt;&lt;a href=&#34;#读取和设置数组的值：&#34; class=&#34;headerlink&#34; title=&#34;读取和设置数组的值：&#34;&gt;&lt;/a&gt;读取和设置数组的值：&lt;/h4&gt;&lt;p&gt;alert(colors[0]);&lt;/p&gt;
+&lt;p&gt;colors[2]=”black”;   //修改第三项&lt;/p&gt;
+&lt;p&gt;colors[3] =”yellow”;   //新增第四项&lt;/p&gt;
+&lt;h4 id=&#34;数组的length属性：&#34;&gt;&lt;a href=&#34;#数组的length属性：&#34; class=&#34;headerlink&#34; title=&#34;数组的length属性：&#34;&gt;&lt;/a&gt;数组的length属性：&lt;/h4&gt;&lt;p&gt;可读可写—–可以移除或添加数组末尾的项。—-改变数组长度&lt;/p&gt;
+&lt;p&gt;数组最后一个索引为length-1&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;colors[colors.length] = &amp;quot;black&amp;quot;;&lt;/code&gt;    //在末尾添加black色&lt;/p&gt;
+&lt;h2 id=&#34;1-检测数值&#34;&gt;&lt;a href=&#34;#1-检测数值&#34; class=&#34;headerlink&#34; title=&#34;1. 检测数值&#34;&gt;&lt;/a&gt;1. 检测数值&lt;/h2&gt;&lt;p&gt;传统的instanceof操作符的问题—-假定只有一个全局执行环境，不适合多框架的开发环境&lt;/p&gt;
+&lt;p&gt;↓&lt;/p&gt;
+&lt;h5 id=&#34;Array-isArray&#34;&gt;&lt;a href=&#34;#Array-isArray&#34; class=&#34;headerlink&#34; title=&#34;Array.isArray( )&#34;&gt;&lt;/a&gt;&lt;code&gt;Array.isArray( )&lt;/code&gt;&lt;/h5&gt;&lt;p&gt;–最终确定某个值是不是数组，不论他是在哪个执行环境创建的。&lt;/p&gt;
+&lt;h2 id=&#34;2-转换方法&#34;&gt;&lt;a href=&#34;#2-转换方法&#34; class=&#34;headerlink&#34; title=&#34;2. 转换方法&#34;&gt;&lt;/a&gt;2. 转换方法&lt;/h2&gt;&lt;p&gt;所有对象都有：&lt;code&gt;toLocalString()&lt;/code&gt; , &lt;code&gt;toString()&lt;/code&gt; , &lt;code&gt;valueOf()&lt;/code&gt;  方法&lt;/p&gt;
+&lt;p&gt;↓&lt;/p&gt;
+&lt;p&gt;调用&lt;code&gt;valueOf()&lt;/code&gt; 返回数组本身&lt;/p&gt;
+&lt;p&gt;调用 &lt;code&gt;toString()&lt;/code&gt;  返回的数组中的每个值都是字符串  &lt;/p&gt;
+&lt;p&gt;调用&lt;code&gt;toLocalString()&lt;/code&gt; 经常返回上述相同的值，不一定。&lt;/p&gt;
+&lt;p&gt;↓&lt;/p&gt;
+&lt;p&gt;还可使用&lt;code&gt;join()&lt;/code&gt; 来使用其他的分隔符，join默认逗号分隔符。&lt;/p&gt;
+&lt;h2 id=&#34;3-栈方法&#34;&gt;&lt;a href=&#34;#3-栈方法&#34; class=&#34;headerlink&#34; title=&#34;3. 栈方法&#34;&gt;&lt;/a&gt;3. 栈方法&lt;/h2&gt;&lt;p&gt;&lt;code&gt;栈&lt;/code&gt;—– 一种LIFO（last-In-First-Out）的数据结构&lt;/p&gt;
+&lt;h5 id=&#34;push&#34;&gt;&lt;a href=&#34;#push&#34; class=&#34;headerlink&#34; title=&#34;push()&#34;&gt;&lt;/a&gt;&lt;code&gt;push()&lt;/code&gt;&lt;/h5&gt;&lt;p&gt;–推入 : 接受任意数量参数，添加到数组末尾，&lt;strong&gt;返回新数组长度&lt;/strong&gt;&lt;/p&gt;
+&lt;h5 id=&#34;pop&#34;&gt;&lt;a href=&#34;#pop&#34; class=&#34;headerlink&#34; title=&#34;pop()&#34;&gt;&lt;/a&gt;&lt;code&gt;pop()&lt;/code&gt;&lt;/h5&gt;&lt;p&gt;–弹出 ：从数组末尾移除最后一项，&lt;strong&gt;返回移除的项&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&#34;4-队列方法&#34;&gt;&lt;a href=&#34;#4-队列方法&#34; class=&#34;headerlink&#34; title=&#34;4. 队列方法&#34;&gt;&lt;/a&gt;4. 队列方法&lt;/h2&gt;&lt;p&gt;&lt;code&gt;队列&lt;/code&gt;—-一种FIFO（First-In-First-Out）的数据结构。&lt;/p&gt;
+&lt;h5 id=&#34;shift&#34;&gt;&lt;a href=&#34;#shift&#34; class=&#34;headerlink&#34; title=&#34;shift()&#34;&gt;&lt;/a&gt;&lt;code&gt;shift()&lt;/code&gt;&lt;/h5&gt;&lt;ul&gt;
+&lt;li&gt;移除数组中第一项，&lt;strong&gt;返回移除的项&lt;/strong&gt;   →  与push()相结合，就是队列的使用&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id=&#34;unshift&#34;&gt;&lt;a href=&#34;#unshift&#34; class=&#34;headerlink&#34; title=&#34;unshift()&#34;&gt;&lt;/a&gt;&lt;code&gt;unshift()&lt;/code&gt;&lt;/h5&gt;&lt;ul&gt;
+&lt;li&gt;在数组前端添加任意项，&lt;strong&gt;返回新数组长度&lt;/strong&gt;   →  与pop()相结合&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;5-重排序方法&#34;&gt;&lt;a href=&#34;#5-重排序方法&#34; class=&#34;headerlink&#34; title=&#34;5. 重排序方法&#34;&gt;&lt;/a&gt;5. 重排序方法&lt;/h2&gt;&lt;h5 id=&#34;reverse&#34;&gt;&lt;a href=&#34;#reverse&#34; class=&#34;headerlink&#34; title=&#34;reverse()&#34;&gt;&lt;/a&gt;&lt;code&gt;reverse()&lt;/code&gt;&lt;/h5&gt;&lt;ul&gt;
+&lt;li&gt;—- 翻转数组&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id=&#34;sort&#34;&gt;&lt;a href=&#34;#sort&#34; class=&#34;headerlink&#34; title=&#34;sort()&#34;&gt;&lt;/a&gt;&lt;code&gt;sort()&lt;/code&gt;&lt;/h5&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;按升序排列数组想  ， 该方法会调用每个数组项的toString()转型，==比较字符串==，&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;会接受一个比较函数作为参数，通过比较：-1，0，1 确定顺序&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure class=&#34;highlight js&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;15&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;function&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;title&#34;&gt;compare&lt;/span&gt; (&lt;span class=&#34;params&#34;&gt;value1,value2&lt;/span&gt;) &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &lt;span class=&#34;keyword&#34;&gt;if&lt;/span&gt; (value1 &amp;lt; value2)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    &lt;span class=&#34;keyword&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;number&#34;&gt;-1&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &amp;#125;&lt;span class=&#34;keyword&#34;&gt;else&lt;/span&gt; &lt;span class=&#34;keyword&#34;&gt;if&lt;/span&gt; (value1 &amp;gt; value2) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    &lt;span class=&#34;keyword&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;number&#34;&gt;1&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &amp;#125;&lt;span class=&#34;keyword&#34;&gt;else&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    &lt;span class=&#34;keyword&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;number&#34;&gt;0&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;var&lt;/span&gt; values =[&lt;span class=&#34;number&#34;&gt;10&lt;/span&gt;,&lt;span class=&#34;number&#34;&gt;1&lt;/span&gt;,&lt;span class=&#34;number&#34;&gt;15&lt;/span&gt;,&lt;span class=&#34;number&#34;&gt;0&lt;/span&gt;,&lt;span class=&#34;number&#34;&gt;5&lt;/span&gt;];&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;value.sort(compare);&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;alert(values);  &lt;span class=&#34;comment&#34;&gt;//  0,1,5,10,15&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;comment&#34;&gt;//按降序只要调整-1 和1 的位置就行&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;figure class=&#34;highlight js&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;comment&#34;&gt;//数值类型用简易比较函数&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;function&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;title&#34;&gt;compare&lt;/span&gt; (&lt;span class=&#34;params&#34;&gt;value1,value2&lt;/span&gt;)&lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &lt;span class=&#34;keyword&#34;&gt;return&lt;/span&gt; value2 - value1;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;h2 id=&#34;6-操作方法&#34;&gt;&lt;a href=&#34;#6-操作方法&#34; class=&#34;headerlink&#34; title=&#34;6. 操作方法&#34;&gt;&lt;/a&gt;6. 操作方法&lt;/h2&gt;&lt;h5 id=&#34;concat&#34;&gt;&lt;a href=&#34;#concat&#34; class=&#34;headerlink&#34; title=&#34;concat()&#34;&gt;&lt;/a&gt;&lt;code&gt;concat()&lt;/code&gt;&lt;/h5&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;基于当前数据中的所有项创建一个新数组。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;先创建一个数组的副本，将接收到的参数添加至末尾，最后返回新构建的数组。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id=&#34;slice&#34;&gt;&lt;a href=&#34;#slice&#34; class=&#34;headerlink&#34; title=&#34;slice()&#34;&gt;&lt;/a&gt;&lt;code&gt;slice()&lt;/code&gt;&lt;/h5&gt;&lt;ul&gt;
+&lt;li&gt;基于当前数组中的一个或多个项创建新数组。 &lt;/li&gt;
+&lt;li&gt;接受一个或两个参数，返回项的起始和结束位置，不包括结束位置；只有一个参数，到数组末尾&lt;/li&gt;
+&lt;li&gt;不影响原始数组&lt;/li&gt;
+&lt;li&gt;若参数为负数，则加上数组长度后再计算&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id=&#34;splice&#34;&gt;&lt;a href=&#34;#splice&#34; class=&#34;headerlink&#34; title=&#34;splice()&#34;&gt;&lt;/a&gt;&lt;code&gt;splice()&lt;/code&gt;&lt;/h5&gt;&lt;ul&gt;
+&lt;li&gt;删除—2个参数：要删除的第一项 ， 要删除的项数&lt;/li&gt;
+&lt;li&gt;插入—3个参数，起始位置， 0（要要删除的项数），要插入的任意数量的项&lt;/li&gt;
+&lt;li&gt;替换—3个参数，起始位置，要删除的项数，要插入的任意数量的项&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;7-位置方法&#34;&gt;&lt;a href=&#34;#7-位置方法&#34; class=&#34;headerlink&#34; title=&#34;7. 位置方法&#34;&gt;&lt;/a&gt;7. 位置方法&lt;/h2&gt;&lt;h5 id=&#34;indexOf&#34;&gt;&lt;a href=&#34;#indexOf&#34; class=&#34;headerlink&#34; title=&#34;indexOf()&#34;&gt;&lt;/a&gt;&lt;code&gt;indexOf()&lt;/code&gt;&lt;/h5&gt;&lt;ul&gt;
+&lt;li&gt;接收2个参数：要查找的项， 查找起点索引号&lt;/li&gt;
+&lt;li&gt;从数组开头向后查找&lt;/li&gt;
+&lt;li&gt;返回查找项在数组中的位置，没找到返回-1&lt;/li&gt;
+&lt;li&gt;必须是严格相等 ===&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id=&#34;lastIndextOf&#34;&gt;&lt;a href=&#34;#lastIndextOf&#34; class=&#34;headerlink&#34; title=&#34;lastIndextOf()&#34;&gt;&lt;/a&gt;&lt;code&gt;lastIndextOf()&lt;/code&gt;&lt;/h5&gt;&lt;ul&gt;
+&lt;li&gt;接收2个参数：要查找的项， 查找起点索引号&lt;/li&gt;
+&lt;li&gt;从数组末尾向前查找&lt;/li&gt;
+&lt;li&gt;返回查找项在数组中的位置，没找到返回-1&lt;/li&gt;
+&lt;li&gt;必须是严格相等 ===&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;8-迭代方法&#34;&gt;&lt;a href=&#34;#8-迭代方法&#34; class=&#34;headerlink&#34; title=&#34;8. 迭代方法&#34;&gt;&lt;/a&gt;8. 迭代方法&lt;/h2&gt;&lt;p&gt;每个方法都是：接收2个参数：要在每一项上运行的函数，(可选)运行该函数的作用域对象（影响this的值）；&lt;/p&gt;
+&lt;p&gt;传入的函数接收3个参数：数组项的值item，该项的位置index，数组对象本身array&lt;/p&gt;
+&lt;h5 id=&#34;every&#34;&gt;&lt;a href=&#34;#every&#34; class=&#34;headerlink&#34; title=&#34;every()&#34;&gt;&lt;/a&gt;&lt;code&gt;every()&lt;/code&gt;&lt;/h5&gt;&lt;ul&gt;
+&lt;li&gt;在每一项运行传入的函数，该函数每一项都返回true，则返回true。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id=&#34;filter&#34;&gt;&lt;a href=&#34;#filter&#34; class=&#34;headerlink&#34; title=&#34;filter()&#34;&gt;&lt;/a&gt;&lt;code&gt;filter()&lt;/code&gt;&lt;/h5&gt;&lt;ul&gt;
+&lt;li&gt;在每一项运行传入的函数，把该函数返回true的项组成数组并返回。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id=&#34;forEach&#34;&gt;&lt;a href=&#34;#forEach&#34; class=&#34;headerlink&#34; title=&#34;forEach()&#34;&gt;&lt;/a&gt;&lt;code&gt;forEach()&lt;/code&gt;&lt;/h5&gt;&lt;ul&gt;
+&lt;li&gt;在每一项运行传入的函数，没有返回值。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id=&#34;map&#34;&gt;&lt;a href=&#34;#map&#34; class=&#34;headerlink&#34; title=&#34;map()&#34;&gt;&lt;/a&gt;&lt;code&gt;map()&lt;/code&gt;&lt;/h5&gt;&lt;ul&gt;
+&lt;li&gt;在每一项运行传入的函数，把该函数在每一项上调用的结果组成数组并返回。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id=&#34;some&#34;&gt;&lt;a href=&#34;#some&#34; class=&#34;headerlink&#34; title=&#34;some()&#34;&gt;&lt;/a&gt;&lt;code&gt;some()&lt;/code&gt;&lt;/h5&gt;&lt;ul&gt;
+&lt;li&gt;在每一项运行传入的函数，该函数对任意项返回true，则返回true。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;9-归并方法&#34;&gt;&lt;a href=&#34;#9-归并方法&#34; class=&#34;headerlink&#34; title=&#34;9. 归并方法&#34;&gt;&lt;/a&gt;9. 归并方法&lt;/h2&gt;&lt;p&gt;迭代数组中的所有项，构建一个最终返回的值。&lt;/p&gt;
+&lt;p&gt;都接收2个参数：在每项上调用的函数， （可选）作为归并基础的初始值&lt;/p&gt;
+&lt;p&gt;传入的函数接收4个参数： 前一个值prev、当前值cur、项的索引index、数组对象array&lt;/p&gt;
+&lt;h5 id=&#34;reduce&#34;&gt;&lt;a href=&#34;#reduce&#34; class=&#34;headerlink&#34; title=&#34;reduce()&#34;&gt;&lt;/a&gt;&lt;code&gt;reduce()&lt;/code&gt;&lt;/h5&gt;&lt;ul&gt;
+&lt;li&gt;从数组第一项开始遍历&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id=&#34;reduceRight&#34;&gt;&lt;a href=&#34;#reduceRight&#34; class=&#34;headerlink&#34; title=&#34;reduceRight()&#34;&gt;&lt;/a&gt;&lt;code&gt;reduceRight()&lt;/code&gt;&lt;/h5&gt;&lt;ul&gt;
+&lt;li&gt;从数组最后一项开始遍历&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;III-Date类型&#34;&gt;&lt;a href=&#34;#III-Date类型&#34; class=&#34;headerlink&#34; title=&#34;III Date类型&#34;&gt;&lt;/a&gt;III Date类型&lt;/h1&gt;&lt;h5 id=&#34;Date-parse&#34;&gt;&lt;a href=&#34;#Date-parse&#34; class=&#34;headerlink&#34; title=&#34;Date.parse()&#34;&gt;&lt;/a&gt;&lt;code&gt;Date.parse()&lt;/code&gt;&lt;/h5&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;接收一个表示日期的字符串参数，返回相应日期&lt;strong&gt;毫秒数&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;传入字符串不能表示日期，则返回NaN&lt;/p&gt;
+&lt;p&gt;var someDate = new Date(Date.parse(“May 25, 2004”));&lt;br&gt;其实后台会自动调用Date.parse()&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id=&#34;Date-UTC&#34;&gt;&lt;a href=&#34;#Date-UTC&#34; class=&#34;headerlink&#34; title=&#34;Date.UTC()&#34;&gt;&lt;/a&gt;&lt;code&gt;Date.UTC()&lt;/code&gt;&lt;/h5&gt;&lt;ul&gt;
+&lt;li&gt;接收的参数格式为： 年，月（基于0），日，时，分，秒  –前两个必填&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id=&#34;Date-now&#34;&gt;&lt;a href=&#34;#Date-now&#34; class=&#34;headerlink&#34; title=&#34;Date.now()&#34;&gt;&lt;/a&gt;&lt;code&gt;Date.now()&lt;/code&gt;&lt;/h5&gt;&lt;ul&gt;
+&lt;li&gt;返回调用该方法时的毫秒数&lt;/li&gt;
+&lt;li&gt;var start =  +new Date();    使用+操作符 可以获取时间戳，达到同样效果&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;1-继承的方法&#34;&gt;&lt;a href=&#34;#1-继承的方法&#34; class=&#34;headerlink&#34; title=&#34;1. 继承的方法&#34;&gt;&lt;/a&gt;1. 继承的方法&lt;/h2&gt;&lt;p&gt;toLocalString()  和 toString() 的返回值问题&lt;/p&gt;
+&lt;h2 id=&#34;2-日期格式化方法&#34;&gt;&lt;a href=&#34;#2-日期格式化方法&#34; class=&#34;headerlink&#34; title=&#34;2. 日期格式化方法&#34;&gt;&lt;/a&gt;2. 日期格式化方法&lt;/h2&gt;&lt;h5 id=&#34;toDateString&#34;&gt;&lt;a href=&#34;#toDateString&#34; class=&#34;headerlink&#34; title=&#34;toDateString&#34;&gt;&lt;/a&gt;&lt;code&gt;toDateString&lt;/code&gt;&lt;/h5&gt;&lt;ul&gt;
+&lt;li&gt;以特定于现实的格式显示：星期、月、日、年&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id=&#34;toTimeString&#34;&gt;&lt;a href=&#34;#toTimeString&#34; class=&#34;headerlink&#34; title=&#34;toTimeString&#34;&gt;&lt;/a&gt;&lt;code&gt;toTimeString&lt;/code&gt;&lt;/h5&gt;&lt;ul&gt;
+&lt;li&gt;以特定于现实的格式显示：时、分、秒、时区&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id=&#34;toLocalDateString&#34;&gt;&lt;a href=&#34;#toLocalDateString&#34; class=&#34;headerlink&#34; title=&#34;toLocalDateString&#34;&gt;&lt;/a&gt;&lt;code&gt;toLocalDateString&lt;/code&gt;&lt;/h5&gt;&lt;ul&gt;
+&lt;li&gt;以特定于地区的格式显示：星期、月、日、年&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id=&#34;toLocalTimeString&#34;&gt;&lt;a href=&#34;#toLocalTimeString&#34; class=&#34;headerlink&#34; title=&#34;toLocalTimeString&#34;&gt;&lt;/a&gt;&lt;code&gt;toLocalTimeString&lt;/code&gt;&lt;/h5&gt;&lt;ul&gt;
+&lt;li&gt;以特定于地区的格式显示：时、分、秒、时区&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id=&#34;toUTCString&#34;&gt;&lt;a href=&#34;#toUTCString&#34; class=&#34;headerlink&#34; title=&#34;toUTCString&#34;&gt;&lt;/a&gt;&lt;code&gt;toUTCString&lt;/code&gt;&lt;/h5&gt;&lt;ul&gt;
+&lt;li&gt;以特定于现实的格式显示：完整的UTC日期&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;3-日期-时间组件方法&#34;&gt;&lt;a href=&#34;#3-日期-时间组件方法&#34; class=&#34;headerlink&#34; title=&#34;3. 日期/时间组件方法&#34;&gt;&lt;/a&gt;3. 日期/时间组件方法&lt;/h2&gt;&lt;h1 id=&#34;IV-RegExp类型&#34;&gt;&lt;a href=&#34;#IV-RegExp类型&#34; class=&#34;headerlink&#34; title=&#34;IV RegExp类型&#34;&gt;&lt;/a&gt;IV RegExp类型&lt;/h1&gt;&lt;p&gt;正则表达式的匹配模式：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;g ：全局模式&lt;/li&gt;
+&lt;li&gt;i ：不区分大小写&lt;/li&gt;
+&lt;li&gt;m ：多行模式&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;正则表达式中的元字符：&lt;/p&gt;
+&lt;p&gt;(     [    {    \    ^    $    |    )    ?    *    +    .    }    ]&lt;/p&gt;
+&lt;p&gt;–所有元字符都必须转义。&lt;/p&gt;
+&lt;p&gt;定义：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;字面量方式： var pattern = /·······/g&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;RegExp构造函数：&lt;br&gt;接收2个参数： 要匹配的字符串模式，可选的标志字符串&lt;/p&gt;
+&lt;p&gt;var pattern = / [bc]at/i ;&lt;/p&gt;
+&lt;p&gt;var pattern = new RegExp (“ [bc]at “ , “ i “) ;&lt;/p&gt;
+&lt;p&gt;接收的这2个参数都是字符串，在一些情况下要对其进行双重转义。&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;字面量模式&lt;/th&gt;
+&lt;th&gt;等价的字符串&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;/\[bc\]at/&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;&amp;quot;\\[bc\\]at&amp;quot;&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;/\.at/&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;&amp;quot;\\.at&amp;quot;&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;/name\/age/&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;&amp;quot;name\\/age&amp;quot;&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;/\d.\d&amp;#123;1,2&amp;#125;/&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;&amp;quot;\\d.\\d&amp;#123;1,2&amp;#125;&amp;quot;&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;/\w\\hello\\123/&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;&amp;quot;\\w\\\\hello\\\\123&amp;quot;&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;/\n/&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;&amp;quot;\\\\&amp;quot;&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;&lt;/table&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;在ECMAScript3：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;正则表达式字面量始终会共享一个RegExp实例&lt;/li&gt;
+&lt;li&gt;用构造函数创建的每个新RegExp实例都是一个新实例&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure class=&#34;highlight js&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;12&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;var&lt;/span&gt; re = &lt;span class=&#34;literal&#34;&gt;null&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    i;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;for&lt;/span&gt;(i=&lt;span class=&#34;number&#34;&gt;0&lt;/span&gt;; i&amp;lt;&lt;span class=&#34;number&#34;&gt;10&lt;/span&gt;; i++)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  re = &lt;span class=&#34;regexp&#34;&gt;/cat/g&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  re.test(&lt;span class=&#34;string&#34;&gt;&amp;quot;catastrophe&amp;quot;&lt;/span&gt;);  &lt;span class=&#34;comment&#34;&gt;//第二次迭代时调用test会失败，这里只有一个RegExp实例，&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;for&lt;/span&gt;(i=&lt;span class=&#34;number&#34;&gt;0&lt;/span&gt;; i&amp;lt;&lt;span class=&#34;number&#34;&gt;10&lt;/span&gt;; i++)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  re = &lt;span class=&#34;keyword&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;built_in&#34;&gt;RegExp&lt;/span&gt;(&lt;span class=&#34;string&#34;&gt;&amp;quot;cat&amp;quot;&lt;/span&gt; , &lt;span class=&#34;string&#34;&gt;&amp;quot;g&amp;quot;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  re.test(&lt;span class=&#34;string&#34;&gt;&amp;quot;catastrophe&amp;quot;&lt;/span&gt;); &lt;span class=&#34;comment&#34;&gt;//每次迭代都会创建新的RegExp实例，每调用都会返回true&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+
+
+&lt;h2 id=&#34;1-RegExp实例类型&#34;&gt;&lt;a href=&#34;#1-RegExp实例类型&#34; class=&#34;headerlink&#34; title=&#34;1. RegExp实例类型&#34;&gt;&lt;/a&gt;1. RegExp实例类型&lt;/h2&gt;&lt;p&gt;&lt;code&gt;global&lt;/code&gt; —-布尔值。是否设置g标志&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;ignoreCase&lt;/code&gt;  —-布尔值。是否设置i标志&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;lastIndex  &lt;/code&gt; —-整数。开始搜索下一个匹配项的字符位置，从0算起&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;multiline&lt;/code&gt;  —-布尔值。是否设置m标志&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;source&lt;/code&gt;  —-正则表达式的字符串表示，按字面量形式，而非构造函数中的字符串模式返回&lt;/p&gt;
+&lt;h2 id=&#34;2-RegExp实例方法&#34;&gt;&lt;a href=&#34;#2-RegExp实例方法&#34; class=&#34;headerlink&#34; title=&#34;2. RegExp实例方法&#34;&gt;&lt;/a&gt;2. RegExp实例方法&lt;/h2&gt;&lt;h5 id=&#34;exec&#34;&gt;&lt;a href=&#34;#exec&#34; class=&#34;headerlink&#34; title=&#34;exec( )&#34;&gt;&lt;/a&gt;&lt;code&gt;exec( )&lt;/code&gt;&lt;/h5&gt;&lt;p&gt;RegExp对象的主要方法—exec( )—专门为捕获组设计的。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;接受一个参数，–要应用模式的字符串。&lt;/li&gt;
+&lt;li&gt;返回包含第一个匹配项信息的数组。没有则返回null&lt;/li&gt;
+&lt;li&gt;返回的数组时Array的实例，且还包含，index和input属性&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;3-RegExp构造函数属性&#34;&gt;&lt;a href=&#34;#3-RegExp构造函数属性&#34; class=&#34;headerlink&#34; title=&#34;3. RegExp构造函数属性&#34;&gt;&lt;/a&gt;3. RegExp构造函数属性&lt;/h2&gt;&lt;h2 id=&#34;4-模式的局限性&#34;&gt;&lt;a href=&#34;#4-模式的局限性&#34; class=&#34;headerlink&#34; title=&#34;4.模式的局限性&#34;&gt;&lt;/a&gt;4.模式的局限性&lt;/h2&gt;&lt;h1 id=&#34;V-Function-类型&#34;&gt;&lt;a href=&#34;#V-Function-类型&#34; class=&#34;headerlink&#34; title=&#34;V Function 类型&#34;&gt;&lt;/a&gt;V Function 类型&lt;/h1&gt;&lt;p&gt;每个函数都是Function类型的实例，具有属性和方法。&lt;/p&gt;
+&lt;p&gt;==函数名 实际上是指向函数对象的指针，不会与某个函数绑定。==&lt;/p&gt;
+&lt;p&gt;==一个函数可能由多个名字。==&lt;/p&gt;
+&lt;p&gt;==使用不带括号的函数名，不是调用函数，而是访问指针==&lt;/p&gt;
+&lt;figure class=&#34;highlight js&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;10&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;function&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;title&#34;&gt;sum&lt;/span&gt;(&lt;span class=&#34;params&#34;&gt;num1, num2&lt;/span&gt;) &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &lt;span class=&#34;keyword&#34;&gt;return&lt;/span&gt; num1+num2;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;alert sum(&lt;span class=&#34;number&#34;&gt;10&lt;/span&gt;,&lt;span class=&#34;number&#34;&gt;20&lt;/span&gt;);  &lt;span class=&#34;comment&#34;&gt;//30&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;var&lt;/span&gt; anotherSum = sum;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;alert anotherSum(&lt;span class=&#34;number&#34;&gt;10&lt;/span&gt;,&lt;span class=&#34;number&#34;&gt;20&lt;/span&gt;);  &lt;span class=&#34;comment&#34;&gt;//30&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;sum = &lt;span class=&#34;literal&#34;&gt;null&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;alert anotherSum(&lt;span class=&#34;number&#34;&gt;10&lt;/span&gt;,&lt;span class=&#34;number&#34;&gt;20&lt;/span&gt;);  &lt;span class=&#34;comment&#34;&gt;//30    即使让sum与函数断绝关系，仍可以正常调用函数anotherSum()&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;函数定义：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;函数声明法： function sum (num1, num2) {  return num1 + num2 }&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;函数表达式:    var sum = function (num1, num2) {  return num1 + num2 } ;   ☞这里的分号就像声明其他的变量的格式一样&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Function构造函数（不推荐）&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;1-没有重载（深入）&#34;&gt;&lt;a href=&#34;#1-没有重载（深入）&#34; class=&#34;headerlink&#34; title=&#34;1. 没有重载（深入）&#34;&gt;&lt;/a&gt;1. 没有重载（深入）&lt;/h2&gt;&lt;p&gt;后面的函数会覆盖前面的函数—-函数名只是指针。&lt;/p&gt;
+&lt;figure class=&#34;highlight js&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;19&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;function&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;title&#34;&gt;addSomeNumber&lt;/span&gt; (&lt;span class=&#34;params&#34;&gt;num&lt;/span&gt;)&lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &lt;span class=&#34;keyword&#34;&gt;return&lt;/span&gt; num +&lt;span class=&#34;number&#34;&gt;100&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;function&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;title&#34;&gt;addSomeNumber&lt;/span&gt; (&lt;span class=&#34;params&#34;&gt;num&lt;/span&gt;)&lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &lt;span class=&#34;keyword&#34;&gt;return&lt;/span&gt; num +&lt;span class=&#34;number&#34;&gt;200&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;var&lt;/span&gt; result = addSomeNumber(&lt;span class=&#34;number&#34;&gt;100&lt;/span&gt;);  &lt;span class=&#34;comment&#34;&gt;//300&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;↓&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;↓&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;↓&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;var&lt;/span&gt; addSomeNumber =&lt;span class=&#34;function&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;params&#34;&gt;num&lt;/span&gt;)&lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &lt;span class=&#34;keyword&#34;&gt;return&lt;/span&gt; num +&lt;span class=&#34;number&#34;&gt;100&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;addSomeNumber =&lt;span class=&#34;function&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;params&#34;&gt;num&lt;/span&gt;)&lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &lt;span class=&#34;keyword&#34;&gt;return&lt;/span&gt; num +&lt;span class=&#34;number&#34;&gt;200&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;var&lt;/span&gt; result = addSomeNumber(&lt;span class=&#34;number&#34;&gt;100&lt;/span&gt;);  &lt;span class=&#34;comment&#34;&gt;//300&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+
+
+&lt;h2 id=&#34;2-函数声明于函数表达式&#34;&gt;&lt;a href=&#34;#2-函数声明于函数表达式&#34; class=&#34;headerlink&#34; title=&#34;2. 函数声明于函数表达式&#34;&gt;&lt;/a&gt;2. 函数声明于函数表达式&lt;/h2&gt;&lt;p&gt;预解析问题&lt;/p&gt;
+&lt;p&gt;↓&lt;/p&gt;
+&lt;p&gt;解析器会率先读取函数声明（函数声明提升–function declaration hoisting）&lt;/p&gt;
+&lt;h2 id=&#34;3-作为值的函数&#34;&gt;&lt;a href=&#34;#3-作为值的函数&#34; class=&#34;headerlink&#34; title=&#34;3. 作为值的函数&#34;&gt;&lt;/a&gt;3. 作为值的函数&lt;/h2&gt;&lt;p&gt;函数可以作为值来调用，因为函数名本身就是变量。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;把一个函数传递给另一个函数 （可以传进去）&lt;/li&gt;
+&lt;li&gt;将一个函数作为另一个函数的结果返回  （也可以return出来）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure class=&#34;highlight js&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;function&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;title&#34;&gt;callSomeFunction&lt;/span&gt;(&lt;span class=&#34;params&#34;&gt;someFUnction, someArguments&lt;/span&gt;) &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &lt;span class=&#34;keyword&#34;&gt;return&lt;/span&gt; someFUnction(someArguments);&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;figure class=&#34;highlight js&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;22&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;function&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;title&#34;&gt;createComparisonFuncion&lt;/span&gt;(&lt;span class=&#34;params&#34;&gt;propertyName&lt;/span&gt;)&lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &lt;span class=&#34;keyword&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;function&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;params&#34;&gt;object1, object2&lt;/span&gt;) &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    &lt;span class=&#34;keyword&#34;&gt;var&lt;/span&gt; value1 = object1[propertyName];&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    &lt;span class=&#34;keyword&#34;&gt;var&lt;/span&gt; value2 = object2[propertyName];&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;        &lt;span class=&#34;keyword&#34;&gt;if&lt;/span&gt;(value1 &amp;lt; value2)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;      &lt;span class=&#34;keyword&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;number&#34;&gt;-1&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    &amp;#125;&lt;span class=&#34;keyword&#34;&gt;else&lt;/span&gt; &lt;span class=&#34;keyword&#34;&gt;if&lt;/span&gt; (value1 &amp;gt; value2)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;      &lt;span class=&#34;keyword&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;number&#34;&gt;1&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    &amp;#125;&lt;span class=&#34;keyword&#34;&gt;else&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;      &lt;span class=&#34;keyword&#34;&gt;return&lt;/span&gt; =;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;var&lt;/span&gt; data = [&amp;#123;&lt;span class=&#34;attr&#34;&gt;name&lt;/span&gt;:&lt;span class=&#34;string&#34;&gt;&amp;quot;Nicholas&amp;quot;&lt;/span&gt;, &lt;span class=&#34;attr&#34;&gt;age&lt;/span&gt;:&lt;span class=&#34;number&#34;&gt;28&lt;/span&gt;&amp;#125;, &amp;#123;&lt;span class=&#34;attr&#34;&gt;name&lt;/span&gt;:&lt;span class=&#34;string&#34;&gt;&amp;quot;Greg&amp;quot;&lt;/span&gt;, &lt;span class=&#34;attr&#34;&gt;age&lt;/span&gt;:&lt;span class=&#34;number&#34;&gt;29&lt;/span&gt;&amp;#125;];&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;data.sort(createComparisonFunction(&lt;span class=&#34;string&#34;&gt;&amp;quot;name&amp;quot;&lt;/span&gt;));&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;alert(data[&lt;span class=&#34;number&#34;&gt;0&lt;/span&gt;].name);   &lt;span class=&#34;comment&#34;&gt;//Nicholas&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;data.sort(createComparisonFunction(&lt;span class=&#34;string&#34;&gt;&amp;quot;age&amp;quot;&lt;/span&gt;));&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;alert(data[&lt;span class=&#34;number&#34;&gt;1&lt;/span&gt;].name);   &lt;span class=&#34;comment&#34;&gt;//Greg&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+
+
+&lt;h2 id=&#34;4-函数内部属性&#34;&gt;&lt;a href=&#34;#4-函数内部属性&#34; class=&#34;headerlink&#34; title=&#34;4. 函数内部属性&#34;&gt;&lt;/a&gt;4. 函数内部属性&lt;/h2&gt;&lt;p&gt;函数内部有两个特殊的对象： &lt;code&gt;arguments&lt;/code&gt;    &lt;code&gt;this&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;arguments 对象有个 &lt;code&gt;callee&lt;/code&gt;属性， 他是一个指针，指向拥有这个arguments对象的函数&lt;/p&gt;
+&lt;figure class=&#34;highlight js&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;19&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;comment&#34;&gt;//递归函数中的阶乘&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;function&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;title&#34;&gt;factorial&lt;/span&gt;(&lt;span class=&#34;params&#34;&gt;num&lt;/span&gt;)&lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &lt;span class=&#34;keyword&#34;&gt;if&lt;/span&gt;(num&amp;lt;=&lt;span class=&#34;number&#34;&gt;1&lt;/span&gt;)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    &lt;span class=&#34;keyword&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;number&#34;&gt;1&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &amp;#125;&lt;span class=&#34;keyword&#34;&gt;else&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    &lt;span class=&#34;keyword&#34;&gt;return&lt;/span&gt; num * &lt;span class=&#34;built_in&#34;&gt;arguments&lt;/span&gt;.callee(num&lt;span class=&#34;number&#34;&gt;-1&lt;/span&gt;);   &lt;span class=&#34;comment&#34;&gt;//消除耦合&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;var&lt;/span&gt; trueFactorial = factorial;  &lt;span class=&#34;comment&#34;&gt;//获得factorial函数指针&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;factorial = &lt;span class=&#34;function&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;params&#34;&gt;&lt;/span&gt;)&lt;/span&gt;&amp;#123;  &lt;span class=&#34;comment&#34;&gt;//factorial变为0， 但这与trueFactorial无关&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &lt;span class=&#34;keyword&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;number&#34;&gt;0&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;alert(trueFactorial(&lt;span class=&#34;number&#34;&gt;5&lt;/span&gt;)) ; &lt;span class=&#34;comment&#34;&gt;//120&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;alert(factorial(&lt;span class=&#34;number&#34;&gt;5&lt;/span&gt;));  &lt;span class=&#34;comment&#34;&gt;//0&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;comment&#34;&gt;//若没有用arguments.callee消除耦合，那么trueFactorial会返回0&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+
+
+&lt;p&gt;关于&lt;code&gt;this&lt;/code&gt;：&lt;/p&gt;
+&lt;p&gt;==函数名字仅仅是包含指针的一个变量而已，即使在不同环境中执行，全局的sayColor()函数和obj.sayColor()指向的仍然是同一个函数。==&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;caller&lt;/code&gt;属性–其中保存着调用当前函数的函数的引用，如果是在全局作用域中调用当前函数，他的值为null。&lt;/p&gt;
+&lt;h2 id=&#34;5-函数属性和方法&#34;&gt;&lt;a href=&#34;#5-函数属性和方法&#34; class=&#34;headerlink&#34; title=&#34;5. 函数属性和方法&#34;&gt;&lt;/a&gt;5. 函数属性和方法&lt;/h2&gt;&lt;h5 id=&#34;每个函数都包含两个属性：&#34;&gt;&lt;a href=&#34;#每个函数都包含两个属性：&#34; class=&#34;headerlink&#34; title=&#34;每个函数都包含两个属性：&#34;&gt;&lt;/a&gt;每个函数都包含两个属性：&lt;/h5&gt;&lt;p&gt;&lt;code&gt;length&lt;/code&gt;     –函数希望接受的命名参数的个数&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;prototype &lt;/code&gt;  –是保存所有实例和方法的真实存在。此属性不可枚举，用for-in 无法发现&lt;/p&gt;
+&lt;h5 id=&#34;每个函数都包含两个非继承而来的方法：&#34;&gt;&lt;a href=&#34;#每个函数都包含两个非继承而来的方法：&#34; class=&#34;headerlink&#34; title=&#34;每个函数都包含两个非继承而来的方法：&#34;&gt;&lt;/a&gt;每个函数都包含两个非继承而来的方法：&lt;/h5&gt;&lt;p&gt;&lt;code&gt;apply()&lt;/code&gt;  接受两个参数， 运行函数的作用域，参数数组（可以是Array实例，也可是arguments对象）&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;call()&lt;/code&gt;  :  接受两个参数， 运行函数的作用域，参数的一一列举&lt;/p&gt;
+&lt;p&gt;==apply( ) 和call( )   能够扩充函数赖以运行的作用域==  —-改变this指向—使对象不需要与方法有任何耦合关系&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;bind()&lt;/code&gt;   创建一个函数的实例，其this的值会被绑定到传给bind()的值&lt;/p&gt;
+&lt;figure class=&#34;highlight js&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;9&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;built_in&#34;&gt;window&lt;/span&gt;.color = &lt;span class=&#34;string&#34;&gt;&amp;quot;red&amp;quot;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;var&lt;/span&gt; o =&amp;#123;&lt;span class=&#34;attr&#34;&gt;color&lt;/span&gt;: &lt;span class=&#34;string&#34;&gt;&amp;quot;blue&amp;quot;&lt;/span&gt;&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;function&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;title&#34;&gt;sayColor&lt;/span&gt;(&lt;span class=&#34;params&#34;&gt;&lt;/span&gt;)&lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  alert(&lt;span class=&#34;built_in&#34;&gt;this&lt;/span&gt;.color);&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;var&lt;/span&gt; objectSayColor = sayColor.bind(o);      &lt;span class=&#34;comment&#34;&gt;//这里this值变为o&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;objectSayColor();   &lt;span class=&#34;comment&#34;&gt;//blue&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+
+
+&lt;h1 id=&#34;VI-基本包装类型&#34;&gt;&lt;a href=&#34;#VI-基本包装类型&#34; class=&#34;headerlink&#34; title=&#34;VI 基本包装类型&#34;&gt;&lt;/a&gt;VI 基本包装类型&lt;/h1&gt;&lt;p&gt;没读取一个基本类型值时，后台就会相应创建一个基本包装类型的对象，让我们可以调用一些方法来操作他们。&lt;/p&gt;
+&lt;p&gt;步骤：&lt;/p&gt;
+&lt;p&gt;创建一个实例&lt;/p&gt;
+&lt;p&gt;↓&lt;/p&gt;
+&lt;p&gt;在实力上调用指定的方法&lt;/p&gt;
+&lt;p&gt;↓&lt;/p&gt;
+&lt;p&gt;销毁这个实例&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;引用类型与基本包装类型 主要区别：  对象生存期。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;new出来的引用实例：在执行流离开当前作用域之前一直保存在内存中。&lt;/li&gt;
+&lt;li&gt;自动创建的基本包装类型对象：只存在于一行代码执行瞬间，然后被立即销毁。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;对基本包装类型的实例调用typeof—-返回object&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;所有基本包装类型的对象在转换为布尔值类型是值都是true&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;new出来的构造函数和直接调用的同名转型函数是不一样滴~&lt;/p&gt;
+&lt;figure class=&#34;highlight js&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;var&lt;/span&gt; value = &lt;span class=&#34;number&#34;&gt;25&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;var&lt;/span&gt; number = &lt;span class=&#34;built_in&#34;&gt;Number&lt;/span&gt;(value);   &lt;span class=&#34;comment&#34;&gt;//转型函数--保存的是值&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;alert(&lt;span class=&#34;keyword&#34;&gt;typeof&lt;/span&gt; number) ;       &lt;span class=&#34;comment&#34;&gt;//number&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;var&lt;/span&gt; obj = &lt;span class=&#34;keyword&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;built_in&#34;&gt;Number&lt;/span&gt;(value);    &lt;span class=&#34;comment&#34;&gt;//构造函数 --保存的是对象实例&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;alert(&lt;span class=&#34;keyword&#34;&gt;typeof&lt;/span&gt; obj);    &lt;span class=&#34;comment&#34;&gt;//object&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+
+
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;1-Boolean类型&#34;&gt;&lt;a href=&#34;#1-Boolean类型&#34; class=&#34;headerlink&#34; title=&#34;1. Boolean类型&#34;&gt;&lt;/a&gt;1. Boolean类型&lt;/h2&gt;&lt;p&gt;是与布尔值对应的引用类型。不建议使用Boolean对象。用处不大，容易造成误解&lt;/p&gt;
+&lt;h2 id=&#34;2-Number类型&#34;&gt;&lt;a href=&#34;#2-Number类型&#34; class=&#34;headerlink&#34; title=&#34;2. Number类型&#34;&gt;&lt;/a&gt;2. Number类型&lt;/h2&gt;&lt;p&gt;是与数字值对应的引用类型。不建议使用Number对象&lt;/p&gt;
+&lt;p&gt;Number类型提供了一些用于将数值格式化为字符串的方法：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;toFixed()&lt;/code&gt;  按照指定小数位返回数值的字符串表示 （会四舍五入）—适用于处理货币值&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;toExponential()&lt;/code&gt;   返回质数表示法（e表示法）的字符串表示 &lt;/p&gt;
+&lt;p&gt;&lt;code&gt;toPrecision ()&lt;/code&gt;  需要得到表示某个数值的最合适的方法，可能会返回上述两个格式的一种&lt;/p&gt;
+&lt;h2 id=&#34;3-String类型&#34;&gt;&lt;a href=&#34;#3-String类型&#34; class=&#34;headerlink&#34; title=&#34;3. String类型&#34;&gt;&lt;/a&gt;3. String类型&lt;/h2&gt;&lt;p&gt;字符串的对象包装类型。&lt;/p&gt;
+&lt;p&gt;每个实例都有一个length属性，表示字符串中包含的字符个数。&lt;/p&gt;
+&lt;h3 id=&#34;3-1-字符方法&#34;&gt;&lt;a href=&#34;#3-1-字符方法&#34; class=&#34;headerlink&#34; title=&#34;3.1 字符方法&#34;&gt;&lt;/a&gt;3.1 字符方法&lt;/h3&gt;&lt;p&gt;访问字符串中特定字符：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;charAt()&lt;/code&gt;    –接受一个参数index，一单字字符串形式返回&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;charCodeAt()&lt;/code&gt;     –接受一个参数index，返回字符的编码&lt;/p&gt;
+&lt;p&gt;也可以直接用[index]来查找&lt;/p&gt;
+&lt;h3 id=&#34;3-2-字符串操作方法&#34;&gt;&lt;a href=&#34;#3-2-字符串操作方法&#34; class=&#34;headerlink&#34; title=&#34;3.2 字符串操作方法&#34;&gt;&lt;/a&gt;3.2 字符串操作方法&lt;/h3&gt;&lt;p&gt;&lt;code&gt;concat()&lt;/code&gt;   –拼接一个或多个字符串，返回新的字符串， 不改变原字符串。但在现实中，大多用+号&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;slice()&lt;/code&gt;    –2个参数，开始和结束的位置。不包括最后一位；不改变原字符串&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;substr() &lt;/code&gt;  – 2个参数，开始和的位置和要返回的字符串个数。不改变原字符串&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;substring() &lt;/code&gt;  –2个参数，开始和结束的位置。不包括最后一位；不改变原字符串&lt;/p&gt;
+&lt;figure class=&#34;highlight js&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;14&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;var&lt;/span&gt; stringValue = &lt;span class=&#34;string&#34;&gt;&amp;quot;hello world&amp;quot;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;alert(stringValue.slice(&lt;span class=&#34;number&#34;&gt;3&lt;/span&gt;));        &lt;span class=&#34;comment&#34;&gt;//&amp;quot;lo world&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;alert(stringValue.substring(&lt;span class=&#34;number&#34;&gt;3&lt;/span&gt;));    &lt;span class=&#34;comment&#34;&gt;//&amp;quot;lo world&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;alert(stringValue.substr(&lt;span class=&#34;number&#34;&gt;3&lt;/span&gt;));       &lt;span class=&#34;comment&#34;&gt;//&amp;quot;lo world&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;alert(stringValue.slice(&lt;span class=&#34;number&#34;&gt;3&lt;/span&gt;, &lt;span class=&#34;number&#34;&gt;7&lt;/span&gt;));     &lt;span class=&#34;comment&#34;&gt;//&amp;quot;lo w&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;alert(stringValue.substring(&lt;span class=&#34;number&#34;&gt;3&lt;/span&gt;,&lt;span class=&#34;number&#34;&gt;7&lt;/span&gt;));  &lt;span class=&#34;comment&#34;&gt;//&amp;quot;lo w&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;alert(stringValue.substr(&lt;span class=&#34;number&#34;&gt;3&lt;/span&gt;, &lt;span class=&#34;number&#34;&gt;7&lt;/span&gt;));    &lt;span class=&#34;comment&#34;&gt;//&amp;quot;lo worl&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;        &lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;alert(stringValue.slice(&lt;span class=&#34;number&#34;&gt;-3&lt;/span&gt;));         &lt;span class=&#34;comment&#34;&gt;//&amp;quot;rld&amp;quot;   =slice(8)&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;alert(stringValue.substring(&lt;span class=&#34;number&#34;&gt;-3&lt;/span&gt;));     &lt;span class=&#34;comment&#34;&gt;//&amp;quot;hello world&amp;quot;    将-3转换成了0&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;alert(stringValue.substr(&lt;span class=&#34;number&#34;&gt;-3&lt;/span&gt;));        &lt;span class=&#34;comment&#34;&gt;//&amp;quot;rld&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;alert(stringValue.slice(&lt;span class=&#34;number&#34;&gt;3&lt;/span&gt;, &lt;span class=&#34;number&#34;&gt;-4&lt;/span&gt;));      &lt;span class=&#34;comment&#34;&gt;//&amp;quot;lo w&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;alert(stringValue.substring(&lt;span class=&#34;number&#34;&gt;3&lt;/span&gt;, &lt;span class=&#34;number&#34;&gt;-4&lt;/span&gt;));  &lt;span class=&#34;comment&#34;&gt;//&amp;quot;hel&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;alert(stringValue.substr(&lt;span class=&#34;number&#34;&gt;3&lt;/span&gt;, &lt;span class=&#34;number&#34;&gt;-4&lt;/span&gt;));     &lt;span class=&#34;comment&#34;&gt;//&amp;quot;&amp;quot; (empty string)&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+
+
+&lt;h3 id=&#34;3-3-字符串位置方法&#34;&gt;&lt;a href=&#34;#3-3-字符串位置方法&#34; class=&#34;headerlink&#34; title=&#34;3.3 字符串位置方法&#34;&gt;&lt;/a&gt;3.3 字符串位置方法&lt;/h3&gt;&lt;p&gt;&lt;code&gt;indexOf()&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;lastIndexOf()&lt;/code&gt;&lt;/p&gt;
+&lt;figure class=&#34;highlight js&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;var&lt;/span&gt; stringValue = &lt;span class=&#34;string&#34;&gt;&amp;quot;hello world&amp;quot;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;alert(stringValue.indexOf(&lt;span class=&#34;string&#34;&gt;&amp;quot;o&amp;quot;&lt;/span&gt;));         &lt;span class=&#34;comment&#34;&gt;//4&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;alert(stringValue.lastIndexOf(&lt;span class=&#34;string&#34;&gt;&amp;quot;o&amp;quot;&lt;/span&gt;));     &lt;span class=&#34;comment&#34;&gt;//7&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;alert(stringValue.indexOf(&lt;span class=&#34;string&#34;&gt;&amp;quot;o&amp;quot;&lt;/span&gt;, &lt;span class=&#34;number&#34;&gt;6&lt;/span&gt;));         &lt;span class=&#34;comment&#34;&gt;//7   从w开始向后&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;alert(stringValue.lastIndexOf(&lt;span class=&#34;string&#34;&gt;&amp;quot;o&amp;quot;&lt;/span&gt;, &lt;span class=&#34;number&#34;&gt;6&lt;/span&gt;));     &lt;span class=&#34;comment&#34;&gt;//4    从w开始向前&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;figure class=&#34;highlight js&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;10&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;var&lt;/span&gt; stringValue = &lt;span class=&#34;string&#34;&gt;&amp;quot;Lorem ipsum dolor sit amet, consectetur adipisicing elit&amp;quot;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;var&lt;/span&gt; positions = &lt;span class=&#34;keyword&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;built_in&#34;&gt;Array&lt;/span&gt;();&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;var&lt;/span&gt; pos = stringValue.indexOf(&lt;span class=&#34;string&#34;&gt;&amp;quot;e&amp;quot;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;        &lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;while&lt;/span&gt;(pos &amp;gt; &lt;span class=&#34;number&#34;&gt;-1&lt;/span&gt;)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    positions.push(pos);&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    pos = stringValue.indexOf(&lt;span class=&#34;string&#34;&gt;&amp;quot;e&amp;quot;&lt;/span&gt;, pos + &lt;span class=&#34;number&#34;&gt;1&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    &lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;alert(positions);    &lt;span class=&#34;comment&#34;&gt;//&amp;quot;3,24,32,35,52&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+
+
+&lt;h3 id=&#34;3-4-trim-方法&#34;&gt;&lt;a href=&#34;#3-4-trim-方法&#34; class=&#34;headerlink&#34; title=&#34;3.4 trim()方法&#34;&gt;&lt;/a&gt;3.4 trim()方法&lt;/h3&gt;&lt;p&gt;创建副本，删除两端空格， 返回结果，不改变原字符串&lt;/p&gt;
+&lt;h3 id=&#34;3-5-字符串大小写转换方法&#34;&gt;&lt;a href=&#34;#3-5-字符串大小写转换方法&#34; class=&#34;headerlink&#34; title=&#34;3.5 字符串大小写转换方法&#34;&gt;&lt;/a&gt;3.5 字符串大小写转换方法&lt;/h3&gt;&lt;p&gt;&lt;code&gt;toLowerCase()&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;toUpperCase()&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;toLocalLowerCase()&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;toLocalUpperCase()&lt;/code&gt;&lt;/p&gt;
+&lt;figure class=&#34;highlight js&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;var&lt;/span&gt; stringValue = &lt;span class=&#34;string&#34;&gt;&amp;quot;hello world&amp;quot;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;alert(stringValue.toLocaleUpperCase());  &lt;span class=&#34;comment&#34;&gt;//&amp;quot;HELLO WORLD&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;alert(stringValue.toUpperCase());        &lt;span class=&#34;comment&#34;&gt;//&amp;quot;HELLO WORLD&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;alert(stringValue.toLocaleLowerCase());  &lt;span class=&#34;comment&#34;&gt;//&amp;quot;hello world&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;alert(stringValue.toLowerCase());        &lt;span class=&#34;comment&#34;&gt;//&amp;quot;hello world&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+
+
+&lt;h3 id=&#34;3-6-字符串模式匹配方法&#34;&gt;&lt;a href=&#34;#3-6-字符串模式匹配方法&#34; class=&#34;headerlink&#34; title=&#34;3.6 字符串模式匹配方法&#34;&gt;&lt;/a&gt;3.6 字符串模式匹配方法&lt;/h3&gt;&lt;p&gt;&lt;code&gt;match()&lt;/code&gt;  –接收一个正则参数，本质上与调用RegExp上的exec()方法相同&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;search()&lt;/code&gt;   –接收一个正则参数，返回第一个匹配的索引，没有则返回-1&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;replace()&lt;/code&gt;  –接收2个参数，正则参数，字符串或函数， &lt;/p&gt;
+&lt;p&gt;&lt;code&gt;splite()&lt;/code&gt;  –基于指定的分隔符将一个字符串分割，并放到数组里&lt;/p&gt;
+&lt;figure class=&#34;highlight js&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;31&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;32&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;33&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;34&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;35&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;36&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;var&lt;/span&gt; text = &lt;span class=&#34;string&#34;&gt;&amp;quot;cat, bat, sat, fat&amp;quot;&lt;/span&gt;; &lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;var&lt;/span&gt; pattern = &lt;span class=&#34;regexp&#34;&gt;/.at/&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;        &lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;var&lt;/span&gt; matches = text.match(pattern);        &lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;alert(matches.index);        &lt;span class=&#34;comment&#34;&gt;//0&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;alert(matches[&lt;span class=&#34;number&#34;&gt;0&lt;/span&gt;]);           &lt;span class=&#34;comment&#34;&gt;//&amp;quot;cat&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;alert(pattern.lastIndex);    &lt;span class=&#34;comment&#34;&gt;//0&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;var&lt;/span&gt; pos = text.search(&lt;span class=&#34;regexp&#34;&gt;/at/&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;alert(pos);   &lt;span class=&#34;comment&#34;&gt;//1&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;var&lt;/span&gt; result = text.replace(&lt;span class=&#34;string&#34;&gt;&amp;quot;at&amp;quot;&lt;/span&gt;, &lt;span class=&#34;string&#34;&gt;&amp;quot;ond&amp;quot;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;alert(result);    &lt;span class=&#34;comment&#34;&gt;//&amp;quot;cond, bat, sat, fat&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;result = text.replace(&lt;span class=&#34;regexp&#34;&gt;/at/g&lt;/span&gt;, &lt;span class=&#34;string&#34;&gt;&amp;quot;ond&amp;quot;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;alert(result);    &lt;span class=&#34;comment&#34;&gt;//&amp;quot;cond, bond, sond, fond&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;result = text.replace(&lt;span class=&#34;regexp&#34;&gt;/(.at)/g&lt;/span&gt;, &lt;span class=&#34;string&#34;&gt;&amp;quot;word ($1)&amp;quot;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;alert(result);    &lt;span class=&#34;comment&#34;&gt;//word (cat), word (bat), word (sat), word (fat)&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;        &lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;function&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;title&#34;&gt;htmlEscape&lt;/span&gt;(&lt;span class=&#34;params&#34;&gt;text&lt;/span&gt;)&lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    &lt;span class=&#34;keyword&#34;&gt;return&lt;/span&gt; text.replace(&lt;span class=&#34;regexp&#34;&gt;/[&amp;lt;&amp;gt;&amp;quot;&amp;amp;]/g&lt;/span&gt;, &lt;span class=&#34;function&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;params&#34;&gt;match, pos, originalText&lt;/span&gt;)&lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;        &lt;span class=&#34;keyword&#34;&gt;switch&lt;/span&gt;(match)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;            &lt;span class=&#34;keyword&#34;&gt;case&lt;/span&gt; &lt;span class=&#34;string&#34;&gt;&amp;quot;&amp;lt;&amp;quot;&lt;/span&gt;:&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;                &lt;span class=&#34;keyword&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;string&#34;&gt;&amp;quot;&amp;amp;lt;&amp;quot;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;            &lt;span class=&#34;keyword&#34;&gt;case&lt;/span&gt; &lt;span class=&#34;string&#34;&gt;&amp;quot;&amp;gt;&amp;quot;&lt;/span&gt;:&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;                &lt;span class=&#34;keyword&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;string&#34;&gt;&amp;quot;&amp;amp;gt;&amp;quot;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;            &lt;span class=&#34;keyword&#34;&gt;case&lt;/span&gt; &lt;span class=&#34;string&#34;&gt;&amp;quot;&amp;amp;&amp;quot;&lt;/span&gt;:&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;                &lt;span class=&#34;keyword&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;string&#34;&gt;&amp;quot;&amp;amp;amp;&amp;quot;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;            &lt;span class=&#34;keyword&#34;&gt;case&lt;/span&gt; &lt;span class=&#34;string&#34;&gt;&amp;quot;\&amp;quot;&amp;quot;&lt;/span&gt;:&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;                &lt;span class=&#34;keyword&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;string&#34;&gt;&amp;quot;&amp;amp;quot;&amp;quot;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;        &amp;#125;             &lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    &amp;#125;);&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;        &lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;alert(htmlEscape(&lt;span class=&#34;string&#34;&gt;&amp;quot;&amp;lt;p class=\&amp;quot;greeting\&amp;quot;&amp;gt;Hello world!&amp;lt;/p&amp;gt;&amp;quot;&lt;/span&gt;)); &lt;span class=&#34;comment&#34;&gt;//&amp;amp;lt;p class=&amp;amp;quot;greeting&amp;amp;quot;&amp;amp;g&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;var&lt;/span&gt; colorText = &lt;span class=&#34;string&#34;&gt;&amp;quot;red,blue,green,yellow&amp;quot;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;var&lt;/span&gt; colors1 = colorText.split(&lt;span class=&#34;string&#34;&gt;&amp;quot;,&amp;quot;&lt;/span&gt;);      &lt;span class=&#34;comment&#34;&gt;//[&amp;quot;red&amp;quot;, &amp;quot;blue&amp;quot;, &amp;quot;green&amp;quot;, &amp;quot;yellow&amp;quot;]&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;var&lt;/span&gt; colors2 = colorText.split(&lt;span class=&#34;string&#34;&gt;&amp;quot;,&amp;quot;&lt;/span&gt;, &lt;span class=&#34;number&#34;&gt;2&lt;/span&gt;);   &lt;span class=&#34;comment&#34;&gt;//[&amp;quot;red&amp;quot;, &amp;quot;blue&amp;quot;]&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;var&lt;/span&gt; colors3 = colorText.split(&lt;span class=&#34;regexp&#34;&gt;/[^\,]+/&lt;/span&gt;); &lt;span class=&#34;comment&#34;&gt;//[&amp;quot;&amp;quot;, &amp;quot;,&amp;quot;, &amp;quot;,&amp;quot;, &amp;quot;,&amp;quot;, &amp;quot;&amp;quot;]&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+
+
+&lt;h3 id=&#34;3-7-localCompare-方法&#34;&gt;&lt;a href=&#34;#3-7-localCompare-方法&#34; class=&#34;headerlink&#34; title=&#34;3.7 localCompare()方法&#34;&gt;&lt;/a&gt;3.7 localCompare()方法&lt;/h3&gt;&lt;p&gt;比较两个字符串，返回下列的值中的一个：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;字母表顺序，顺序反了就返回-1，&lt;/li&gt;
+&lt;li&gt;等于字符串参数， 返回0&lt;/li&gt;
+&lt;li&gt;字母表顺序，顺序正着的就返回1&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure class=&#34;highlight js&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;20&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;var&lt;/span&gt; stringValue = &lt;span class=&#34;string&#34;&gt;&amp;quot;yellow&amp;quot;&lt;/span&gt;;       &lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;alert(stringValue.localeCompare(&lt;span class=&#34;string&#34;&gt;&amp;quot;brick&amp;quot;&lt;/span&gt;));  &lt;span class=&#34;comment&#34;&gt;//1&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;alert(stringValue.localeCompare(&lt;span class=&#34;string&#34;&gt;&amp;quot;yellow&amp;quot;&lt;/span&gt;)); &lt;span class=&#34;comment&#34;&gt;//0&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;alert(stringValue.localeCompare(&lt;span class=&#34;string&#34;&gt;&amp;quot;zoo&amp;quot;&lt;/span&gt;));    &lt;span class=&#34;comment&#34;&gt;//-1&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;        &lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;comment&#34;&gt;//preferred technique for using localeCompare()&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;function&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;title&#34;&gt;determineOrder&lt;/span&gt;(&lt;span class=&#34;params&#34;&gt;value&lt;/span&gt;) &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    &lt;span class=&#34;keyword&#34;&gt;var&lt;/span&gt; result = stringValue.localeCompare(value);&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    &lt;span class=&#34;keyword&#34;&gt;if&lt;/span&gt; (result &amp;lt; &lt;span class=&#34;number&#34;&gt;0&lt;/span&gt;)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;        alert(&lt;span class=&#34;string&#34;&gt;&amp;quot;The string &amp;#x27;yellow&amp;#x27; comes before the string &amp;#x27;&amp;quot;&lt;/span&gt; + value + &lt;span class=&#34;string&#34;&gt;&amp;quot;&amp;#x27;.&amp;quot;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    &amp;#125; &lt;span class=&#34;keyword&#34;&gt;else&lt;/span&gt; &lt;span class=&#34;keyword&#34;&gt;if&lt;/span&gt; (result &amp;gt; &lt;span class=&#34;number&#34;&gt;0&lt;/span&gt;) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;        alert(&lt;span class=&#34;string&#34;&gt;&amp;quot;The string &amp;#x27;yellow&amp;#x27; comes after the string &amp;#x27;&amp;quot;&lt;/span&gt; + value + &lt;span class=&#34;string&#34;&gt;&amp;quot;&amp;#x27;.&amp;quot;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    &amp;#125; &lt;span class=&#34;keyword&#34;&gt;else&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;        alert(&lt;span class=&#34;string&#34;&gt;&amp;quot;The string &amp;#x27;yellow&amp;#x27; is equal to the string &amp;#x27;&amp;quot;&lt;/span&gt; + value + &lt;span class=&#34;string&#34;&gt;&amp;quot;&amp;#x27;.&amp;quot;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;        &lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;determineOrder(&lt;span class=&#34;string&#34;&gt;&amp;quot;brick&amp;quot;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;determineOrder(&lt;span class=&#34;string&#34;&gt;&amp;quot;yellow&amp;quot;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;determineOrder(&lt;span class=&#34;string&#34;&gt;&amp;quot;zoo&amp;quot;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;"> <!-- TODO: truncate -->
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="atom.xml" rel="alternate" title="Amorki&#39;s" type="application/atom+xml">
+	<link href="/favicon.ico" rel="shortcut icon">
+    <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+    <link href="/stylesheets/custom.css" media="screen, projection" rel="stylesheet" type="text/css">
+    <link href="/stylesheets/hljs.css" media="screen, projection" rel="stylesheet" type="text/css">
+
+    <link href='//fonts.googleapis.com/css?family=Slackey' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Amethysta' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![}]-->
+
+    <script type="text/javascript" src="/javascripts/jquery-tapir.js"></script>
+
+    <!-- remove or comment it to disable ajaxification -->   
+    <!-- <script src="/javascripts/ajaxify.js"></script> -->
+
+    
+
+    
+
+<meta name="generator" content="Hexo 5.0.0"></head>
+
+
+<body>
+    <div id="wrapper">
+    <header id="header" class="inner"><!-- for more effects see _animate.scss -->
+<h1 class="animated bounceInDown">
+    <div id="headerbg">
+        Amorki&#39;s
+    </div>
+</h1>
+<span class="subtitle"></span>
+<br>
+
+<ul id="social-links" style="text-align:center; clear:both;">
+    
+        <!-- GitHub -->
+        <li>
+            <a target="_blank" rel="noopener" href="https://github.com/amorkiki" class="github" title="Github"></a>
+        </li>
+        
+            
+                    
+                        <!-- Facebook -->
+                        <li>
+                            <a target="_blank" rel="noopener" href="http://www.facebook.com/kiki.wu.92167789" class="facebook" title="Facebook"></a>
+                        </li>
+                        
+                            
+                                <!-- Twitter -->
+                                <li>
+                                    <a target="_blank" rel="noopener" href="http://www.twitter.com/BENICEXKiki" class="twitter" title="Twitter"></a>
+                                </li>
+                                
+                                    
+                                            
+                                                    
+                                                            
+                                                                <!-- Instagram -->
+                                                                <li>
+                                                                    <a target="_blank" rel="noopener" href="http://www.instagram.com/wuuuuuujt" class="instagram" title="Instagram"></a>
+                                                                </li>
+
+                                                                
+</ul>
+
+<!-- use full url including 'index.html' for navigation bar if you are using ajax -->
+<ul id="nav">
+	<li id="ajax"><a href="/index.html">Home</a></li>
+	<li id="ajax"><a href="/archives/index.html">Archives</a></li>
+	<li id="ajax"><a href="/tags/index.html">Tags</a></li>
+    <li><a href="/atom.xml">RSS</a></li>
+    
+    <li>
+    <div id="dark">
+        <form action="//www.google.com.hk/search" method="get" accept-charset="UTF-8" id="search">
+            <input type="hidden" name="sitesearch" value="http://yoursite.com" />
+            <input type="text" name="q" results="0" placeholder="Search..." x-webkit-speech />
+        </form>
+    </div>
+    </li>
+        
+</ul>
+
+
+
+
+</header>
+
+<div id="toload">
+<!-- begin toload -->
+    <div id="content" class="inner">
+        <article class="post">
+	<h2 class="title">JS高级_ReadNotes-chap5</h2>
+    <div class="meta">
+        <div class="date">Published on: <time datetime="2019-05-03T12:09:27.000Z" itemprop="datePublished">May 3, 2019</time>
+</div>
+        <div class="tags">Tags: 
+
+<a href="/tags/ReadNotes/">ReadNotes</a> <a href="/tags/JavaScript/">JavaScript</a>
+</div>
+    </div>
+	<div class="entry-content"><blockquote>
+<p>ECMAScript中，<code>引用类型</code>是一种数据结构，用于将数据和功能组织在一起。–（<code>类</code>）</p>
+<p>引用类型有时也被称为<code>对象定义</code>，—描述的是<u>一类对象所具有的属性和方法</u>。</p>
+<p><code>对象</code>是某个特定引用类型的<code>实例</code>。new一下~~</p>
+</blockquote>
+<h1 id="I-Object类型"><a href="#I-Object类型" class="headerlink" title="I Object类型"></a>I Object类型</h1><p>在应用程序中，储存和传递数据。</p>
+<h4 id="创建Object实例："><a href="#创建Object实例：" class="headerlink" title="创建Object实例："></a>创建Object实例：</h4><ol>
+<li>使用Object构造函数 ：var person = new Object();   = = var person = { }</li>
+<li>使用对象字面量： var person = { name : “Nicholas” , age : “21” }</li>
+</ol>
+<p><code>表达式上下文 expression context</code>  该上下文期待一个值（表达式）</p>
+<p><code>语句上下文 statement context</code>  if条件语句等</p>
+<p>※ ==在通过对象字面量定义对象时，不会调用Object构造函数==。</p>
+<p>※ 对象字面量是向函数传递大量参数的首选： 函数传参时，对必须值使用命名参数，用对象字面量封装多个参数。</p>
+<h4 id="访问对象属性："><a href="#访问对象属性：" class="headerlink" title="访问对象属性："></a>访问对象属性：</h4><p>点表示法：  alert(person.name);</p>
+<p>方括号表示法： alert(person[‘name’]);</p>
+<p>※ 方括号优势：</p>
+<ul>
+<li>通过变量访问属性 ———</li>
+</ul>
+<p>​                var prototypeName = “name”;</p>
+<p>​                alert(person[prototypeName]);</p>
+<ul>
+<li><p>引用容易引起语法错误的字符、关键字或保留字</p>
+<p>​     person[“first name”] = “Nicholas”</p>
+</li>
+</ul>
+<h1 id="II-Array-类型"><a href="#II-Array-类型" class="headerlink" title="II  Array 类型"></a>II  Array 类型</h1><p>ECMAScript 数组的每一项都可以保存任何类型的数据。</p>
+<p>ECMAScript 数组的大小是可以动态调整的。</p>
+<h4 id="创建数组："><a href="#创建数组：" class="headerlink" title="创建数组："></a>创建数组：</h4><ol>
+<li>使用Array构造函数：  –new可以省略<br>var colors = new Array(20);    20是length<br>var colors = new Array(“red”, “blue”, “green”);  直接向构造函数传递参数</li>
+</ol>
+<ol start="2">
+<li>使用数组字面量：<br>var colors = [“red”, “blue”, “green”]<br>var colors = [ ]; </li>
+</ol>
+<h4 id="读取和设置数组的值："><a href="#读取和设置数组的值：" class="headerlink" title="读取和设置数组的值："></a>读取和设置数组的值：</h4><p>alert(colors[0]);</p>
+<p>colors[2]=”black”;   //修改第三项</p>
+<p>colors[3] =”yellow”;   //新增第四项</p>
+<h4 id="数组的length属性："><a href="#数组的length属性：" class="headerlink" title="数组的length属性："></a>数组的length属性：</h4><p>可读可写—–可以移除或添加数组末尾的项。—-改变数组长度</p>
+<p>数组最后一个索引为length-1</p>
+<p><code>colors[colors.length] = &quot;black&quot;;</code>    //在末尾添加black色</p>
+<h2 id="1-检测数值"><a href="#1-检测数值" class="headerlink" title="1. 检测数值"></a>1. 检测数值</h2><p>传统的instanceof操作符的问题—-假定只有一个全局执行环境，不适合多框架的开发环境</p>
+<p>↓</p>
+<h5 id="Array-isArray"><a href="#Array-isArray" class="headerlink" title="Array.isArray( )"></a><code>Array.isArray( )</code></h5><p>–最终确定某个值是不是数组，不论他是在哪个执行环境创建的。</p>
+<h2 id="2-转换方法"><a href="#2-转换方法" class="headerlink" title="2. 转换方法"></a>2. 转换方法</h2><p>所有对象都有：<code>toLocalString()</code> , <code>toString()</code> , <code>valueOf()</code>  方法</p>
+<p>↓</p>
+<p>调用<code>valueOf()</code> 返回数组本身</p>
+<p>调用 <code>toString()</code>  返回的数组中的每个值都是字符串  </p>
+<p>调用<code>toLocalString()</code> 经常返回上述相同的值，不一定。</p>
+<p>↓</p>
+<p>还可使用<code>join()</code> 来使用其他的分隔符，join默认逗号分隔符。</p>
+<h2 id="3-栈方法"><a href="#3-栈方法" class="headerlink" title="3. 栈方法"></a>3. 栈方法</h2><p><code>栈</code>—– 一种LIFO（last-In-First-Out）的数据结构</p>
+<h5 id="push"><a href="#push" class="headerlink" title="push()"></a><code>push()</code></h5><p>–推入 : 接受任意数量参数，添加到数组末尾，<strong>返回新数组长度</strong></p>
+<h5 id="pop"><a href="#pop" class="headerlink" title="pop()"></a><code>pop()</code></h5><p>–弹出 ：从数组末尾移除最后一项，<strong>返回移除的项</strong></p>
+<h2 id="4-队列方法"><a href="#4-队列方法" class="headerlink" title="4. 队列方法"></a>4. 队列方法</h2><p><code>队列</code>—-一种FIFO（First-In-First-Out）的数据结构。</p>
+<h5 id="shift"><a href="#shift" class="headerlink" title="shift()"></a><code>shift()</code></h5><ul>
+<li>移除数组中第一项，<strong>返回移除的项</strong>   →  与push()相结合，就是队列的使用</li>
+</ul>
+<h5 id="unshift"><a href="#unshift" class="headerlink" title="unshift()"></a><code>unshift()</code></h5><ul>
+<li>在数组前端添加任意项，<strong>返回新数组长度</strong>   →  与pop()相结合</li>
+</ul>
+<h2 id="5-重排序方法"><a href="#5-重排序方法" class="headerlink" title="5. 重排序方法"></a>5. 重排序方法</h2><h5 id="reverse"><a href="#reverse" class="headerlink" title="reverse()"></a><code>reverse()</code></h5><ul>
+<li>—- 翻转数组</li>
+</ul>
+<h5 id="sort"><a href="#sort" class="headerlink" title="sort()"></a><code>sort()</code></h5><ul>
+<li><p>按升序排列数组想  ， 该方法会调用每个数组项的toString()转型，==比较字符串==，</p>
+</li>
+<li><p>会接受一个比较函数作为参数，通过比较：-1，0，1 确定顺序</p>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">compare</span> (<span class="params">value1,value2</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (value1 &lt; value2)&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">  &#125;<span class="keyword">else</span> <span class="keyword">if</span> (value1 &gt; value2) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">  &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> values =[<span class="number">10</span>,<span class="number">1</span>,<span class="number">15</span>,<span class="number">0</span>,<span class="number">5</span>];</span><br><span class="line">value.sort(compare);</span><br><span class="line">alert(values);  <span class="comment">//  0,1,5,10,15</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//按降序只要调整-1 和1 的位置就行</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//数值类型用简易比较函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">compare</span> (<span class="params">value1,value2</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> value2 - value1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-操作方法"><a href="#6-操作方法" class="headerlink" title="6. 操作方法"></a>6. 操作方法</h2><h5 id="concat"><a href="#concat" class="headerlink" title="concat()"></a><code>concat()</code></h5><ul>
+<li><p>基于当前数据中的所有项创建一个新数组。</p>
+</li>
+<li><p>先创建一个数组的副本，将接收到的参数添加至末尾，最后返回新构建的数组。</p>
+</li>
+</ul>
+<h5 id="slice"><a href="#slice" class="headerlink" title="slice()"></a><code>slice()</code></h5><ul>
+<li>基于当前数组中的一个或多个项创建新数组。 </li>
+<li>接受一个或两个参数，返回项的起始和结束位置，不包括结束位置；只有一个参数，到数组末尾</li>
+<li>不影响原始数组</li>
+<li>若参数为负数，则加上数组长度后再计算</li>
+</ul>
+<h5 id="splice"><a href="#splice" class="headerlink" title="splice()"></a><code>splice()</code></h5><ul>
+<li>删除—2个参数：要删除的第一项 ， 要删除的项数</li>
+<li>插入—3个参数，起始位置， 0（要要删除的项数），要插入的任意数量的项</li>
+<li>替换—3个参数，起始位置，要删除的项数，要插入的任意数量的项</li>
+</ul>
+<h2 id="7-位置方法"><a href="#7-位置方法" class="headerlink" title="7. 位置方法"></a>7. 位置方法</h2><h5 id="indexOf"><a href="#indexOf" class="headerlink" title="indexOf()"></a><code>indexOf()</code></h5><ul>
+<li>接收2个参数：要查找的项， 查找起点索引号</li>
+<li>从数组开头向后查找</li>
+<li>返回查找项在数组中的位置，没找到返回-1</li>
+<li>必须是严格相等 ===</li>
+</ul>
+<h5 id="lastIndextOf"><a href="#lastIndextOf" class="headerlink" title="lastIndextOf()"></a><code>lastIndextOf()</code></h5><ul>
+<li>接收2个参数：要查找的项， 查找起点索引号</li>
+<li>从数组末尾向前查找</li>
+<li>返回查找项在数组中的位置，没找到返回-1</li>
+<li>必须是严格相等 ===</li>
+</ul>
+<h2 id="8-迭代方法"><a href="#8-迭代方法" class="headerlink" title="8. 迭代方法"></a>8. 迭代方法</h2><p>每个方法都是：接收2个参数：要在每一项上运行的函数，(可选)运行该函数的作用域对象（影响this的值）；</p>
+<p>传入的函数接收3个参数：数组项的值item，该项的位置index，数组对象本身array</p>
+<h5 id="every"><a href="#every" class="headerlink" title="every()"></a><code>every()</code></h5><ul>
+<li>在每一项运行传入的函数，该函数每一项都返回true，则返回true。</li>
+</ul>
+<h5 id="filter"><a href="#filter" class="headerlink" title="filter()"></a><code>filter()</code></h5><ul>
+<li>在每一项运行传入的函数，把该函数返回true的项组成数组并返回。</li>
+</ul>
+<h5 id="forEach"><a href="#forEach" class="headerlink" title="forEach()"></a><code>forEach()</code></h5><ul>
+<li>在每一项运行传入的函数，没有返回值。</li>
+</ul>
+<h5 id="map"><a href="#map" class="headerlink" title="map()"></a><code>map()</code></h5><ul>
+<li>在每一项运行传入的函数，把该函数在每一项上调用的结果组成数组并返回。</li>
+</ul>
+<h5 id="some"><a href="#some" class="headerlink" title="some()"></a><code>some()</code></h5><ul>
+<li>在每一项运行传入的函数，该函数对任意项返回true，则返回true。</li>
+</ul>
+<h2 id="9-归并方法"><a href="#9-归并方法" class="headerlink" title="9. 归并方法"></a>9. 归并方法</h2><p>迭代数组中的所有项，构建一个最终返回的值。</p>
+<p>都接收2个参数：在每项上调用的函数， （可选）作为归并基础的初始值</p>
+<p>传入的函数接收4个参数： 前一个值prev、当前值cur、项的索引index、数组对象array</p>
+<h5 id="reduce"><a href="#reduce" class="headerlink" title="reduce()"></a><code>reduce()</code></h5><ul>
+<li>从数组第一项开始遍历</li>
+</ul>
+<h5 id="reduceRight"><a href="#reduceRight" class="headerlink" title="reduceRight()"></a><code>reduceRight()</code></h5><ul>
+<li>从数组最后一项开始遍历</li>
+</ul>
+<h1 id="III-Date类型"><a href="#III-Date类型" class="headerlink" title="III Date类型"></a>III Date类型</h1><h5 id="Date-parse"><a href="#Date-parse" class="headerlink" title="Date.parse()"></a><code>Date.parse()</code></h5><ul>
+<li><p>接收一个表示日期的字符串参数，返回相应日期<strong>毫秒数</strong></p>
+</li>
+<li><p>传入字符串不能表示日期，则返回NaN</p>
+<p>var someDate = new Date(Date.parse(“May 25, 2004”));<br>其实后台会自动调用Date.parse()</p>
+</li>
+</ul>
+<h5 id="Date-UTC"><a href="#Date-UTC" class="headerlink" title="Date.UTC()"></a><code>Date.UTC()</code></h5><ul>
+<li>接收的参数格式为： 年，月（基于0），日，时，分，秒  –前两个必填</li>
+</ul>
+<h5 id="Date-now"><a href="#Date-now" class="headerlink" title="Date.now()"></a><code>Date.now()</code></h5><ul>
+<li>返回调用该方法时的毫秒数</li>
+<li>var start =  +new Date();    使用+操作符 可以获取时间戳，达到同样效果</li>
+</ul>
+<h2 id="1-继承的方法"><a href="#1-继承的方法" class="headerlink" title="1. 继承的方法"></a>1. 继承的方法</h2><p>toLocalString()  和 toString() 的返回值问题</p>
+<h2 id="2-日期格式化方法"><a href="#2-日期格式化方法" class="headerlink" title="2. 日期格式化方法"></a>2. 日期格式化方法</h2><h5 id="toDateString"><a href="#toDateString" class="headerlink" title="toDateString"></a><code>toDateString</code></h5><ul>
+<li>以特定于现实的格式显示：星期、月、日、年</li>
+</ul>
+<h5 id="toTimeString"><a href="#toTimeString" class="headerlink" title="toTimeString"></a><code>toTimeString</code></h5><ul>
+<li>以特定于现实的格式显示：时、分、秒、时区</li>
+</ul>
+<h5 id="toLocalDateString"><a href="#toLocalDateString" class="headerlink" title="toLocalDateString"></a><code>toLocalDateString</code></h5><ul>
+<li>以特定于地区的格式显示：星期、月、日、年</li>
+</ul>
+<h5 id="toLocalTimeString"><a href="#toLocalTimeString" class="headerlink" title="toLocalTimeString"></a><code>toLocalTimeString</code></h5><ul>
+<li>以特定于地区的格式显示：时、分、秒、时区</li>
+</ul>
+<h5 id="toUTCString"><a href="#toUTCString" class="headerlink" title="toUTCString"></a><code>toUTCString</code></h5><ul>
+<li>以特定于现实的格式显示：完整的UTC日期</li>
+</ul>
+<h2 id="3-日期-时间组件方法"><a href="#3-日期-时间组件方法" class="headerlink" title="3. 日期/时间组件方法"></a>3. 日期/时间组件方法</h2><h1 id="IV-RegExp类型"><a href="#IV-RegExp类型" class="headerlink" title="IV RegExp类型"></a>IV RegExp类型</h1><p>正则表达式的匹配模式：</p>
+<ul>
+<li>g ：全局模式</li>
+<li>i ：不区分大小写</li>
+<li>m ：多行模式</li>
+</ul>
+<p>正则表达式中的元字符：</p>
+<p>(     [    {    \    ^    $    |    )    ?    *    +    .    }    ]</p>
+<p>–所有元字符都必须转义。</p>
+<p>定义：</p>
+<ul>
+<li><p>字面量方式： var pattern = /·······/g</p>
+</li>
+<li><p>RegExp构造函数：<br>接收2个参数： 要匹配的字符串模式，可选的标志字符串</p>
+<p>var pattern = / [bc]at/i ;</p>
+<p>var pattern = new RegExp (“ [bc]at “ , “ i “) ;</p>
+<p>接收的这2个参数都是字符串，在一些情况下要对其进行双重转义。</p>
+<table>
+<thead>
+<tr>
+<th>字面量模式</th>
+<th>等价的字符串</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/\[bc\]at/</code></td>
+<td><code>&quot;\\[bc\\]at&quot;</code></td>
+</tr>
+<tr>
+<td><code>/\.at/</code></td>
+<td><code>&quot;\\.at&quot;</code></td>
+</tr>
+<tr>
+<td><code>/name\/age/</code></td>
+<td><code>&quot;name\\/age&quot;</code></td>
+</tr>
+<tr>
+<td><code>/\d.\d&#123;1,2&#125;/</code></td>
+<td><code>&quot;\\d.\\d&#123;1,2&#125;&quot;</code></td>
+</tr>
+<tr>
+<td><code>/\w\\hello\\123/</code></td>
+<td><code>&quot;\\w\\\\hello\\\\123&quot;</code></td>
+</tr>
+<tr>
+<td><code>/\n/</code></td>
+<td><code>&quot;\\\\&quot;</code></td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<p>在ECMAScript3：</p>
+<ul>
+<li>正则表达式字面量始终会共享一个RegExp实例</li>
+<li>用构造函数创建的每个新RegExp实例都是一个新实例</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> re = <span class="literal">null</span>,</span><br><span class="line">    i;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(i=<span class="number">0</span>; i&lt;<span class="number">10</span>; i++)&#123;</span><br><span class="line">  re = <span class="regexp">/cat/g</span>;</span><br><span class="line">  re.test(<span class="string">&quot;catastrophe&quot;</span>);  <span class="comment">//第二次迭代时调用test会失败，这里只有一个RegExp实例，</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(i=<span class="number">0</span>; i&lt;<span class="number">10</span>; i++)&#123;</span><br><span class="line">  re = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">&quot;cat&quot;</span> , <span class="string">&quot;g&quot;</span>);</span><br><span class="line">  re.test(<span class="string">&quot;catastrophe&quot;</span>); <span class="comment">//每次迭代都会创建新的RegExp实例，每调用都会返回true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="1-RegExp实例类型"><a href="#1-RegExp实例类型" class="headerlink" title="1. RegExp实例类型"></a>1. RegExp实例类型</h2><p><code>global</code> —-布尔值。是否设置g标志</p>
+<p><code>ignoreCase</code>  —-布尔值。是否设置i标志</p>
+<p><code>lastIndex  </code> —-整数。开始搜索下一个匹配项的字符位置，从0算起</p>
+<p><code>multiline</code>  —-布尔值。是否设置m标志</p>
+<p><code>source</code>  —-正则表达式的字符串表示，按字面量形式，而非构造函数中的字符串模式返回</p>
+<h2 id="2-RegExp实例方法"><a href="#2-RegExp实例方法" class="headerlink" title="2. RegExp实例方法"></a>2. RegExp实例方法</h2><h5 id="exec"><a href="#exec" class="headerlink" title="exec( )"></a><code>exec( )</code></h5><p>RegExp对象的主要方法—exec( )—专门为捕获组设计的。</p>
+<ul>
+<li>接受一个参数，–要应用模式的字符串。</li>
+<li>返回包含第一个匹配项信息的数组。没有则返回null</li>
+<li>返回的数组时Array的实例，且还包含，index和input属性</li>
+</ul>
+<h2 id="3-RegExp构造函数属性"><a href="#3-RegExp构造函数属性" class="headerlink" title="3. RegExp构造函数属性"></a>3. RegExp构造函数属性</h2><h2 id="4-模式的局限性"><a href="#4-模式的局限性" class="headerlink" title="4.模式的局限性"></a>4.模式的局限性</h2><h1 id="V-Function-类型"><a href="#V-Function-类型" class="headerlink" title="V Function 类型"></a>V Function 类型</h1><p>每个函数都是Function类型的实例，具有属性和方法。</p>
+<p>==函数名 实际上是指向函数对象的指针，不会与某个函数绑定。==</p>
+<p>==一个函数可能由多个名字。==</p>
+<p>==使用不带括号的函数名，不是调用函数，而是访问指针==</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sum</span>(<span class="params">num1, num2</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> num1+num2;</span><br><span class="line">&#125;</span><br><span class="line">alert sum(<span class="number">10</span>,<span class="number">20</span>);  <span class="comment">//30</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> anotherSum = sum;</span><br><span class="line">alert anotherSum(<span class="number">10</span>,<span class="number">20</span>);  <span class="comment">//30</span></span><br><span class="line"></span><br><span class="line">sum = <span class="literal">null</span>;</span><br><span class="line">alert anotherSum(<span class="number">10</span>,<span class="number">20</span>);  <span class="comment">//30    即使让sum与函数断绝关系，仍可以正常调用函数anotherSum()</span></span><br></pre></td></tr></table></figure>
+
+<p>函数定义：</p>
+<ul>
+<li><p>函数声明法： function sum (num1, num2) {  return num1 + num2 }</p>
+</li>
+<li><p>函数表达式:    var sum = function (num1, num2) {  return num1 + num2 } ;   ☞这里的分号就像声明其他的变量的格式一样</p>
+</li>
+<li><p>Function构造函数（不推荐）</p>
+</li>
+</ul>
+<h2 id="1-没有重载（深入）"><a href="#1-没有重载（深入）" class="headerlink" title="1. 没有重载（深入）"></a>1. 没有重载（深入）</h2><p>后面的函数会覆盖前面的函数—-函数名只是指针。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addSomeNumber</span> (<span class="params">num</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> num +<span class="number">100</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addSomeNumber</span> (<span class="params">num</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> num +<span class="number">200</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> result = addSomeNumber(<span class="number">100</span>);  <span class="comment">//300</span></span><br><span class="line"></span><br><span class="line">↓</span><br><span class="line">↓</span><br><span class="line">↓</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> addSomeNumber =<span class="function"><span class="keyword">function</span>(<span class="params">num</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> num +<span class="number">100</span>;</span><br><span class="line">&#125;</span><br><span class="line">addSomeNumber =<span class="function"><span class="keyword">function</span>(<span class="params">num</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> num +<span class="number">200</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> result = addSomeNumber(<span class="number">100</span>);  <span class="comment">//300</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="2-函数声明于函数表达式"><a href="#2-函数声明于函数表达式" class="headerlink" title="2. 函数声明于函数表达式"></a>2. 函数声明于函数表达式</h2><p>预解析问题</p>
+<p>↓</p>
+<p>解析器会率先读取函数声明（函数声明提升–function declaration hoisting）</p>
+<h2 id="3-作为值的函数"><a href="#3-作为值的函数" class="headerlink" title="3. 作为值的函数"></a>3. 作为值的函数</h2><p>函数可以作为值来调用，因为函数名本身就是变量。</p>
+<ul>
+<li>把一个函数传递给另一个函数 （可以传进去）</li>
+<li>将一个函数作为另一个函数的结果返回  （也可以return出来）</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">callSomeFunction</span>(<span class="params">someFUnction, someArguments</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> someFUnction(someArguments);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createComparisonFuncion</span>(<span class="params">propertyName</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">object1, object2</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> value1 = object1[propertyName];</span><br><span class="line">    <span class="keyword">var</span> value2 = object2[propertyName];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(value1 &lt; value2)&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span> (value1 &gt; value2)&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> =;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> data = [&#123;<span class="attr">name</span>:<span class="string">&quot;Nicholas&quot;</span>, <span class="attr">age</span>:<span class="number">28</span>&#125;, &#123;<span class="attr">name</span>:<span class="string">&quot;Greg&quot;</span>, <span class="attr">age</span>:<span class="number">29</span>&#125;];</span><br><span class="line"></span><br><span class="line">data.sort(createComparisonFunction(<span class="string">&quot;name&quot;</span>));</span><br><span class="line">alert(data[<span class="number">0</span>].name);   <span class="comment">//Nicholas</span></span><br><span class="line"></span><br><span class="line">data.sort(createComparisonFunction(<span class="string">&quot;age&quot;</span>));</span><br><span class="line">alert(data[<span class="number">1</span>].name);   <span class="comment">//Greg</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="4-函数内部属性"><a href="#4-函数内部属性" class="headerlink" title="4. 函数内部属性"></a>4. 函数内部属性</h2><p>函数内部有两个特殊的对象： <code>arguments</code>    <code>this</code></p>
+<p>arguments 对象有个 <code>callee</code>属性， 他是一个指针，指向拥有这个arguments对象的函数</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//递归函数中的阶乘</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">factorial</span>(<span class="params">num</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(num&lt;=<span class="number">1</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">  &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> num * <span class="built_in">arguments</span>.callee(num<span class="number">-1</span>);   <span class="comment">//消除耦合</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> trueFactorial = factorial;  <span class="comment">//获得factorial函数指针</span></span><br><span class="line"></span><br><span class="line">factorial = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;  <span class="comment">//factorial变为0， 但这与trueFactorial无关</span></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">alert(trueFactorial(<span class="number">5</span>)) ; <span class="comment">//120</span></span><br><span class="line">alert(factorial(<span class="number">5</span>));  <span class="comment">//0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//若没有用arguments.callee消除耦合，那么trueFactorial会返回0</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>关于<code>this</code>：</p>
+<p>==函数名字仅仅是包含指针的一个变量而已，即使在不同环境中执行，全局的sayColor()函数和obj.sayColor()指向的仍然是同一个函数。==</p>
+<p><code>caller</code>属性–其中保存着调用当前函数的函数的引用，如果是在全局作用域中调用当前函数，他的值为null。</p>
+<h2 id="5-函数属性和方法"><a href="#5-函数属性和方法" class="headerlink" title="5. 函数属性和方法"></a>5. 函数属性和方法</h2><h5 id="每个函数都包含两个属性："><a href="#每个函数都包含两个属性：" class="headerlink" title="每个函数都包含两个属性："></a>每个函数都包含两个属性：</h5><p><code>length</code>     –函数希望接受的命名参数的个数</p>
+<p><code>prototype </code>  –是保存所有实例和方法的真实存在。此属性不可枚举，用for-in 无法发现</p>
+<h5 id="每个函数都包含两个非继承而来的方法："><a href="#每个函数都包含两个非继承而来的方法：" class="headerlink" title="每个函数都包含两个非继承而来的方法："></a>每个函数都包含两个非继承而来的方法：</h5><p><code>apply()</code>  接受两个参数， 运行函数的作用域，参数数组（可以是Array实例，也可是arguments对象）</p>
+<p><code>call()</code>  :  接受两个参数， 运行函数的作用域，参数的一一列举</p>
+<p>==apply( ) 和call( )   能够扩充函数赖以运行的作用域==  —-改变this指向—使对象不需要与方法有任何耦合关系</p>
+<p><code>bind()</code>   创建一个函数的实例，其this的值会被绑定到传给bind()的值</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.color = <span class="string">&quot;red&quot;</span>;</span><br><span class="line"><span class="keyword">var</span> o =&#123;<span class="attr">color</span>: <span class="string">&quot;blue&quot;</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sayColor</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  alert(<span class="built_in">this</span>.color);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> objectSayColor = sayColor.bind(o);      <span class="comment">//这里this值变为o</span></span><br><span class="line">objectSayColor();   <span class="comment">//blue</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="VI-基本包装类型"><a href="#VI-基本包装类型" class="headerlink" title="VI 基本包装类型"></a>VI 基本包装类型</h1><p>没读取一个基本类型值时，后台就会相应创建一个基本包装类型的对象，让我们可以调用一些方法来操作他们。</p>
+<p>步骤：</p>
+<p>创建一个实例</p>
+<p>↓</p>
+<p>在实力上调用指定的方法</p>
+<p>↓</p>
+<p>销毁这个实例</p>
+<ul>
+<li><p>引用类型与基本包装类型 主要区别：  对象生存期。</p>
+<ul>
+<li>new出来的引用实例：在执行流离开当前作用域之前一直保存在内存中。</li>
+<li>自动创建的基本包装类型对象：只存在于一行代码执行瞬间，然后被立即销毁。</li>
+</ul>
+</li>
+<li><p>对基本包装类型的实例调用typeof—-返回object</p>
+</li>
+<li><p>所有基本包装类型的对象在转换为布尔值类型是值都是true</p>
+</li>
+<li><p>new出来的构造函数和直接调用的同名转型函数是不一样滴~</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> value = <span class="number">25</span>;</span><br><span class="line"><span class="keyword">var</span> number = <span class="built_in">Number</span>(value);   <span class="comment">//转型函数--保存的是值</span></span><br><span class="line">alert(<span class="keyword">typeof</span> number) ;       <span class="comment">//number</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> obj = <span class="keyword">new</span> <span class="built_in">Number</span>(value);    <span class="comment">//构造函数 --保存的是对象实例</span></span><br><span class="line">alert(<span class="keyword">typeof</span> obj);    <span class="comment">//object</span></span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<h2 id="1-Boolean类型"><a href="#1-Boolean类型" class="headerlink" title="1. Boolean类型"></a>1. Boolean类型</h2><p>是与布尔值对应的引用类型。不建议使用Boolean对象。用处不大，容易造成误解</p>
+<h2 id="2-Number类型"><a href="#2-Number类型" class="headerlink" title="2. Number类型"></a>2. Number类型</h2><p>是与数字值对应的引用类型。不建议使用Number对象</p>
+<p>Number类型提供了一些用于将数值格式化为字符串的方法：</p>
+<p><code>toFixed()</code>  按照指定小数位返回数值的字符串表示 （会四舍五入）—适用于处理货币值</p>
+<p><code>toExponential()</code>   返回质数表示法（e表示法）的字符串表示 </p>
+<p><code>toPrecision ()</code>  需要得到表示某个数值的最合适的方法，可能会返回上述两个格式的一种</p>
+<h2 id="3-String类型"><a href="#3-String类型" class="headerlink" title="3. String类型"></a>3. String类型</h2><p>字符串的对象包装类型。</p>
+<p>每个实例都有一个length属性，表示字符串中包含的字符个数。</p>
+<h3 id="3-1-字符方法"><a href="#3-1-字符方法" class="headerlink" title="3.1 字符方法"></a>3.1 字符方法</h3><p>访问字符串中特定字符：</p>
+<p><code>charAt()</code>    –接受一个参数index，一单字字符串形式返回</p>
+<p><code>charCodeAt()</code>     –接受一个参数index，返回字符的编码</p>
+<p>也可以直接用[index]来查找</p>
+<h3 id="3-2-字符串操作方法"><a href="#3-2-字符串操作方法" class="headerlink" title="3.2 字符串操作方法"></a>3.2 字符串操作方法</h3><p><code>concat()</code>   –拼接一个或多个字符串，返回新的字符串， 不改变原字符串。但在现实中，大多用+号</p>
+<p><code>slice()</code>    –2个参数，开始和结束的位置。不包括最后一位；不改变原字符串</p>
+<p><code>substr() </code>  – 2个参数，开始和的位置和要返回的字符串个数。不改变原字符串</p>
+<p><code>substring() </code>  –2个参数，开始和结束的位置。不包括最后一位；不改变原字符串</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> stringValue = <span class="string">&quot;hello world&quot;</span>;</span><br><span class="line">alert(stringValue.slice(<span class="number">3</span>));        <span class="comment">//&quot;lo world&quot;</span></span><br><span class="line">alert(stringValue.substring(<span class="number">3</span>));    <span class="comment">//&quot;lo world&quot;</span></span><br><span class="line">alert(stringValue.substr(<span class="number">3</span>));       <span class="comment">//&quot;lo world&quot;</span></span><br><span class="line">alert(stringValue.slice(<span class="number">3</span>, <span class="number">7</span>));     <span class="comment">//&quot;lo w&quot;</span></span><br><span class="line">alert(stringValue.substring(<span class="number">3</span>,<span class="number">7</span>));  <span class="comment">//&quot;lo w&quot;</span></span><br><span class="line">alert(stringValue.substr(<span class="number">3</span>, <span class="number">7</span>));    <span class="comment">//&quot;lo worl&quot;</span></span><br><span class="line">        </span><br><span class="line">alert(stringValue.slice(<span class="number">-3</span>));         <span class="comment">//&quot;rld&quot;   =slice(8)</span></span><br><span class="line">alert(stringValue.substring(<span class="number">-3</span>));     <span class="comment">//&quot;hello world&quot;    将-3转换成了0</span></span><br><span class="line">alert(stringValue.substr(<span class="number">-3</span>));        <span class="comment">//&quot;rld&quot;</span></span><br><span class="line">alert(stringValue.slice(<span class="number">3</span>, <span class="number">-4</span>));      <span class="comment">//&quot;lo w&quot;</span></span><br><span class="line">alert(stringValue.substring(<span class="number">3</span>, <span class="number">-4</span>));  <span class="comment">//&quot;hel&quot;</span></span><br><span class="line">alert(stringValue.substr(<span class="number">3</span>, <span class="number">-4</span>));     <span class="comment">//&quot;&quot; (empty string)</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="3-3-字符串位置方法"><a href="#3-3-字符串位置方法" class="headerlink" title="3.3 字符串位置方法"></a>3.3 字符串位置方法</h3><p><code>indexOf()</code></p>
+<p><code>lastIndexOf()</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> stringValue = <span class="string">&quot;hello world&quot;</span>;</span><br><span class="line">alert(stringValue.indexOf(<span class="string">&quot;o&quot;</span>));         <span class="comment">//4</span></span><br><span class="line">alert(stringValue.lastIndexOf(<span class="string">&quot;o&quot;</span>));     <span class="comment">//7</span></span><br><span class="line">alert(stringValue.indexOf(<span class="string">&quot;o&quot;</span>, <span class="number">6</span>));         <span class="comment">//7   从w开始向后</span></span><br><span class="line">alert(stringValue.lastIndexOf(<span class="string">&quot;o&quot;</span>, <span class="number">6</span>));     <span class="comment">//4    从w开始向前</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> stringValue = <span class="string">&quot;Lorem ipsum dolor sit amet, consectetur adipisicing elit&quot;</span>;</span><br><span class="line"><span class="keyword">var</span> positions = <span class="keyword">new</span> <span class="built_in">Array</span>();</span><br><span class="line"><span class="keyword">var</span> pos = stringValue.indexOf(<span class="string">&quot;e&quot;</span>);</span><br><span class="line">        </span><br><span class="line"><span class="keyword">while</span>(pos &gt; <span class="number">-1</span>)&#123;</span><br><span class="line">    positions.push(pos);</span><br><span class="line">    pos = stringValue.indexOf(<span class="string">&quot;e&quot;</span>, pos + <span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line">    </span><br><span class="line">alert(positions);    <span class="comment">//&quot;3,24,32,35,52&quot;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="3-4-trim-方法"><a href="#3-4-trim-方法" class="headerlink" title="3.4 trim()方法"></a>3.4 trim()方法</h3><p>创建副本，删除两端空格， 返回结果，不改变原字符串</p>
+<h3 id="3-5-字符串大小写转换方法"><a href="#3-5-字符串大小写转换方法" class="headerlink" title="3.5 字符串大小写转换方法"></a>3.5 字符串大小写转换方法</h3><p><code>toLowerCase()</code></p>
+<p><code>toUpperCase()</code></p>
+<p><code>toLocalLowerCase()</code></p>
+<p><code>toLocalUpperCase()</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> stringValue = <span class="string">&quot;hello world&quot;</span>;</span><br><span class="line">alert(stringValue.toLocaleUpperCase());  <span class="comment">//&quot;HELLO WORLD&quot;</span></span><br><span class="line">alert(stringValue.toUpperCase());        <span class="comment">//&quot;HELLO WORLD&quot;</span></span><br><span class="line">alert(stringValue.toLocaleLowerCase());  <span class="comment">//&quot;hello world&quot;</span></span><br><span class="line">alert(stringValue.toLowerCase());        <span class="comment">//&quot;hello world&quot;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="3-6-字符串模式匹配方法"><a href="#3-6-字符串模式匹配方法" class="headerlink" title="3.6 字符串模式匹配方法"></a>3.6 字符串模式匹配方法</h3><p><code>match()</code>  –接收一个正则参数，本质上与调用RegExp上的exec()方法相同</p>
+<p><code>search()</code>   –接收一个正则参数，返回第一个匹配的索引，没有则返回-1</p>
+<p><code>replace()</code>  –接收2个参数，正则参数，字符串或函数， </p>
+<p><code>splite()</code>  –基于指定的分隔符将一个字符串分割，并放到数组里</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> text = <span class="string">&quot;cat, bat, sat, fat&quot;</span>; </span><br><span class="line"><span class="keyword">var</span> pattern = <span class="regexp">/.at/</span>;</span><br><span class="line">        </span><br><span class="line"><span class="keyword">var</span> matches = text.match(pattern);        </span><br><span class="line">alert(matches.index);        <span class="comment">//0</span></span><br><span class="line">alert(matches[<span class="number">0</span>]);           <span class="comment">//&quot;cat&quot;</span></span><br><span class="line">alert(pattern.lastIndex);    <span class="comment">//0</span></span><br><span class="line"><span class="keyword">var</span> pos = text.search(<span class="regexp">/at/</span>);</span><br><span class="line">alert(pos);   <span class="comment">//1</span></span><br><span class="line"><span class="keyword">var</span> result = text.replace(<span class="string">&quot;at&quot;</span>, <span class="string">&quot;ond&quot;</span>);</span><br><span class="line">alert(result);    <span class="comment">//&quot;cond, bat, sat, fat&quot;</span></span><br><span class="line">result = text.replace(<span class="regexp">/at/g</span>, <span class="string">&quot;ond&quot;</span>);</span><br><span class="line">alert(result);    <span class="comment">//&quot;cond, bond, sond, fond&quot;</span></span><br><span class="line">result = text.replace(<span class="regexp">/(.at)/g</span>, <span class="string">&quot;word ($1)&quot;</span>);</span><br><span class="line">alert(result);    <span class="comment">//word (cat), word (bat), word (sat), word (fat)</span></span><br><span class="line">        </span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">htmlEscape</span>(<span class="params">text</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> text.replace(<span class="regexp">/[&lt;&gt;&quot;&amp;]/g</span>, <span class="function"><span class="keyword">function</span>(<span class="params">match, pos, originalText</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">switch</span>(match)&#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;&lt;&quot;</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="string">&quot;&amp;lt;&quot;</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;&gt;&quot;</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="string">&quot;&amp;gt;&quot;</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;&amp;&quot;</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="string">&quot;&amp;amp;&quot;</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;\&quot;&quot;</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="string">&quot;&amp;quot;&quot;</span>;</span><br><span class="line">        &#125;             </span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line">        </span><br><span class="line">alert(htmlEscape(<span class="string">&quot;&lt;p class=\&quot;greeting\&quot;&gt;Hello world!&lt;/p&gt;&quot;</span>)); <span class="comment">//&amp;lt;p class=&amp;quot;greeting&amp;quot;&amp;g</span></span><br><span class="line"><span class="keyword">var</span> colorText = <span class="string">&quot;red,blue,green,yellow&quot;</span>;</span><br><span class="line"><span class="keyword">var</span> colors1 = colorText.split(<span class="string">&quot;,&quot;</span>);      <span class="comment">//[&quot;red&quot;, &quot;blue&quot;, &quot;green&quot;, &quot;yellow&quot;]</span></span><br><span class="line"><span class="keyword">var</span> colors2 = colorText.split(<span class="string">&quot;,&quot;</span>, <span class="number">2</span>);   <span class="comment">//[&quot;red&quot;, &quot;blue&quot;]</span></span><br><span class="line"><span class="keyword">var</span> colors3 = colorText.split(<span class="regexp">/[^\,]+/</span>); <span class="comment">//[&quot;&quot;, &quot;,&quot;, &quot;,&quot;, &quot;,&quot;, &quot;&quot;]</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="3-7-localCompare-方法"><a href="#3-7-localCompare-方法" class="headerlink" title="3.7 localCompare()方法"></a>3.7 localCompare()方法</h3><p>比较两个字符串，返回下列的值中的一个：</p>
+<ul>
+<li>字母表顺序，顺序反了就返回-1，</li>
+<li>等于字符串参数， 返回0</li>
+<li>字母表顺序，顺序正着的就返回1</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> stringValue = <span class="string">&quot;yellow&quot;</span>;       </span><br><span class="line">alert(stringValue.localeCompare(<span class="string">&quot;brick&quot;</span>));  <span class="comment">//1</span></span><br><span class="line">alert(stringValue.localeCompare(<span class="string">&quot;yellow&quot;</span>)); <span class="comment">//0</span></span><br><span class="line">alert(stringValue.localeCompare(<span class="string">&quot;zoo&quot;</span>));    <span class="comment">//-1</span></span><br><span class="line">        </span><br><span class="line"><span class="comment">//preferred technique for using localeCompare()</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">determineOrder</span>(<span class="params">value</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> result = stringValue.localeCompare(value);</span><br><span class="line">    <span class="keyword">if</span> (result &lt; <span class="number">0</span>)&#123;</span><br><span class="line">        alert(<span class="string">&quot;The string &#x27;yellow&#x27; comes before the string &#x27;&quot;</span> + value + <span class="string">&quot;&#x27;.&quot;</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (result &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        alert(<span class="string">&quot;The string &#x27;yellow&#x27; comes after the string &#x27;&quot;</span> + value + <span class="string">&quot;&#x27;.&quot;</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        alert(<span class="string">&quot;The string &#x27;yellow&#x27; is equal to the string &#x27;&quot;</span> + value + <span class="string">&quot;&#x27;.&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">        </span><br><span class="line">determineOrder(<span class="string">&quot;brick&quot;</span>);</span><br><span class="line">determineOrder(<span class="string">&quot;yellow&quot;</span>);</span><br><span class="line">determineOrder(<span class="string">&quot;zoo&quot;</span>);</span><br></pre></td></tr></table></figure></div>
+
+<div class="meta">
+	
+</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	<a class="addthis_button_tweet"></a>
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+
+    </div>
+    <footer id="footer">
+    <div style="display:inline">
+    Copyright &copy; 2020
+
+    JTW
+. Powered by <a href="http://zespia.tw/hexo/" target="_blank">Hexo</a> |
+    Theme is <a target="_blank" rel="noopener" href="https://github.com/wd/hexo-fabric">hexo-fabric</a>, fork from <a target="_blank" rel="noopener" href="http://github.com/panks/fabric">fabric</a> by <a target="_blank" rel="noopener" href="http://panks.me">Pankaj Kumar</a>
+</div>
+
+
+    </footer>
+    <script src="/javascripts/fabric.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script>
+ <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+<!-- end toload --> 
+</div>
+</div>
+<script src="/javascripts/jquery.ui.totop.js" type="text/javascript"></script>
+<script type="text/javascript">
+/*<![CDATA[*/
+;(function($){$().UItoTop({easingType:'easeOutCirc'});})(jQuery); 
+/*]]>*/
+</script><!-- remove it to remove the scroll to top button -->
+</body>
+</html>

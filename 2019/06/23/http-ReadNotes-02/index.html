@@ -1,0 +1,399 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+    
+	<title>http_ReadNotes-02 - Amorki&#39;s</title>
+    <meta name="author" content="">
+    
+	<meta name="description" content="&lt;h1 id=&#34;III-HTTP-报文内的-HTTP-信息&#34;&gt;&lt;a href=&#34;#III-HTTP-报文内的-HTTP-信息&#34; class=&#34;headerlink&#34; title=&#34;III. HTTP 报文内的 HTTP 信息&#34;&gt;&lt;/a&gt;III. HTTP 报文内的 HTTP 信息&lt;/h1&gt;&lt;h2 id=&#34;3-1-HTTP-报文&#34;&gt;&lt;a href=&#34;#3-1-HTTP-报文&#34; class=&#34;headerlink&#34; title=&#34;3.1 HTTP 报文&#34;&gt;&lt;/a&gt;&lt;strong&gt;3.1&lt;/strong&gt; &lt;strong&gt;HTTP&lt;/strong&gt; 报文&lt;/h2&gt;&lt;p&gt;用于 HTTP 协议交互的信息被称为 &lt;code&gt;HTTP 报文&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;请求端(客户端)的 HTTP 报文叫做&lt;code&gt;请求报文&lt;/code&gt;，响应端(服务器端)的叫做&lt;code&gt;响应报文&lt;/code&gt;。 &lt;/p&gt;
+&lt;p&gt;HTTP 报文本身是由&lt;u&gt;多行(用 CR+LF 作换行符)数据构成的字符串文本&lt;/u&gt;。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;报文首部&lt;/li&gt;
+&lt;li&gt;空行(CR+LF)&lt;/li&gt;
+&lt;li&gt;报文主体&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/007S8ZIlly1gfoo1ib7nej30ke06y74s.jpg&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;3-2-请求报文及响应报文的结构&#34;&gt;&lt;a href=&#34;#3-2-请求报文及响应报文的结构&#34; class=&#34;headerlink&#34; title=&#34;3.2 请求报文及响应报文的结构&#34;&gt;&lt;/a&gt;&lt;strong&gt;3.2&lt;/strong&gt; 请求报文及响应报文的结构&lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/007S8ZIlly1gfoo27262wj30jz0a63zg.jpg&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/007S8ZIlly1gfoo2id0v1j30j60il0v3.jpg&#34;&gt;&lt;/p&gt;
+&lt;p&gt;==请求行==&lt;br&gt; 包含用于请求的方法，请求 URI 和 HTTP 版本。 &lt;/p&gt;
+&lt;p&gt;==状态行==&lt;br&gt; 包含表明响应结果的状态码，原因短语和 HTTP 版本。 &lt;/p&gt;
+&lt;p&gt;==首部字段==&lt;/p&gt;
+&lt;p&gt;包含表示请求和响应的各种条件和属性的各类首部。&lt;/p&gt;
+&lt;p&gt;一般有 4 种首部: &lt;u&gt;通用首部&lt;/u&gt;、&lt;u&gt;请求首部&lt;/u&gt;、&lt;u&gt;响应首部&lt;/u&gt;和&lt;u&gt;实体首部&lt;/u&gt;。&lt;/p&gt;
+&lt;p&gt;其他&lt;br&gt; 可能包含 HTTP 的 RFC 里未定义的首部(Cookie 等)。&lt;/p&gt;
+&lt;h2 id=&#34;3-3-编码提升传输速率&#34;&gt;&lt;a href=&#34;#3-3-编码提升传输速率&#34; class=&#34;headerlink&#34; title=&#34;3.3 编码提升传输速率&#34;&gt;&lt;/a&gt;&lt;strong&gt;3.3&lt;/strong&gt; 编码提升传输速率&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;在传输过程中通过编码提升传输速率。通过在传输时编码，能有效地处理大量的访问请求。&lt;/li&gt;
+&lt;li&gt;编码的操作需要计算机来完成，因此会消耗更多 的 CPU 等资源。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;3-3-1-报文主体和实体主体的差异&#34;&gt;&lt;a href=&#34;#3-3-1-报文主体和实体主体的差异&#34; class=&#34;headerlink&#34; title=&#34;3.3.1 报文主体和实体主体的差异&#34;&gt;&lt;/a&gt;&lt;strong&gt;3.3.1&lt;/strong&gt; 报文主体和实体主体的差异&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;报文(&lt;strong&gt;message&lt;/strong&gt;)&lt;/p&gt;
+&lt;p&gt;是 HTTP 通信中的基本单位，由 8 位组字节流(octet sequence， 其中 octet 为 8 个比特)组成，通过 HTTP 通信传输。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;实体(&lt;strong&gt;entity&lt;/strong&gt;) &lt;/p&gt;
+&lt;p&gt;作为请求或响应的有效载荷数据(补充项)被传输，其内容由实体首部和实体主体组成。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;通常，&lt;code&gt;报文主体&lt;/code&gt;等于&lt;code&gt;实体主体&lt;/code&gt;。只有当传输中进行编码操作时，实体主体的内容发生变化，才导致它和报文主体产生差异。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;3-3-2-压缩传输的内容编码&#34;&gt;&lt;a href=&#34;#3-3-2-压缩传输的内容编码&#34; class=&#34;headerlink&#34; title=&#34;3.3.2 压缩传输的内容编码&#34;&gt;&lt;/a&gt;&lt;strong&gt;3.3.2&lt;/strong&gt; 压缩传输的内容编码&lt;/h3&gt;&lt;p&gt;&lt;code&gt;内容编码&lt;/code&gt;指明应用在实体内容上的编码格式，并保持实体信息原样压缩。内容编码后的实体由客户端接收并负责解码。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/007S8ZIlly1gfoof07w9nj30kl0c4aap.jpg&#34;&gt;&lt;/p&gt;
+&lt;p&gt;常用的内容编码有以下几种。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;gzip&lt;/strong&gt;(&lt;strong&gt;GNU zip&lt;/strong&gt;)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;compress&lt;/strong&gt;(&lt;strong&gt;UNIX&lt;/strong&gt; 系统的标准压缩) &lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;deflate&lt;/strong&gt;(&lt;strong&gt;zlib&lt;/strong&gt;)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;identity&lt;/strong&gt;(不进行编码)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;3-3-3-分割发送的分块传输编码&#34;&gt;&lt;a href=&#34;#3-3-3-分割发送的分块传输编码&#34; class=&#34;headerlink&#34; title=&#34;3.3.3 分割发送的分块传输编码&#34;&gt;&lt;/a&gt;&lt;strong&gt;3.3.3&lt;/strong&gt; 分割发送的分块传输编码&lt;/h3&gt;&lt;p&gt;在 HTTP 通信过程中，请求的编码实体资源尚未全部传输完成之前， 浏览器无法显示请求页面。在传输大容量数据时，通过把数据分割成多块，能够让浏览器逐步显示页面。&lt;/p&gt;
+&lt;p&gt;这种把实体主体分块的功能称为&lt;code&gt;分块传输编码&lt;/code&gt;(Chunked Transfer Coding)。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/007S8ZIlly1gfoojz6ogvj30lk0dct9l.jpg&#34;&gt;&lt;/p&gt;
+&lt;p&gt;每一块都会用&lt;strong&gt;十六进制&lt;/strong&gt;来标记块的大小，而实体主体的&lt;strong&gt;最后一块会使用“0(CR+LF)”来标记&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;HTTP/1.1 中存在一种称为&lt;code&gt;传输编码(Transfer Coding)&lt;/code&gt;的机制，它可以在通信时按某种编码方式传输，但只定义作用于分块传输编码中。&lt;/p&gt;
+&lt;h2 id=&#34;3-4-发送多种数据的多部分对象集合&#34;&gt;&lt;a href=&#34;#3-4-发送多种数据的多部分对象集合&#34; class=&#34;headerlink&#34; title=&#34;3.4 发送多种数据的多部分对象集合&#34;&gt;&lt;/a&gt;&lt;strong&gt;3.4&lt;/strong&gt; 发送多种数据的多部分对象集合&lt;/h2&gt;&lt;p&gt;&lt;code&gt;MIME&lt;/code&gt;(Multipurpose Internet Mail Extensions，多用途因特网邮件扩展)机制&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;允许邮件处理文本、图片、视频等多个不同类型的数据。例如，图片等二进制数据以 ASCII 码字符串编码的方式指明， 就是利用 MIME 来描述标记数据类型。而在 MIME 扩展中会使用一 种称为&lt;code&gt;多部分对象集合(Multipart)&lt;/code&gt;的方法，来容纳多份不同类型的 数据。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;HTTP 协议中也采纳了多部分对象集合，发送的一份报文主体内可含有多类型实体。通常是在图片或文本文件等上传时使用。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;多部分对象集合包含的对象如下:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;multipart/form-data&lt;/strong&gt;&lt;br&gt;在 Web 表单文件上传时使用。 &lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure class=&#34;highlight&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;9&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;attribute&#34;&gt;Content-Type&lt;/span&gt;: multipart/form-data; boundary=AaB03x  &lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;--AaB03x&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;attribute&#34;&gt;Content-Disposition&lt;/span&gt;: form-data; name=&amp;quot;field1&amp;quot;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt; &lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;Joe Blow&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;--AaB03x&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;attribute&#34;&gt;Content-Disposition&lt;/span&gt;: form-data; name=&amp;quot;pics&amp;quot;; filename=&amp;quot;file1.txt&amp;quot; Content-Type: text/plain&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt; &lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;...(file1.txt的数据)... --AaB03x--&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;multipart/byte ranges&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;状态码 206(Partial Content，部分内容)响应报文包含了多个范 围的内容时使用。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure class=&#34;highlight&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;10&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;HTTP/1.1 &lt;span class=&#34;number&#34;&gt;206&lt;/span&gt; Partial Content&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;attribute&#34;&gt;Date&lt;/span&gt;: Fri, 13 Jul 2012 02:45:26 GMT&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;attribute&#34;&gt;Last-Modified&lt;/span&gt;: Fri, 31 Aug 2007 02:02:20 GMT&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;attribute&#34;&gt;Content-Type&lt;/span&gt;: multipart/byteranges; boundary=THIS_STRING_SEPARATES&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;--THIS_STRING_SEPARATES&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;attribute&#34;&gt;Content-Type&lt;/span&gt;: application/pdf Content-Range: bytes 500-999/8000&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;...(范围指定的数据)... &lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;--THIS_STRING_SEPARATES Content-Type: application/pdf Content-Range: bytes 7000-7999/8000&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;...(范围指定的数据)... &lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;--THIS_STRING_SEPARATES--&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;ul&gt;
+&lt;li&gt;在 HTTP 报文中使用多部分对象集合时，需要在首部字段里加上 Content-type。&lt;/li&gt;
+&lt;li&gt;用 boundary 字符串来划分多部分对象集合指明的各类实体。&lt;/li&gt;
+&lt;li&gt;在 boundary 字符串指定的各个实体的起始行之前插入“–”标记(例如:- -AaB03x、–THIS_STRING_SEPARATES)&lt;/li&gt;
+&lt;li&gt;在多部分对象集合对 应的字符串的最后插入“–”标记(例如:–AaB03x–、– THIS_STRING_SEPARATES–)作为结束&lt;/li&gt;
+&lt;li&gt;多部分对象集合的每个部分类型中，都可以含有首部字段&lt;/li&gt;
+&lt;li&gt;可 以在某个部分中嵌套使用多部分对象集合。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;3-5-获取部分内容的范围请求&#34;&gt;&lt;a href=&#34;#3-5-获取部分内容的范围请求&#34; class=&#34;headerlink&#34; title=&#34;3.5 获取部分内容的范围请求&#34;&gt;&lt;/a&gt;&lt;strong&gt;3.5&lt;/strong&gt; 获取部分内容的范围请求&lt;/h2&gt;&lt;p&gt;&lt;code&gt;可恢复机制&lt;/code&gt;——能从之前下载中断处恢复下载。→→要指定下载的实体范围。&lt;/p&gt;
+&lt;p&gt;指定范围发送的请求叫做&lt;code&gt;范围请求(Range Request)&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/007S8ZIlly1gfoouyt28xj30j70g3q4t.jpg&#34;&gt;&lt;/p&gt;
+&lt;p&gt;byte 范围的指定形式如下：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;5001~10 000&lt;/strong&gt; 字节&lt;/p&gt;
+&lt;figure class=&#34;highlight http&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;attribute&#34;&gt;Range&lt;/span&gt;: bytes=5001-10000&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;从 &lt;strong&gt;5001&lt;/strong&gt; 字节之后全部的 &lt;/p&gt;
+&lt;figure class=&#34;highlight http&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;attribute&#34;&gt;Range&lt;/span&gt;: bytes=5001-&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;从一开始到 &lt;strong&gt;3000&lt;/strong&gt; 字节和 &lt;strong&gt;5000~7000&lt;/strong&gt; 字节的多重范围 &lt;/p&gt;
+&lt;figure class=&#34;highlight http&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;attribute&#34;&gt;Range&lt;/span&gt;: bytes=-3000, 5000-7000&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;ul&gt;
+&lt;li&gt;针对范围请求，响应会返回状态码为 206 Partial Content 的响应报 文。&lt;/li&gt;
+&lt;li&gt;对于多重范围的范围请求，响应会在首部字段 Content- Type 标明 multipart/byteranges 后返回响应报文。&lt;/li&gt;
+&lt;li&gt;如果服务器端无法响应范围请求，则会返回状态码 200 OK 和完整的实体内容。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;3-6-内容协商返回最合适的内容&#34;&gt;&lt;a href=&#34;#3-6-内容协商返回最合适的内容&#34; class=&#34;headerlink&#34; title=&#34;3.6 内容协商返回最合适的内容&#34;&gt;&lt;/a&gt;&lt;strong&gt;3.6&lt;/strong&gt; 内容协商返回最合适的内容&lt;/h2&gt;&lt;p&gt;当浏览器的默认语言为英语或中文，访问相同 URI 的 Web 页面时， 则会显示对应的英语版或中文版的 Web 页面。这样的机制称为&lt;code&gt;内容 协商(Content Negotiation)&lt;/code&gt;。👇&lt;/p&gt;
+&lt;p&gt;客户端和服务器端就响应的资源内容进行交涉，然 后提供给客户端最为适合的资源。内容协商会以响应&lt;u&gt;资源的语言&lt;/u&gt;、&lt;u&gt;字符集&lt;/u&gt;、&lt;u&gt;编码方式&lt;/u&gt;等作为判断的基准。&lt;/p&gt;
+&lt;p&gt;包含在请求报文中的某些首部字段(如下)就是判断的基准。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Accept&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Accept-Charset&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;**Accept-Encoding **&lt;/li&gt;
+&lt;li&gt;**Accept-Language **&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Content-Language&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;内容协商技术の类型：&#34;&gt;&lt;a href=&#34;#内容协商技术の类型：&#34; class=&#34;headerlink&#34; title=&#34;内容协商技术の类型：&#34;&gt;&lt;/a&gt;内容协商技术の类型：&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;服务器驱动协商(&lt;strong&gt;Server-driven Negotiation&lt;/strong&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;由服务器端进行内容协商。以请求的首部字段为参考，在服务器端自动处理。&lt;/p&gt;
+&lt;p&gt;但对用户来说，以浏览器发送的信息作为判定的依据，并不一定能筛选出最优内容。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;客户端驱动协商(&lt;strong&gt;Agent-driven Negotiation&lt;/strong&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;由客户端进行内容协商的方式。用户从浏览器显示的可选项列表中手动选择。&lt;/p&gt;
+&lt;p&gt;还可以利用 JavaScript 脚本在 Web 页面上自动进行上述选 择。&lt;/p&gt;
+&lt;p&gt;比如按 OS 的类型或浏览器类型，自行切换成 PC 版页面或手机 版页面。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;透明协商(&lt;strong&gt;Transparent Negotiation&lt;/strong&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;是服务器驱动和客户端驱动的结合体，是由服务器端和客户端各自进行内容协商的一种方法。&lt;/p&gt;
+"> <!-- TODO: truncate -->
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="atom.xml" rel="alternate" title="Amorki&#39;s" type="application/atom+xml">
+	<link href="/favicon.ico" rel="shortcut icon">
+    <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+    <link href="/stylesheets/custom.css" media="screen, projection" rel="stylesheet" type="text/css">
+    <link href="/stylesheets/hljs.css" media="screen, projection" rel="stylesheet" type="text/css">
+
+    <link href='//fonts.googleapis.com/css?family=Slackey' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Amethysta' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![}]-->
+
+    <script type="text/javascript" src="/javascripts/jquery-tapir.js"></script>
+
+    <!-- remove or comment it to disable ajaxification -->   
+    <!-- <script src="/javascripts/ajaxify.js"></script> -->
+
+    
+
+    
+
+<meta name="generator" content="Hexo 5.0.0"></head>
+
+
+<body>
+    <div id="wrapper">
+    <header id="header" class="inner"><!-- for more effects see _animate.scss -->
+<h1 class="animated bounceInDown">
+    <div id="headerbg">
+        Amorki&#39;s
+    </div>
+</h1>
+<span class="subtitle"></span>
+<br>
+
+<ul id="social-links" style="text-align:center; clear:both;">
+    
+        <!-- GitHub -->
+        <li>
+            <a target="_blank" rel="noopener" href="https://github.com/amorkiki" class="github" title="Github"></a>
+        </li>
+        
+            
+                    
+                        <!-- Facebook -->
+                        <li>
+                            <a target="_blank" rel="noopener" href="http://www.facebook.com/kiki.wu.92167789" class="facebook" title="Facebook"></a>
+                        </li>
+                        
+                            
+                                <!-- Twitter -->
+                                <li>
+                                    <a target="_blank" rel="noopener" href="http://www.twitter.com/BENICEXKiki" class="twitter" title="Twitter"></a>
+                                </li>
+                                
+                                    
+                                            
+                                                    
+                                                            
+                                                                <!-- Instagram -->
+                                                                <li>
+                                                                    <a target="_blank" rel="noopener" href="http://www.instagram.com/wuuuuuujt" class="instagram" title="Instagram"></a>
+                                                                </li>
+
+                                                                
+</ul>
+
+<!-- use full url including 'index.html' for navigation bar if you are using ajax -->
+<ul id="nav">
+	<li id="ajax"><a href="/index.html">Home</a></li>
+	<li id="ajax"><a href="/archives/index.html">Archives</a></li>
+	<li id="ajax"><a href="/tags/index.html">Tags</a></li>
+    <li><a href="/atom.xml">RSS</a></li>
+    
+    <li>
+    <div id="dark">
+        <form action="//www.google.com.hk/search" method="get" accept-charset="UTF-8" id="search">
+            <input type="hidden" name="sitesearch" value="http://yoursite.com" />
+            <input type="text" name="q" results="0" placeholder="Search..." x-webkit-speech />
+        </form>
+    </div>
+    </li>
+        
+</ul>
+
+
+
+
+</header>
+
+<div id="toload">
+<!-- begin toload -->
+    <div id="content" class="inner">
+        <article class="post">
+	<h2 class="title">http_ReadNotes-02</h2>
+    <div class="meta">
+        <div class="date">Published on: <time datetime="2019-06-23T13:19:02.000Z" itemprop="datePublished">Jun 23, 2019</time>
+</div>
+        <div class="tags">Tags: 
+
+<a href="/tags/ReadNotes/">ReadNotes</a> <a href="/tags/http/">http</a>
+</div>
+    </div>
+	<div class="entry-content"><h1 id="III-HTTP-报文内的-HTTP-信息"><a href="#III-HTTP-报文内的-HTTP-信息" class="headerlink" title="III. HTTP 报文内的 HTTP 信息"></a>III. HTTP 报文内的 HTTP 信息</h1><h2 id="3-1-HTTP-报文"><a href="#3-1-HTTP-报文" class="headerlink" title="3.1 HTTP 报文"></a><strong>3.1</strong> <strong>HTTP</strong> 报文</h2><p>用于 HTTP 协议交互的信息被称为 <code>HTTP 报文</code>。</p>
+<p>请求端(客户端)的 HTTP 报文叫做<code>请求报文</code>，响应端(服务器端)的叫做<code>响应报文</code>。 </p>
+<p>HTTP 报文本身是由<u>多行(用 CR+LF 作换行符)数据构成的字符串文本</u>。</p>
+<ul>
+<li>报文首部</li>
+<li>空行(CR+LF)</li>
+<li>报文主体</li>
+</ul>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gfoo1ib7nej30ke06y74s.jpg"></p>
+<h2 id="3-2-请求报文及响应报文的结构"><a href="#3-2-请求报文及响应报文的结构" class="headerlink" title="3.2 请求报文及响应报文的结构"></a><strong>3.2</strong> 请求报文及响应报文的结构</h2><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gfoo27262wj30jz0a63zg.jpg"></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gfoo2id0v1j30j60il0v3.jpg"></p>
+<p>==请求行==<br> 包含用于请求的方法，请求 URI 和 HTTP 版本。 </p>
+<p>==状态行==<br> 包含表明响应结果的状态码，原因短语和 HTTP 版本。 </p>
+<p>==首部字段==</p>
+<p>包含表示请求和响应的各种条件和属性的各类首部。</p>
+<p>一般有 4 种首部: <u>通用首部</u>、<u>请求首部</u>、<u>响应首部</u>和<u>实体首部</u>。</p>
+<p>其他<br> 可能包含 HTTP 的 RFC 里未定义的首部(Cookie 等)。</p>
+<h2 id="3-3-编码提升传输速率"><a href="#3-3-编码提升传输速率" class="headerlink" title="3.3 编码提升传输速率"></a><strong>3.3</strong> 编码提升传输速率</h2><ul>
+<li>在传输过程中通过编码提升传输速率。通过在传输时编码，能有效地处理大量的访问请求。</li>
+<li>编码的操作需要计算机来完成，因此会消耗更多 的 CPU 等资源。</li>
+</ul>
+<h3 id="3-3-1-报文主体和实体主体的差异"><a href="#3-3-1-报文主体和实体主体的差异" class="headerlink" title="3.3.1 报文主体和实体主体的差异"></a><strong>3.3.1</strong> 报文主体和实体主体的差异</h3><ul>
+<li><p>报文(<strong>message</strong>)</p>
+<p>是 HTTP 通信中的基本单位，由 8 位组字节流(octet sequence， 其中 octet 为 8 个比特)组成，通过 HTTP 通信传输。</p>
+</li>
+<li><p>实体(<strong>entity</strong>) </p>
+<p>作为请求或响应的有效载荷数据(补充项)被传输，其内容由实体首部和实体主体组成。</p>
+</li>
+<li><p>通常，<code>报文主体</code>等于<code>实体主体</code>。只有当传输中进行编码操作时，实体主体的内容发生变化，才导致它和报文主体产生差异。</p>
+</li>
+</ul>
+<h3 id="3-3-2-压缩传输的内容编码"><a href="#3-3-2-压缩传输的内容编码" class="headerlink" title="3.3.2 压缩传输的内容编码"></a><strong>3.3.2</strong> 压缩传输的内容编码</h3><p><code>内容编码</code>指明应用在实体内容上的编码格式，并保持实体信息原样压缩。内容编码后的实体由客户端接收并负责解码。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gfoof07w9nj30kl0c4aap.jpg"></p>
+<p>常用的内容编码有以下几种。</p>
+<ul>
+<li><strong>gzip</strong>(<strong>GNU zip</strong>)</li>
+<li><strong>compress</strong>(<strong>UNIX</strong> 系统的标准压缩) </li>
+<li><strong>deflate</strong>(<strong>zlib</strong>)</li>
+<li><strong>identity</strong>(不进行编码)</li>
+</ul>
+<h3 id="3-3-3-分割发送的分块传输编码"><a href="#3-3-3-分割发送的分块传输编码" class="headerlink" title="3.3.3 分割发送的分块传输编码"></a><strong>3.3.3</strong> 分割发送的分块传输编码</h3><p>在 HTTP 通信过程中，请求的编码实体资源尚未全部传输完成之前， 浏览器无法显示请求页面。在传输大容量数据时，通过把数据分割成多块，能够让浏览器逐步显示页面。</p>
+<p>这种把实体主体分块的功能称为<code>分块传输编码</code>(Chunked Transfer Coding)。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gfoojz6ogvj30lk0dct9l.jpg"></p>
+<p>每一块都会用<strong>十六进制</strong>来标记块的大小，而实体主体的<strong>最后一块会使用“0(CR+LF)”来标记</strong>。</p>
+<p>HTTP/1.1 中存在一种称为<code>传输编码(Transfer Coding)</code>的机制，它可以在通信时按某种编码方式传输，但只定义作用于分块传输编码中。</p>
+<h2 id="3-4-发送多种数据的多部分对象集合"><a href="#3-4-发送多种数据的多部分对象集合" class="headerlink" title="3.4 发送多种数据的多部分对象集合"></a><strong>3.4</strong> 发送多种数据的多部分对象集合</h2><p><code>MIME</code>(Multipurpose Internet Mail Extensions，多用途因特网邮件扩展)机制</p>
+<ul>
+<li>允许邮件处理文本、图片、视频等多个不同类型的数据。例如，图片等二进制数据以 ASCII 码字符串编码的方式指明， 就是利用 MIME 来描述标记数据类型。而在 MIME 扩展中会使用一 种称为<code>多部分对象集合(Multipart)</code>的方法，来容纳多份不同类型的 数据。</li>
+</ul>
+<p>HTTP 协议中也采纳了多部分对象集合，发送的一份报文主体内可含有多类型实体。通常是在图片或文本文件等上传时使用。</p>
+<p><strong>多部分对象集合包含的对象如下:</strong></p>
+<ul>
+<li><strong>multipart/form-data</strong><br>在 Web 表单文件上传时使用。 </li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Content-Type</span>: multipart/form-data; boundary=AaB03x  </span><br><span class="line">--AaB03x</span><br><span class="line"><span class="attribute">Content-Disposition</span>: form-data; name=&quot;field1&quot;</span><br><span class="line"> </span><br><span class="line">Joe Blow</span><br><span class="line">--AaB03x</span><br><span class="line"><span class="attribute">Content-Disposition</span>: form-data; name=&quot;pics&quot;; filename=&quot;file1.txt&quot; Content-Type: text/plain</span><br><span class="line"> </span><br><span class="line">...(file1.txt的数据)... --AaB03x--</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><strong>multipart/byte ranges</strong></p>
+<p>状态码 206(Partial Content，部分内容)响应报文包含了多个范 围的内容时使用。</p>
+</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 <span class="number">206</span> Partial Content</span><br><span class="line"><span class="attribute">Date</span>: Fri, 13 Jul 2012 02:45:26 GMT</span><br><span class="line"><span class="attribute">Last-Modified</span>: Fri, 31 Aug 2007 02:02:20 GMT</span><br><span class="line"><span class="attribute">Content-Type</span>: multipart/byteranges; boundary=THIS_STRING_SEPARATES</span><br><span class="line">--THIS_STRING_SEPARATES</span><br><span class="line"><span class="attribute">Content-Type</span>: application/pdf Content-Range: bytes 500-999/8000</span><br><span class="line">...(范围指定的数据)... </span><br><span class="line">--THIS_STRING_SEPARATES Content-Type: application/pdf Content-Range: bytes 7000-7999/8000</span><br><span class="line">...(范围指定的数据)... </span><br><span class="line">--THIS_STRING_SEPARATES--</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在 HTTP 报文中使用多部分对象集合时，需要在首部字段里加上 Content-type。</li>
+<li>用 boundary 字符串来划分多部分对象集合指明的各类实体。</li>
+<li>在 boundary 字符串指定的各个实体的起始行之前插入“–”标记(例如:- -AaB03x、–THIS_STRING_SEPARATES)</li>
+<li>在多部分对象集合对 应的字符串的最后插入“–”标记(例如:–AaB03x–、– THIS_STRING_SEPARATES–)作为结束</li>
+<li>多部分对象集合的每个部分类型中，都可以含有首部字段</li>
+<li>可 以在某个部分中嵌套使用多部分对象集合。</li>
+</ul>
+<h2 id="3-5-获取部分内容的范围请求"><a href="#3-5-获取部分内容的范围请求" class="headerlink" title="3.5 获取部分内容的范围请求"></a><strong>3.5</strong> 获取部分内容的范围请求</h2><p><code>可恢复机制</code>——能从之前下载中断处恢复下载。→→要指定下载的实体范围。</p>
+<p>指定范围发送的请求叫做<code>范围请求(Range Request)</code></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gfoouyt28xj30j70g3q4t.jpg"></p>
+<p>byte 范围的指定形式如下：</p>
+<p><strong>5001~10 000</strong> 字节</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Range</span>: bytes=5001-10000</span><br></pre></td></tr></table></figure>
+
+<p>从 <strong>5001</strong> 字节之后全部的 </p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Range</span>: bytes=5001-</span><br></pre></td></tr></table></figure>
+
+<p>从一开始到 <strong>3000</strong> 字节和 <strong>5000~7000</strong> 字节的多重范围 </p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Range</span>: bytes=-3000, 5000-7000</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>针对范围请求，响应会返回状态码为 206 Partial Content 的响应报 文。</li>
+<li>对于多重范围的范围请求，响应会在首部字段 Content- Type 标明 multipart/byteranges 后返回响应报文。</li>
+<li>如果服务器端无法响应范围请求，则会返回状态码 200 OK 和完整的实体内容。</li>
+</ul>
+<h2 id="3-6-内容协商返回最合适的内容"><a href="#3-6-内容协商返回最合适的内容" class="headerlink" title="3.6 内容协商返回最合适的内容"></a><strong>3.6</strong> 内容协商返回最合适的内容</h2><p>当浏览器的默认语言为英语或中文，访问相同 URI 的 Web 页面时， 则会显示对应的英语版或中文版的 Web 页面。这样的机制称为<code>内容 协商(Content Negotiation)</code>。👇</p>
+<p>客户端和服务器端就响应的资源内容进行交涉，然 后提供给客户端最为适合的资源。内容协商会以响应<u>资源的语言</u>、<u>字符集</u>、<u>编码方式</u>等作为判断的基准。</p>
+<p>包含在请求报文中的某些首部字段(如下)就是判断的基准。</p>
+<ul>
+<li><strong>Accept</strong></li>
+<li><strong>Accept-Charset</strong></li>
+<li>**Accept-Encoding **</li>
+<li>**Accept-Language **</li>
+<li><strong>Content-Language</strong></li>
+</ul>
+<h4 id="内容协商技术の类型："><a href="#内容协商技术の类型：" class="headerlink" title="内容协商技术の类型："></a>内容协商技术の类型：</h4><ul>
+<li>服务器驱动协商(<strong>Server-driven Negotiation</strong>)</li>
+</ul>
+<p>由服务器端进行内容协商。以请求的首部字段为参考，在服务器端自动处理。</p>
+<p>但对用户来说，以浏览器发送的信息作为判定的依据，并不一定能筛选出最优内容。</p>
+<ul>
+<li>客户端驱动协商(<strong>Agent-driven Negotiation</strong>)</li>
+</ul>
+<p>由客户端进行内容协商的方式。用户从浏览器显示的可选项列表中手动选择。</p>
+<p>还可以利用 JavaScript 脚本在 Web 页面上自动进行上述选 择。</p>
+<p>比如按 OS 的类型或浏览器类型，自行切换成 PC 版页面或手机 版页面。</p>
+<ul>
+<li>透明协商(<strong>Transparent Negotiation</strong>)</li>
+</ul>
+<p>是服务器驱动和客户端驱动的结合体，是由服务器端和客户端各自进行内容协商的一种方法。</p>
+</div>
+
+<div class="meta">
+	
+</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	<a class="addthis_button_tweet"></a>
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+
+    </div>
+    <footer id="footer">
+    <div style="display:inline">
+    Copyright &copy; 2020
+
+    JTW
+. Powered by <a href="http://zespia.tw/hexo/" target="_blank">Hexo</a> |
+    Theme is <a target="_blank" rel="noopener" href="https://github.com/wd/hexo-fabric">hexo-fabric</a>, fork from <a target="_blank" rel="noopener" href="http://github.com/panks/fabric">fabric</a> by <a target="_blank" rel="noopener" href="http://panks.me">Pankaj Kumar</a>
+</div>
+
+
+    </footer>
+    <script src="/javascripts/fabric.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script>
+ <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+<!-- end toload --> 
+</div>
+</div>
+<script src="/javascripts/jquery.ui.totop.js" type="text/javascript"></script>
+<script type="text/javascript">
+/*<![CDATA[*/
+;(function($){$().UItoTop({easingType:'easeOutCirc'});})(jQuery); 
+/*]]>*/
+</script><!-- remove it to remove the scroll to top button -->
+</body>
+</html>

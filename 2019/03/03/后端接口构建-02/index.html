@@ -1,0 +1,295 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+    
+	<title>后端接口构建-02 - Amorki&#39;s</title>
+    <meta name="author" content="">
+    
+	<meta name="description" content="&lt;p&gt;啦啦啦~&lt;br&gt;今天内容比较简单，配置信息的增删改查接口，没有啥好说的，就是细心，直接上代码啦~👇&lt;/p&gt;
+&lt;p&gt;配置信息接口&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;创建model–Profile.js&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;按照User.js格式进行修改&lt;/p&gt;
+&lt;figure class=&#34;highlight js&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;31&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;32&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;33&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;const&lt;/span&gt; mongoose = &lt;span class=&#34;built_in&#34;&gt;require&lt;/span&gt;(&lt;span class=&#34;string&#34;&gt;&amp;quot;mongoose&amp;quot;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;const&lt;/span&gt; Schema = mongoose.Schema;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;comment&#34;&gt;// Create Schema&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;const&lt;/span&gt; ProfileSchema = &lt;span class=&#34;keyword&#34;&gt;new&lt;/span&gt; Schema(&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  type: &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    type: &lt;span class=&#34;built_in&#34;&gt;String&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    required: &lt;span class=&#34;literal&#34;&gt;true&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &amp;#125;,&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  b_name: &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    type: &lt;span class=&#34;built_in&#34;&gt;String&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    required: &lt;span class=&#34;literal&#34;&gt;true&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &amp;#125;,&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  author: &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    type: &lt;span class=&#34;built_in&#34;&gt;String&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    required: &lt;span class=&#34;literal&#34;&gt;true&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &amp;#125;,&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  isbn_num: &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    type: &lt;span class=&#34;built_in&#34;&gt;String&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &amp;#125;,&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  status: &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    type: &lt;span class=&#34;built_in&#34;&gt;String&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &amp;#125;,&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  remark: &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    type: &lt;span class=&#34;built_in&#34;&gt;String&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &amp;#125;,&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  date: &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    type: &lt;span class=&#34;built_in&#34;&gt;Date&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    &lt;span class=&#34;keyword&#34;&gt;default&lt;/span&gt;: &lt;span class=&#34;built_in&#34;&gt;Date&lt;/span&gt;.now,&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &amp;#125;,&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&amp;#125;);&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;built_in&#34;&gt;module&lt;/span&gt;.exports = Profile = mongoose.model(&lt;span class=&#34;string&#34;&gt;&amp;quot;profile&amp;quot;&lt;/span&gt;, ProfileSchema);&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;在routers里创建profiles.js接口文件&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;到入口文件server.js中引入profiles.js，并使用&lt;/p&gt;
+&lt;figure class=&#34;highlight js&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;comment&#34;&gt;//引入profiles.js&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;const&lt;/span&gt; profiles = &lt;span class=&#34;built_in&#34;&gt;require&lt;/span&gt;(&lt;span class=&#34;string&#34;&gt;&amp;quot;./routers/api/profiles&amp;quot;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;app.use(&lt;span class=&#34;string&#34;&gt;&amp;quot;/api/profiles&amp;quot;&lt;/span&gt;, profiles);&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;配置profiles.js文件，同样引入express，router，passport，以及Profile模型（Profile.js），先写个测试get请求，测试一下&lt;/p&gt;
+&lt;figure class=&#34;highlight js&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;14&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;const&lt;/span&gt; express = &lt;span class=&#34;built_in&#34;&gt;require&lt;/span&gt;(&lt;span class=&#34;string&#34;&gt;&amp;quot;express&amp;quot;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;const&lt;/span&gt; router = express.Router();&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;const&lt;/span&gt; passport = &lt;span class=&#34;built_in&#34;&gt;require&lt;/span&gt;(&lt;span class=&#34;string&#34;&gt;&amp;quot;passport&amp;quot;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;const&lt;/span&gt; Profile = &lt;span class=&#34;built_in&#34;&gt;require&lt;/span&gt;(&lt;span class=&#34;string&#34;&gt;&amp;quot;../../models/Profile&amp;quot;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;comment&#34;&gt;// $route GET api/profiles/test&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;comment&#34;&gt;// @desc  返回请求的json数据&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;comment&#34;&gt;// @access public&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;router.get(&lt;span class=&#34;string&#34;&gt;&amp;quot;/test&amp;quot;&lt;/span&gt;, &lt;span class=&#34;function&#34;&gt;(&lt;span class=&#34;params&#34;&gt;req, res&lt;/span&gt;) =&amp;gt;&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  res.json(&amp;#123; &lt;span class=&#34;attr&#34;&gt;msg&lt;/span&gt;: &lt;span class=&#34;string&#34;&gt;&amp;quot;profile works&amp;quot;&lt;/span&gt; &amp;#125;);&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&amp;#125;);&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;built_in&#34;&gt;module&lt;/span&gt;.exports = router;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;↓&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/007S8ZIlly1ghxaamvf3vj30ek0c7jrp.jpg&#34;&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;接口OK了，接下来要获取到一些信息，添加、编辑、删除&lt;/p&gt;
+&lt;p&gt;↓&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;添加信息接口 POST请求&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure class=&#34;highlight js&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;21&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;comment&#34;&gt;// $route POST api/profiles/add&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;comment&#34;&gt;// @desc  创建信息接口&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;comment&#34;&gt;// @access private&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;router.post(&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &lt;span class=&#34;string&#34;&gt;&amp;quot;/add&amp;quot;&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  passport.authenticate(&lt;span class=&#34;string&#34;&gt;&amp;quot;jwt&amp;quot;&lt;/span&gt;, &amp;#123; &lt;span class=&#34;attr&#34;&gt;session&lt;/span&gt;: &lt;span class=&#34;literal&#34;&gt;false&lt;/span&gt; &amp;#125;),&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  (req, res) =&amp;gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    &lt;span class=&#34;keyword&#34;&gt;const&lt;/span&gt; profileFields = &amp;#123;&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    &lt;span class=&#34;keyword&#34;&gt;if&lt;/span&gt; (req.body.type) profileFields.type = req.body.type;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    &lt;span class=&#34;keyword&#34;&gt;if&lt;/span&gt; (req.body.b_name) profileFields.b_name = req.body.b_name;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    &lt;span class=&#34;keyword&#34;&gt;if&lt;/span&gt; (req.body.author) profileFields.author = req.body.author;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    &lt;span class=&#34;keyword&#34;&gt;if&lt;/span&gt; (req.body.isbn_num) profileFields.isbn_num = req.body.isbn_num;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    &lt;span class=&#34;keyword&#34;&gt;if&lt;/span&gt; (req.body.status) profileFields.status = req.body.status;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    &lt;span class=&#34;keyword&#34;&gt;if&lt;/span&gt; (req.body.remark) profileFields.remark = req.body.remark;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    &lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    &lt;span class=&#34;keyword&#34;&gt;new&lt;/span&gt; Profile(profileFields).save().then(&lt;span class=&#34;function&#34;&gt;(&lt;span class=&#34;params&#34;&gt;profile&lt;/span&gt;) =&amp;gt;&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;      res.json(profile);&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    &amp;#125;);&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;);&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;ul&gt;
+&lt;li&gt;测试一下~&lt;br&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/007S8ZIlly1ghxc514z5ij30k70ey75i.jpg&#34;&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;↓&lt;/p&gt;
+&lt;p&gt;获取信息&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;获取全部信息，这里直接采用GET就行&lt;/p&gt;
+&lt;figure class=&#34;highlight js&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;18&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;comment&#34;&gt;// $route GET api/profiles/&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;comment&#34;&gt;// @desc  获取所有信息接口&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;comment&#34;&gt;// @access private&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;router.get(&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &lt;span class=&#34;string&#34;&gt;&amp;quot;/&amp;quot;&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  passport.authenticate(&lt;span class=&#34;string&#34;&gt;&amp;quot;jwt&amp;quot;&lt;/span&gt;, &amp;#123; &lt;span class=&#34;attr&#34;&gt;session&lt;/span&gt;: &lt;span class=&#34;literal&#34;&gt;false&lt;/span&gt; &amp;#125;),&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  (req, res) =&amp;gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    Profile.find()&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;      .then(&lt;span class=&#34;function&#34;&gt;(&lt;span class=&#34;params&#34;&gt;profile&lt;/span&gt;) =&amp;gt;&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;        &lt;span class=&#34;keyword&#34;&gt;if&lt;/span&gt; (!profile) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;          &lt;span class=&#34;keyword&#34;&gt;return&lt;/span&gt; res.status(&lt;span class=&#34;number&#34;&gt;404&lt;/span&gt;).json(&lt;span class=&#34;string&#34;&gt;&amp;quot;没找到这条内容呀@_@&amp;quot;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;        &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;        res.json(profile);&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;      &amp;#125;)&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;      .catch(&lt;span class=&#34;function&#34;&gt;(&lt;span class=&#34;params&#34;&gt;err&lt;/span&gt;) =&amp;gt;&lt;/span&gt; res.status(&lt;span class=&#34;number&#34;&gt;404&lt;/span&gt;).json(err));&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;);&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;测试一下~&lt;br&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/007S8ZIlly1ghxcmar20zj30i60hmwfw.jpg&#34;&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;获取单个信息&lt;/p&gt;
+&lt;p&gt;还是采用GET方式，只是这里采用findOne()&lt;/p&gt;
+&lt;figure class=&#34;highlight js&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;18&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;comment&#34;&gt;// $route GET api/profiles/:id&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;comment&#34;&gt;// @desc  获取单个信息接口&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;comment&#34;&gt;// @access private&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;router.get(&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &lt;span class=&#34;string&#34;&gt;&amp;quot;/:id&amp;quot;&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  passport.authenticate(&lt;span class=&#34;string&#34;&gt;&amp;quot;jwt&amp;quot;&lt;/span&gt;, &amp;#123; &lt;span class=&#34;attr&#34;&gt;session&lt;/span&gt;: &lt;span class=&#34;literal&#34;&gt;false&lt;/span&gt; &amp;#125;),&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  (req, res) =&amp;gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    Profile.findOne(&amp;#123; &lt;span class=&#34;attr&#34;&gt;_id&lt;/span&gt;: req.params.id &amp;#125;)&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;      .then(&lt;span class=&#34;function&#34;&gt;(&lt;span class=&#34;params&#34;&gt;profile&lt;/span&gt;) =&amp;gt;&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;        &lt;span class=&#34;keyword&#34;&gt;if&lt;/span&gt; (!profile) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;          &lt;span class=&#34;keyword&#34;&gt;return&lt;/span&gt; res.status(&lt;span class=&#34;number&#34;&gt;404&lt;/span&gt;).json(&lt;span class=&#34;string&#34;&gt;&amp;quot;没找到这条内容呀@_@&amp;quot;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;        &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;        res.json(profile);&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;      &amp;#125;)&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;      .catch(&lt;span class=&#34;function&#34;&gt;(&lt;span class=&#34;params&#34;&gt;err&lt;/span&gt;) =&amp;gt;&lt;/span&gt; res.status(&lt;span class=&#34;number&#34;&gt;404&lt;/span&gt;).json(err));&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;);&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;测试一下~&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/007S8ZIlly1ghxcsrrxadj30hf0g0q4a.jpg&#34;&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;↓&lt;/p&gt;
+&lt;p&gt;编辑内容（类似添加内容）&lt;/p&gt;
+&lt;p&gt;这里使用findOneAndUpdate方法&lt;/p&gt;
+&lt;figure class=&#34;highlight js&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;23&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;comment&#34;&gt;// $route POST api/profiles/edit&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;comment&#34;&gt;// @desc  编辑信息接口&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;comment&#34;&gt;// @access private&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;router.post(&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &lt;span class=&#34;string&#34;&gt;&amp;quot;/edit/:id&amp;quot;&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  passport.authenticate(&lt;span class=&#34;string&#34;&gt;&amp;quot;jwt&amp;quot;&lt;/span&gt;, &amp;#123; &lt;span class=&#34;attr&#34;&gt;session&lt;/span&gt;: &lt;span class=&#34;literal&#34;&gt;false&lt;/span&gt; &amp;#125;),&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  (req, res) =&amp;gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    &lt;span class=&#34;keyword&#34;&gt;const&lt;/span&gt; profileFields = &amp;#123;&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    &lt;span class=&#34;keyword&#34;&gt;if&lt;/span&gt; (req.body.type) profileFields.type = req.body.type;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    &lt;span class=&#34;keyword&#34;&gt;if&lt;/span&gt; (req.body.b_name) profileFields.b_name = req.body.b_name;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    &lt;span class=&#34;keyword&#34;&gt;if&lt;/span&gt; (req.body.author) profileFields.author = req.body.author;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    &lt;span class=&#34;keyword&#34;&gt;if&lt;/span&gt; (req.body.isbn_num) profileFields.isbn_num = req.body.isbn_num;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    &lt;span class=&#34;keyword&#34;&gt;if&lt;/span&gt; (req.body.status) profileFields.status = req.body.status;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    &lt;span class=&#34;keyword&#34;&gt;if&lt;/span&gt; (req.body.remark) profileFields.remark = req.body.remark;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    Profile.findOneAndUpdate(&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;      &amp;#123; &lt;span class=&#34;attr&#34;&gt;_id&lt;/span&gt;: req.params.id &amp;#125;,&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;      &amp;#123; &lt;span class=&#34;attr&#34;&gt;$set&lt;/span&gt;: profileFields &amp;#125;,&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;      &amp;#123; &lt;span class=&#34;attr&#34;&gt;new&lt;/span&gt;: &lt;span class=&#34;literal&#34;&gt;true&lt;/span&gt; &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    ).then(&lt;span class=&#34;function&#34;&gt;(&lt;span class=&#34;params&#34;&gt;profile&lt;/span&gt;) =&amp;gt;&lt;/span&gt; res.json(profile));&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;);&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+
+
+&lt;ul&gt;
+&lt;li&gt;测试（修改前端–&amp;gt;前端IT）&lt;br&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/007S8ZIlly1ghxd1awbzxj30gb0e875g.jpg&#34;&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;↓&lt;/p&gt;
+&lt;p&gt;删除内容&lt;/p&gt;
+&lt;figure class=&#34;highlight js&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;14&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;comment&#34;&gt;// $route POST api/profiles/delete/:id&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;comment&#34;&gt;// @desc  删除信息接口&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;comment&#34;&gt;// @access private&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;router.delete(&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &lt;span class=&#34;string&#34;&gt;&amp;quot;/delete/:id&amp;quot;&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  passport.authenticate(&lt;span class=&#34;string&#34;&gt;&amp;quot;jwt&amp;quot;&lt;/span&gt;, &amp;#123; &lt;span class=&#34;attr&#34;&gt;session&lt;/span&gt;: &lt;span class=&#34;literal&#34;&gt;false&lt;/span&gt; &amp;#125;),&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  (req, res) =&amp;gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    Profile.findOneAndRemove(&amp;#123; &lt;span class=&#34;attr&#34;&gt;_id&lt;/span&gt;: req.params.id &amp;#125;)&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;      .then(&lt;span class=&#34;function&#34;&gt;(&lt;span class=&#34;params&#34;&gt;profile&lt;/span&gt;) =&amp;gt;&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;        profile.save().then(&lt;span class=&#34;function&#34;&gt;(&lt;span class=&#34;params&#34;&gt;profile&lt;/span&gt;) =&amp;gt;&lt;/span&gt; res.json(profile));&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;      &amp;#125;)&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;      .catch(&lt;span class=&#34;function&#34;&gt;(&lt;span class=&#34;params&#34;&gt;err&lt;/span&gt;) =&amp;gt;&lt;/span&gt; res.status(&lt;span class=&#34;number&#34;&gt;404&lt;/span&gt;).res.json(&lt;span class=&#34;string&#34;&gt;&amp;quot;删除失败啦~ &amp;gt;_&amp;lt;&amp;quot;&lt;/span&gt;));&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;);&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+
+
+"> <!-- TODO: truncate -->
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="atom.xml" rel="alternate" title="Amorki&#39;s" type="application/atom+xml">
+	<link href="/favicon.ico" rel="shortcut icon">
+    <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+    <link href="/stylesheets/custom.css" media="screen, projection" rel="stylesheet" type="text/css">
+    <link href="/stylesheets/hljs.css" media="screen, projection" rel="stylesheet" type="text/css">
+
+    <link href='//fonts.googleapis.com/css?family=Slackey' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Amethysta' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![}]-->
+
+    <script type="text/javascript" src="/javascripts/jquery-tapir.js"></script>
+
+    <!-- remove or comment it to disable ajaxification -->   
+    <!-- <script src="/javascripts/ajaxify.js"></script> -->
+
+    
+
+    
+
+<meta name="generator" content="Hexo 5.0.0"></head>
+
+
+<body>
+    <div id="wrapper">
+    <header id="header" class="inner"><!-- for more effects see _animate.scss -->
+<h1 class="animated bounceInDown">
+    <div id="headerbg">
+        Amorki&#39;s
+    </div>
+</h1>
+<span class="subtitle"></span>
+<br>
+
+<ul id="social-links" style="text-align:center; clear:both;">
+    
+        <!-- GitHub -->
+        <li>
+            <a target="_blank" rel="noopener" href="https://github.com/amorkiki" class="github" title="Github"></a>
+        </li>
+        
+            
+                    
+                        <!-- Facebook -->
+                        <li>
+                            <a target="_blank" rel="noopener" href="http://www.facebook.com/kiki.wu.92167789" class="facebook" title="Facebook"></a>
+                        </li>
+                        
+                            
+                                <!-- Twitter -->
+                                <li>
+                                    <a target="_blank" rel="noopener" href="http://www.twitter.com/BENICEXKiki" class="twitter" title="Twitter"></a>
+                                </li>
+                                
+                                    
+                                            
+                                                    
+                                                            
+                                                                <!-- Instagram -->
+                                                                <li>
+                                                                    <a target="_blank" rel="noopener" href="http://www.instagram.com/wuuuuuujt" class="instagram" title="Instagram"></a>
+                                                                </li>
+
+                                                                
+</ul>
+
+<!-- use full url including 'index.html' for navigation bar if you are using ajax -->
+<ul id="nav">
+	<li id="ajax"><a href="/index.html">Home</a></li>
+	<li id="ajax"><a href="/archives/index.html">Archives</a></li>
+	<li id="ajax"><a href="/tags/index.html">Tags</a></li>
+    <li><a href="/atom.xml">RSS</a></li>
+    
+    <li>
+    <div id="dark">
+        <form action="//www.google.com.hk/search" method="get" accept-charset="UTF-8" id="search">
+            <input type="hidden" name="sitesearch" value="http://yoursite.com" />
+            <input type="text" name="q" results="0" placeholder="Search..." x-webkit-speech />
+        </form>
+    </div>
+    </li>
+        
+</ul>
+
+
+
+
+</header>
+
+<div id="toload">
+<!-- begin toload -->
+    <div id="content" class="inner">
+        <article class="post">
+	<h2 class="title">后端接口构建-02</h2>
+    <div class="meta">
+        <div class="date">Published on: <time datetime="2019-03-03T08:48:34.000Z" itemprop="datePublished">Mar 3, 2019</time>
+</div>
+        <div class="tags">Tags: 
+
+<a href="/tags/nodejs/">nodejs</a> <a href="/tags/myProject/">myProject</a>
+</div>
+    </div>
+	<div class="entry-content"><p>啦啦啦~<br>今天内容比较简单，配置信息的增删改查接口，没有啥好说的，就是细心，直接上代码啦~👇</p>
+<p>配置信息接口</p>
+<ul>
+<li><p>创建model–Profile.js</p>
+</li>
+<li><p>按照User.js格式进行修改</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> mongoose = <span class="built_in">require</span>(<span class="string">&quot;mongoose&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> Schema = mongoose.Schema;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Create Schema</span></span><br><span class="line"><span class="keyword">const</span> ProfileSchema = <span class="keyword">new</span> Schema(&#123;</span><br><span class="line">  type: &#123;</span><br><span class="line">    type: <span class="built_in">String</span>,</span><br><span class="line">    required: <span class="literal">true</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  b_name: &#123;</span><br><span class="line">    type: <span class="built_in">String</span>,</span><br><span class="line">    required: <span class="literal">true</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  author: &#123;</span><br><span class="line">    type: <span class="built_in">String</span>,</span><br><span class="line">    required: <span class="literal">true</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  isbn_num: &#123;</span><br><span class="line">    type: <span class="built_in">String</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  status: &#123;</span><br><span class="line">    type: <span class="built_in">String</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  remark: &#123;</span><br><span class="line">    type: <span class="built_in">String</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  date: &#123;</span><br><span class="line">    type: <span class="built_in">Date</span>,</span><br><span class="line">    <span class="keyword">default</span>: <span class="built_in">Date</span>.now,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = Profile = mongoose.model(<span class="string">&quot;profile&quot;</span>, ProfileSchema);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在routers里创建profiles.js接口文件</p>
+</li>
+<li><p>到入口文件server.js中引入profiles.js，并使用</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//引入profiles.js</span></span><br><span class="line"><span class="keyword">const</span> profiles = <span class="built_in">require</span>(<span class="string">&quot;./routers/api/profiles&quot;</span>);</span><br><span class="line"></span><br><span class="line">app.use(<span class="string">&quot;/api/profiles&quot;</span>, profiles);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置profiles.js文件，同样引入express，router，passport，以及Profile模型（Profile.js），先写个测试get请求，测试一下</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">&quot;express&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> router = express.Router();</span><br><span class="line"><span class="keyword">const</span> passport = <span class="built_in">require</span>(<span class="string">&quot;passport&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Profile = <span class="built_in">require</span>(<span class="string">&quot;../../models/Profile&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// $route GET api/profiles/test</span></span><br><span class="line"><span class="comment">// @desc  返回请求的json数据</span></span><br><span class="line"><span class="comment">// @access public</span></span><br><span class="line">router.get(<span class="string">&quot;/test&quot;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">  res.json(&#123; <span class="attr">msg</span>: <span class="string">&quot;profile works&quot;</span> &#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = router;</span><br></pre></td></tr></table></figure>
+
+<p>↓</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghxaamvf3vj30ek0c7jrp.jpg"></p>
+</li>
+</ul>
+<p>接口OK了，接下来要获取到一些信息，添加、编辑、删除</p>
+<p>↓</p>
+<ul>
+<li>添加信息接口 POST请求</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// $route POST api/profiles/add</span></span><br><span class="line"><span class="comment">// @desc  创建信息接口</span></span><br><span class="line"><span class="comment">// @access private</span></span><br><span class="line">router.post(</span><br><span class="line">  <span class="string">&quot;/add&quot;</span>,</span><br><span class="line">  passport.authenticate(<span class="string">&quot;jwt&quot;</span>, &#123; <span class="attr">session</span>: <span class="literal">false</span> &#125;),</span><br><span class="line">  (req, res) =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> profileFields = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (req.body.type) profileFields.type = req.body.type;</span><br><span class="line">    <span class="keyword">if</span> (req.body.b_name) profileFields.b_name = req.body.b_name;</span><br><span class="line">    <span class="keyword">if</span> (req.body.author) profileFields.author = req.body.author;</span><br><span class="line">    <span class="keyword">if</span> (req.body.isbn_num) profileFields.isbn_num = req.body.isbn_num;</span><br><span class="line">    <span class="keyword">if</span> (req.body.status) profileFields.status = req.body.status;</span><br><span class="line">    <span class="keyword">if</span> (req.body.remark) profileFields.remark = req.body.remark;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">new</span> Profile(profileFields).save().then(<span class="function">(<span class="params">profile</span>) =&gt;</span> &#123;</span><br><span class="line">      res.json(profile);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>测试一下~<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghxc514z5ij30k70ey75i.jpg"></li>
+</ul>
+<p>↓</p>
+<p>获取信息</p>
+<ul>
+<li><p>获取全部信息，这里直接采用GET就行</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// $route GET api/profiles/</span></span><br><span class="line"><span class="comment">// @desc  获取所有信息接口</span></span><br><span class="line"><span class="comment">// @access private</span></span><br><span class="line">router.get(</span><br><span class="line">  <span class="string">&quot;/&quot;</span>,</span><br><span class="line">  passport.authenticate(<span class="string">&quot;jwt&quot;</span>, &#123; <span class="attr">session</span>: <span class="literal">false</span> &#125;),</span><br><span class="line">  (req, res) =&gt; &#123;</span><br><span class="line">    Profile.find()</span><br><span class="line">      .then(<span class="function">(<span class="params">profile</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (!profile) &#123;</span><br><span class="line">          <span class="keyword">return</span> res.status(<span class="number">404</span>).json(<span class="string">&quot;没找到这条内容呀@_@&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        res.json(profile);</span><br><span class="line">      &#125;)</span><br><span class="line">      .catch(<span class="function">(<span class="params">err</span>) =&gt;</span> res.status(<span class="number">404</span>).json(err));</span><br><span class="line">  &#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>测试一下~<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghxcmar20zj30i60hmwfw.jpg"></p>
+</li>
+<li><p>获取单个信息</p>
+<p>还是采用GET方式，只是这里采用findOne()</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// $route GET api/profiles/:id</span></span><br><span class="line"><span class="comment">// @desc  获取单个信息接口</span></span><br><span class="line"><span class="comment">// @access private</span></span><br><span class="line">router.get(</span><br><span class="line">  <span class="string">&quot;/:id&quot;</span>,</span><br><span class="line">  passport.authenticate(<span class="string">&quot;jwt&quot;</span>, &#123; <span class="attr">session</span>: <span class="literal">false</span> &#125;),</span><br><span class="line">  (req, res) =&gt; &#123;</span><br><span class="line">    Profile.findOne(&#123; <span class="attr">_id</span>: req.params.id &#125;)</span><br><span class="line">      .then(<span class="function">(<span class="params">profile</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (!profile) &#123;</span><br><span class="line">          <span class="keyword">return</span> res.status(<span class="number">404</span>).json(<span class="string">&quot;没找到这条内容呀@_@&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        res.json(profile);</span><br><span class="line">      &#125;)</span><br><span class="line">      .catch(<span class="function">(<span class="params">err</span>) =&gt;</span> res.status(<span class="number">404</span>).json(err));</span><br><span class="line">  &#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>测试一下~</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghxcsrrxadj30hf0g0q4a.jpg"></p>
+</li>
+</ul>
+<p>↓</p>
+<p>编辑内容（类似添加内容）</p>
+<p>这里使用findOneAndUpdate方法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// $route POST api/profiles/edit</span></span><br><span class="line"><span class="comment">// @desc  编辑信息接口</span></span><br><span class="line"><span class="comment">// @access private</span></span><br><span class="line">router.post(</span><br><span class="line">  <span class="string">&quot;/edit/:id&quot;</span>,</span><br><span class="line">  passport.authenticate(<span class="string">&quot;jwt&quot;</span>, &#123; <span class="attr">session</span>: <span class="literal">false</span> &#125;),</span><br><span class="line">  (req, res) =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> profileFields = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (req.body.type) profileFields.type = req.body.type;</span><br><span class="line">    <span class="keyword">if</span> (req.body.b_name) profileFields.b_name = req.body.b_name;</span><br><span class="line">    <span class="keyword">if</span> (req.body.author) profileFields.author = req.body.author;</span><br><span class="line">    <span class="keyword">if</span> (req.body.isbn_num) profileFields.isbn_num = req.body.isbn_num;</span><br><span class="line">    <span class="keyword">if</span> (req.body.status) profileFields.status = req.body.status;</span><br><span class="line">    <span class="keyword">if</span> (req.body.remark) profileFields.remark = req.body.remark;</span><br><span class="line"></span><br><span class="line">    Profile.findOneAndUpdate(</span><br><span class="line">      &#123; <span class="attr">_id</span>: req.params.id &#125;,</span><br><span class="line">      &#123; <span class="attr">$set</span>: profileFields &#125;,</span><br><span class="line">      &#123; <span class="attr">new</span>: <span class="literal">true</span> &#125;</span><br><span class="line">    ).then(<span class="function">(<span class="params">profile</span>) =&gt;</span> res.json(profile));</span><br><span class="line">  &#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>测试（修改前端–&gt;前端IT）<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghxd1awbzxj30gb0e875g.jpg"></li>
+</ul>
+<p>↓</p>
+<p>删除内容</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// $route POST api/profiles/delete/:id</span></span><br><span class="line"><span class="comment">// @desc  删除信息接口</span></span><br><span class="line"><span class="comment">// @access private</span></span><br><span class="line">router.delete(</span><br><span class="line">  <span class="string">&quot;/delete/:id&quot;</span>,</span><br><span class="line">  passport.authenticate(<span class="string">&quot;jwt&quot;</span>, &#123; <span class="attr">session</span>: <span class="literal">false</span> &#125;),</span><br><span class="line">  (req, res) =&gt; &#123;</span><br><span class="line">    Profile.findOneAndRemove(&#123; <span class="attr">_id</span>: req.params.id &#125;)</span><br><span class="line">      .then(<span class="function">(<span class="params">profile</span>) =&gt;</span> &#123;</span><br><span class="line">        profile.save().then(<span class="function">(<span class="params">profile</span>) =&gt;</span> res.json(profile));</span><br><span class="line">      &#125;)</span><br><span class="line">      .catch(<span class="function">(<span class="params">err</span>) =&gt;</span> res.status(<span class="number">404</span>).res.json(<span class="string">&quot;删除失败啦~ &gt;_&lt;&quot;</span>));</span><br><span class="line">  &#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+
+
+</div>
+
+<div class="meta">
+	
+</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	<a class="addthis_button_tweet"></a>
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+
+    </div>
+    <footer id="footer">
+    <div style="display:inline">
+    Copyright &copy; 2020
+
+    JTW
+. Powered by <a href="http://zespia.tw/hexo/" target="_blank">Hexo</a> |
+    Theme is <a target="_blank" rel="noopener" href="https://github.com/wd/hexo-fabric">hexo-fabric</a>, fork from <a target="_blank" rel="noopener" href="http://github.com/panks/fabric">fabric</a> by <a target="_blank" rel="noopener" href="http://panks.me">Pankaj Kumar</a>
+</div>
+
+
+    </footer>
+    <script src="/javascripts/fabric.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script>
+ <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+<!-- end toload --> 
+</div>
+</div>
+<script src="/javascripts/jquery.ui.totop.js" type="text/javascript"></script>
+<script type="text/javascript">
+/*<![CDATA[*/
+;(function($){$().UItoTop({easingType:'easeOutCirc'});})(jQuery); 
+/*]]>*/
+</script><!-- remove it to remove the scroll to top button -->
+</body>
+</html>
