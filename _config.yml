@@ -3,11 +3,11 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Amorki's
-subtitle: ''
+title: AmorWoo's
+subtitle: 'just my way to live'
 description: ''
 keywords:
-author: JTW
+author: amork·W
 language: en
 timezone: ''
 
@@ -49,7 +49,7 @@ highlight:
   line_number: true
   auto_detect: false
   tab_replace: ''
-  wrap: true
+  wrap: false
   hljs: false
 prismjs:
   enable: false
@@ -98,7 +98,7 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: hexo-fabric
+theme: butterfly
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
@@ -106,3 +106,14 @@ deploy:
   type: git
   repo: git@github.com:amorkiki/amorkiki.github.io.git
   branch: master
+  
+#player播放器
+aplayer:
+  meting: true
+  asset_inject: false
+
+#search搜索
+search:
+  path: search.xml
+  field: post
+  content: true

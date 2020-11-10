@@ -1,7 +1,11 @@
 ---
 title: Formatting problem(VUE) after VScode updating
-date: 2020-08-17 19:38:40
+date: 2019-01-20 19:38:40
 tags: bugs/problems
+top_img: false
+categories: bug-solve
+indexing: true
+cover: https://tva1.sinaimg.cn/large/0081Kckwly1gkfm7rip4zj31400u0wjt.jpg
 ---
 
 i’v been disgusted by the format of vue code on VScode these days after its update. Checked all the extensions i've made before, still couldn't solve the problem.
@@ -14,7 +18,7 @@ i can't make the code (expecially the js and vue code in my vue project) formatt
 
 Such as :
 
-👉this ![](https://tva1.sinaimg.cn/large/007S8ZIlly1ghu0rcvw2vj309603ymx6.jpg) 
+👉this ![](https://tva1.sinaimg.cn/large/007S8ZIlly1ghu0rcvw2vj309603ymx6.jpg)
 
 👉and this <img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghu0tdsn9cj307j02c746.jpg"  />
 
@@ -40,7 +44,7 @@ Step ①
 
 of course you should add some extensions:
 
-Vetur  
+Vetur
 
 Eslint
 
@@ -90,10 +94,10 @@ to solve the indent and single quote regulation of vue, you can build .prettierr
 
 ```json
 {
-    "tabWidth": 2,
-    "semi": false,
-    "singleQuote": true,
-    "bracketSpacing": true
+  "tabWidth": 2,
+  "semi": false,
+  "singleQuote": true,
+  "bracketSpacing": true
 }
 ```
 
@@ -102,4 +106,3 @@ to solve the indent and single quote regulation of vue, you can build .prettierr
 Ok ~ down
 
 💪
-

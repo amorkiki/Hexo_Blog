@@ -1,0 +1,35 @@
+- class_name: what if more...
+  class_desc: JTWの小站
+  link_list:
+    - name: AmorkWoo
+      link: https://amorkwoo.cn/
+      avatar: https://tva1.sinaimg.cn/large/0081Kckwly1gkfjylgkhej30ik0iejtl.jpg
+      descr: what if more...
+    # - name: HEXO
+    #   link: https://hexo.io/zh-tw/
+    #   avatar: https://d33wubrfki0l68.cloudfront.net/6657ba50e702d84afb32fe846bed54fba1a77add/827ae/logo.svg
+    #   descr: 快速、簡單且強大的網誌框架
+    - name: Amork-Library
+      link: https://github.com/amorkiki/Amork_Library
+      avatar: https://tva1.sinaimg.cn/large/0081Kckwly1gki6rsg52vj31400u07wi.jpg
+      descr: 读书笔记管理系统~~
+    - name: Amork-Library-wx
+      link: https://github.com/amorkiki/amork-library-wx
+      avatar: https://tva1.sinaimg.cn/large/0081Kckwly1gkjanar8tfj30k20imqoc.jpg
+      descr: 微信小程序，随手记录读书点滴~
+
+- class_name: other
+  class_desc:
+  link_list:
+    - name: Youtube
+      link: https://www.youtube.com/
+      avatar: https://i.loli.net/2020/05/14/9ZkGg8v3azHJfM1.png
+      descr: Youtube...
+    - name: The Economist
+      link: https://www.economist.com/
+      avatar: https://tva1.sinaimg.cn/large/0081Kckwly1gkj9u1yqyej30eq0ayabu.jpg      
+      descr: The Economist...
+    - name: Twitter
+      link: https://twitter.com/
+      avatar: https://i.loli.net/2020/05/14/5VyHPQqR6LWF39a.png
+      descr: 社交分享平台
